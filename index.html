@@ -1,401 +1,249 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <title>BATI DC</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <style>
-    :root{--bg:#f3f4f6;--muted:#6b7280;--card:#fff;--border:#111;--accent:#f59e0b;--dark:#0f1115}
-    *{box-sizing:border-box}
-    body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BATI DC</title>
+<style>
+:root{
+  --bg:#f3f4f6; --ink:#0b0b0c; --muted:#6b7280;
+  --card:#fff; --border:#111; --accent:#f59e0b; --dark:#111;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
 
-    .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
-    .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;position:relative}
-    .brand{font-weight:800}
-    .icons{display:flex;gap:10px;position:relative}
-    .iconbtn{position:relative;width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
+/* Appbar */
+.appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
+.bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.brand{font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:10px}
+.iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
+.searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
+.searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
+.input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
+.cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
 
-    .searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
-    .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
-    .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
-    .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
+/* Tabs (Accueil / Produits / Fournisseurs ...) */
+.tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
+@media (max-width:680px){.tabs-wrap{top:102px}}
+.tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
+.tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:#111}
+.tab_active{background:#111;color:#fff}
 
-    .tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
-    @media (max-width:680px){.tabs-wrap{top:102px}}
-    .tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
-    .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit}
-    .tab.active{background:#111;color:#fff}
+/* “Livraison” bandeau */
+.notice{max-width:1100px;margin:10px auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;padding:12px 14px;display:flex;align-items:center;gap:10px}
 
-    .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
-    .loc strong{font-weight:800}
+/* Cartouche produit */
+.catalog{max-width:1100px;margin:0 auto;padding:16px 12px}
+.card{background:#fff;border:2px solid #111;border-radius:18px;margin:12px 0;overflow:hidden}
+.card .ph{background:#e9eef2;height:180px;display:grid;place-items:center}
+.card img{width:100%;height:180px;object-fit:cover}
+.card .body{padding:16px}
+.card h3{margin:0 0 6px}
+.card .meta{color:#6b7280;margin-bottom:6px}
+.card .price{font-size:18px;margin:8px 0 14px}
+.btn{border:0;padding:10px 16px;border-radius:12px;cursor:pointer}
+.btn-primary{background:#f59e0b;font-weight:700}
+.btn-dark{background:#111;color:#fff}
 
-    .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
-    .category{margin:18px 0 8px;font-weight:900}
-    .grid{display:grid;gap:14px}
-    @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-    .card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden}
-    .thumb{height:140px;width:100%;object-fit:cover;background:#d6d3d1;display:block}
-    .body{padding:14px}
-    .title{font-weight:800;font-size:20px;line-height:1.2;margin:4px 0}
-    .sub{color:var(--muted);margin-bottom:8px}
-    .price{font-weight:900;font-size:18px;margin:6px 0 12px}
-    .actions{display:flex;gap:12px}
-    .pill{flex:1;display:grid;place-items:center;height:52px;border-radius:16px;font-weight:800;cursor:pointer;border:2px solid var(--border)}
-    .pill.primary{background:var(--accent)}
-    .pill.dark{background:#111;color:#fff}
-    .footer{max-width:1100px;margin:18px auto 30px;padding:16px 14px;color:#6b7280;text-align:center}
+/* Modale fiche produit */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:9999}
+.modal .box{max-width:640px;margin:60px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.25)}
+.modal .head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #eee}
+.modal .content{display:grid;grid-template-columns:160px 1fr;gap:16px;padding:18px}
+.modal img{width:160px;height:160px;object-fit:cover;border:1px solid #eee;border-radius:10px}
 
-    .side-tab{position:absolute;left:12px;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:12px;border:2px solid #374151;background:transparent;color:#fff;display:grid;place-items:center;font-size:20px;cursor:pointer}
-    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:40}
-    .backdrop.show{opacity:1;pointer-events:auto}
-    .drawer{position:fixed;inset:0 auto 0 0;width:min(84vw,340px);background:#0f1115;color:#fff;border-right:1px solid #1f2937;translate:-100% 0;transition:translate .25s ease;z-index:50;display:flex;flex-direction:column;gap:14px}
-    .drawer.open{translate:0 0}
-    .drawer header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
-    .drawer .close{border:2px solid #374151;border-radius:10px;padding:6px 10px;background:transparent;color:#fff;cursor:pointer}
-    .drawer .title{font-weight:800}
-    .drawer .content{padding:0 10px 12px;overflow:auto}
-    .menu-list{display:grid;gap:6px;padding:0 6px 14px}
-    .menu-list a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;text-decoration:none;color:#fff}
-    .menu-list a:hover{background:#151a21}
-    .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 14px}
-    .chip{padding:8px 10px;border-radius:999px;border:1px solid #2f3948;background:#111827;color:#e5e7eb;font-weight:600;text-decoration:none}
-    .chip:hover{background:#1a2230}
-    .sep{height:1px;background:#1f2937;margin:6px 12px}
-  </style>
+/* Panier (devis) */
+#cart-fab{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;border-radius:26px;padding:10px 14px;cursor:pointer;z-index:9999}
+#cart-panel{position:fixed;right:16px;bottom:64px;width:320px;background:#fff;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:none;overflow:hidden;z-index:9999}
+#cart-panel .head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #eee}
+#cart-list{max-height:320px;overflow:auto;padding:10px 12px}
+</style>
 </head>
 <body>
 
-  <div class="backdrop" id="backdrop"></div>
-  <aside class="drawer" id="drawer">
-    <header>
-      <div class="title">Menu</div>
-      <button class="close" id="closeDrawer">Fermer ✕</button>
-    </header>
-    <div class="content">
-      <nav class="menu-list">
-        <a href="#">🏠 Accueil</a>
-        <a href="#">🧰 Produits</a>
-        <a href="#">🏭 Fournisseurs</a>
-        <a href="#">🛠️ Interventions</a>
-      </nav>
-      <div class="sep"></div>
-      <div class="chips">
-        <a class="chip" href="#">Plomberie</a><a class="chip" href="#">Serrurerie</a><a class="chip" href="#">Chauffage</a>
-        <a class="chip" href="#">Menuiserie</a><a class="chip" href="#">Isolation</a><a class="chip" href="#">Photovoltaïque</a>
-        <a class="chip" href="#">Pompe à chaleur</a><a class="chip" href="#">Peinture</a><a class="chip" href="#">Carrelage</a>
-        <a class="chip" href="#">Électroménager</a><a class="chip" href="#">Construction</a><a class="chip" href="#">Chantier</a>
-      </div>
-    </div>
-  </aside>
-
-  <div class="appbar">
-    <div class="bar">
-      <button class="side-tab" id="openDrawer" aria-label="Menu">☰</button>
-      <div class="brand" style="margin-left:56px">BATI DC</div>
-      <div class="icons">
-        <a class="iconbtn" href="#" title="Compte">👤</a>
-        <a class="iconbtn" href="#" title="Devis">📄</a>
-        <a class="iconbtn" id="cartBtn" href="javascript:void(0)" title="Panier">🛒
-          <span id="cartCount" style="position:absolute;transform:translate(12px,-10px);font:700 12px/1 system-ui;background:#f59e0b;color:#111;border-radius:999px;padding:2px 6px;display:none">0</span>
-        </a>
-      </div>
-    </div>
-    <div class="searchrow">
-      <div class="searchbox">
-        <input class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…">
-        <button class="cta">Rechercher</button>
-      </div>
+<!-- Barre haute -->
+<header class="appbar">
+  <div class="bar">
+    <button class="iconbtn" id="menu-btn">☰</button>
+    <div class="brand">BATI DC</div>
+    <div style="display:flex;gap:8px">
+      <button class="iconbtn">👤</button>
+      <button class="iconbtn">🧾</button>
+      <button class="iconbtn">🛒</button>
     </div>
   </div>
+  <div class="searchrow">
+    <div class="searchbox">
+      <input id="search" type="search" class="input" placeholder="Rechercher : perceuse, béton, EPI...">
+      <button class="cta" id="search-btn">Rechercher</button>
+    </div>
+  </div>
+</header>
 
-  <div class="tabs-wrap"><div class="tabs">
-    <a class="tab active" href="#">Accueil</a>
+<!-- Onglets -->
+<div class="tabs-wrap">
+  <nav class="tabs">
+    <a class="tab tab_active" href="#">Accueil</a>
     <a class="tab" href="#">Produits</a>
     <a class="tab" href="#">Fournisseurs</a>
     <a class="tab" href="#">Interventions</a>
-  </div></div>
+  </nav>
+</div>
 
-  <div class="loc"><span>📦 <strong>Livraison partout en France</strong></span></div>
+<!-- Livraison -->
+<div class="notice">📦 <b>Livraison partout en France</b></div>
 
-  <div id="catalogue" class="wrap"></div>
+<!-- CATALOG -->
+<section id="catalog" class="catalog"></section>
 
-  <div id="productOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:60">
-    <div style="max-width:680px;margin:60px auto;background:#fff;border:2px solid #111;border-radius:16px;overflow:hidden">
-      <div style="padding:14px 16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
-        <strong id="poTitle">Article</strong>
-        <button id="poClose" style="border:2px solid #111;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Fermer ✕</button>
+<!-- Modale fiche produit -->
+<div id="product-modal" class="modal">
+  <div class="box">
+    <div class="head">
+      <h3 id="pm-title" style="margin:0;font-size:20px"></h3>
+      <button id="pm-close" class="btn">Fermer</button>
+    </div>
+    <div class="content">
+      <img id="pm-img" alt="">
+      <div>
+        <p id="pm-desc" style="margin:0 0 8px;color:#444;line-height:1.4"></p>
+        <p style="margin:0 0 10px;color:#666"><b>Réf.</b> <span id="pm-ref"></span> — <b>Marque</b> <span id="pm-brand"></span></p>
+        <p style="margin:0 0 16px;font-size:18px"><b id="pm-price"></b> TTC</p>
+        <button id="pm-add" class="btn btn-dark">Ajouter au devis</button>
       </div>
-      <div style="padding:14px 16px">
-        <div id="poBrand" style="color:#6b7280;margin-bottom:8px"></div>
-        <div id="poVendors" class="list" style="border:2px solid #111;border-radius:12px;overflow:hidden"></div>
-        <div style="margin-top:12px;display:flex;gap:10px">
-          <button id="poAdd" class="pill primary" style="flex:1;height:48px">Ajouter au devis</button>
-          <button id="poBuy" class="pill dark" style="flex:1;height:48px">Acheter</button>
+    </div>
+  </div>
+</div>
+
+<!-- Panier -->
+<div id="cart-fab">🧾 Devis <span id="cart-count" style="font-weight:700">0</span></div>
+<div id="cart-panel">
+  <div class="head">
+    <b>Mon devis</b>
+    <button id="cart-close" class="btn">Fermer</button>
+  </div>
+  <div id="cart-list"></div>
+  <div style="padding:12px 14px;border-top:1px solid #eee">
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+      <span>Total</span><b id="cart-total">0,00 €</b>
+    </div>
+    <button style="width:100%;background:#f59e0b;border:0;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer">Télécharger mon devis (bientôt)</button>
+  </div>
+</div>
+
+<script>
+/* ==== Données produits (première série basée sur tes fiches HERACLES Y7C+) ==== */
+const PRODUCTS = [
+  { id:'y7c-30x30',  ref:'HRC/Y7C 30x30',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x30 (5 clés)',    price:115.00, img:'https://picsum.photos/seed/y7c3030/800/480', desc:'Cylindre européen Y7C+, livré avec 5 clés. Finition nickelée. Protection anti-perçage/anti-crochetage.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-30x35',  ref:'HRC/Y7C 30x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x35 (5 clés)',    price:119.00, img:'https://picsum.photos/seed/y7c3035/800/480', desc:'Série Y7C+. 5 clés. Qualité pro.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-30x40',  ref:'HRC/Y7C 30x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x40 (5 clés)',    price:129.00, img:'https://picsum.photos/seed/y7c3040/800/480', desc:'Y7C+, 5 clés. Remplacement standard.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-30x45',  ref:'HRC/Y7C 30x45',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x45 (5 clés)',    price:133.00, img:'https://picsum.photos/seed/y7c3045/800/480', desc:'Y7C+, 5 clés. Entraxe 17.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-30x50',  ref:'HRC/Y7C 30x50',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x50 (5 clés)',    price:139.00, img:'https://picsum.photos/seed/y7c3050/800/480', desc:'Y7C+, 5 clés, plusieurs longueurs.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-35x35',  ref:'HRC/Y7C 35x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 35x35 (5 clés)',    price:129.00, img:'https://picsum.photos/seed/y7c3535/800/480', desc:'Double entrée. 5 clés. Nickel.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-35x40',  ref:'HRC/Y7C 35x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 35x40 (5 clés)',    price:135.00, img:'https://picsum.photos/seed/y7c3540/800/480', desc:'Anti-perçage/anti-casse. 5 clés.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-40x40',  ref:'HRC/Y7C 40x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 40x40 (5 clés)',    price:149.00, img:'https://picsum.photos/seed/y7c4040/800/480', desc:'Cœur Y7C+. Usage intensif.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-45x35',  ref:'HRC/Y7C 45x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 45x35 (5 clés)',    price:149.90, img:'https://picsum.photos/seed/y7c4535/800/480', desc:'Dimensions 45/35. 5 clés.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-45x45',  ref:'HRC/Y7C 45x45',  brand:'HERACLES', name:'Cylindre européen Y7C+ 45x45 (5 clés)',    price:155.00, img:'https://picsum.photos/seed/y7c4545/800/480', desc:'Longueur 90 mm.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-50x50',  ref:'HRC/Y7C 50x50',  brand:'HERACLES', name:'Cylindre européen Y7C+ 50x50 (5 clés)',    price:159.00, img:'https://picsum.photos/seed/y7c5050/800/480', desc:'Grande longueur, sécurité renforcée.', category:'Serrurerie>Cylindre' },
+  { id:'y7c-btn-30x30',ref:'HRC/Y7C+ BTN 30x30', brand:'HERACLES', name:'Cylindre à bouton Y7C+ 30x30 (5 clés)', price:125.00, img:'https://picsum.photos/seed/y7cbtn3030/800/480', desc:'Côté intérieur à bouton, 5 clés.', category:'Serrurerie>Cylindre' }
+];
+
+const € = n => (n||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+const $catalog = document.getElementById('catalog');
+
+/* Rendu catalogue */
+function renderList(list){
+  $catalog.innerHTML='';
+  if(!list.length){ $catalog.innerHTML='<p style="padding:24px;color:#666">Aucun article trouvé.</p>'; return; }
+  list.forEach(p=>{
+    const el=document.createElement('article');
+    el.className='card';
+    el.innerHTML=`
+      <div class="ph"><img src="${p.img}" alt="${p.name}"></div>
+      <div class="body">
+        <h3>${p.name}</h3>
+        <div class="meta">${p.brand} • Réf. ${p.ref}</div>
+        <div class="price"><b>${€(p.price)}</b> TTC</div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-view" data-id="${p.id}">Voir les prix</button>
+          <button class="btn btn-dark btn-add" data-id="${p.id}">Ajouter au devis</button>
         </div>
-      </div>
-    </div>
-  </div>
+      </div>`;
+    $catalog.appendChild(el);
+  });
+  bindCardButtons();
+}
 
-  <div id="cartDrawer" style="position:fixed;inset:0 0 0 auto;width:min(92vw,380px);background:#0f1115;color:#fff;translate:100% 0;transition:translate .25s ease;z-index:70;display:flex;flex-direction:column">
-    <div style="padding:14px;border-bottom:1px solid #1f2937;display:flex;justify-content:space-between;align-items:center">
-      <strong>Panier</strong>
-      <button id="cartClose" style="border:2px solid #374151;background:transparent;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Fermer ✕</button>
-    </div>
-    <div id="cartItems" style="padding:10px;overflow:auto;flex:1"></div>
-    <div style="padding:12px;border-top:1px solid #1f2937">
-      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>Total</span><strong id="cartTotal">0,00 €</strong></div>
-      <button id="checkoutBtn" class="pill primary" style="width:100%;height:48px">Payer (démo)</button>
-    </div>
-  </div>
+/* Recherche */
+const searchInput = document.getElementById('search');
+function applySearch(){
+  const q=(searchInput.value||'').trim().toLowerCase();
+  if(!q) return renderList(PRODUCTS);
+  const list = PRODUCTS.filter(p => [p.name,p.brand,p.ref,p.category].join(' ').toLowerCase().includes(q));
+  renderList(list);
+}
+searchInput.addEventListener('input', applySearch);
 
-  <div class="footer">© 2025 BATI DC — Tous droits réservés</div>
+/* Fiche produit (modale) */
+const $modal=document.getElementById('product-modal');
+const $pmTitle=document.getElementById('pm-title');
+const $pmImg=document.getElementById('pm-img');
+const $pmDesc=document.getElementById('pm-desc');
+const $pmRef=document.getElementById('pm-ref');
+const $pmBrand=document.getElementById('pm-brand');
+const $pmPrice=document.getElementById('pm-price');
+const $pmAdd=document.getElementById('pm-add');
 
-  <script>
-    /* Drawer */
-    (function(){
-      var openBtn = document.getElementById('openDrawer');
-      var closeBtn = document.getElementById('closeDrawer');
-      var drawer  = document.getElementById('drawer');
-      var backdrop= document.getElementById('backdrop');
-      function open(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
-      function close(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
-      if(openBtn) openBtn.addEventListener('click', open);
-      if(closeBtn) closeBtn.addEventListener('click', close);
-      if(backdrop) backdrop.addEventListener('click', close);
-      document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
-    })();
+function openModal(p){
+  $pmTitle.textContent=p.name;
+  $pmImg.src=p.img;
+  $pmDesc.textContent=p.desc||'';
+  $pmRef.textContent=p.ref;
+  $pmBrand.textContent=p.brand;
+  $pmPrice.textContent=€(p.price);
+  $pmAdd.onclick=()=>addToCart(p.id);
+  $modal.style.display='block';
+}
+document.getElementById('pm-close').onclick=()=> $modal.style.display='none';
+$modal.addEventListener('click', e=>{ if(e.target===$modal) $modal.style.display='none'; });
 
-    /* Images automatiques */
-    function autoImg(id){ return 'https://picsum.photos/seed/'+encodeURIComponent(id)+'/800/600'; }
+/* Panier (devis) */
+const $fab=document.getElementById('cart-fab');
+const $panel=document.getElementById('cart-panel');
+const $count=document.getElementById('cart-count');
+const $list=document.getElementById('cart-list');
+const $total=document.getElementById('cart-total');
+document.getElementById('cart-close').onclick=()=> $panel.style.display='none';
+$fab.onclick=()=> $panel.style.display = ($panel.style.display==='block'?'none':'block');
 
-    /* Données produits (avec desc + img) */
-    var ITEMS = [
-      {id:'vachette-a2p', name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9, img:autoImg('vachette-a2p'), desc:'Cylindre de sécurité certifié A2P — haute résistance au crochetage et à la percussion.', vendors:[{name:'Amazon', price:69.9, ship:'Gratuit', url:'#'},{name:'Leroy Merlin', price:72.5, ship:'4,90 €', url:'#'},{name:'Cdiscount', price:64.0, ship:'7,90 €', url:'#'}]},
-      {id:'fichet-f3d', name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289, img:autoImg('fichet-f3d'), desc:'Serrure multipoints à clés F3D — protection renforcée, idéale porte d’entrée.', vendors:[{name:'Amazon', price:289, ship:'Gratuit', url:'#'},{name:'Bricomarché', price:299, ship:'9,90 €', url:'#'}]},
-      {id:'bricard-mp', name:'Serrure multipoints Bricard', brand:'Bricard', price:189, img:autoImg('bricard-mp'), desc:'Serrure 3 à 5 points avec gâches renforcées — pose en rénovation.', vendors:[{name:'Cdiscount', price:179, ship:'7,90 €', url:'#'},{name:'Castorama', price:189, ship:'4,90 €', url:'#'}]},
+const CART_KEY='bati.cart';
+let cart=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
+function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+function refreshCartUI(){
+  $count.textContent = cart.reduce((a,x)=>a+x.qty,0);
+  $list.innerHTML = cart.map(line=>{
+    const p=PRODUCTS.find(pp=>pp.id===line.id);
+    return `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
+      <img src="${p.img}" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
+      <div style="flex:1"><div style="font-weight:600">${p.name}</div><div style="color:#6b7280">x${line.qty} • ${€(p.price)}</div></div>
+      <button data-id="${p.id}" class="rm" style="border:0;background:#f4f4f4;padding:6px 8px;border-radius:8px;cursor:pointer">✕</button>
+    </div>`;
+  }).join('');
+  const total=cart.reduce((s,l)=>{ const p=PRODUCTS.find(pp=>pp.id===l.id); return s+p.price*l.qty; },0);
+  $total.textContent=€(total);
+  $list.querySelectorAll('.rm').forEach(b=>{ b.onclick=()=>{ cart=cart.filter(l=>l.id!==b.dataset.id); saveCart(); refreshCartUI(); }});
+}
+function addToCart(id){ const line=cart.find(l=>l.id===id); if(line) line.qty++; else cart.push({id,qty:1}); saveCart(); refreshCartUI(); }
 
-      {id:'atlantic-200', name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429, img:autoImg('atlantic-200'), desc:'Ballon 200L vertical mural. Protection anti-corrosion et résistance stéatite.', vendors:[{name:'ManoMano', price:429, ship:'29 €', url:'#'}]},
-      {id:'thermor-150', name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379, img:autoImg('thermor-150'), desc:'Cuve émaillée, résistance stéatite, anode en magnésium. Installation facile.', vendors:[{name:'Leroy Merlin', price:379, ship:'29 €', url:'#'}]},
-      {id:'ariston-100', name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319, img:autoImg('ariston-100'), desc:'Format compact 100L. Réglage frontal, chauffe rapide et silencieuse.', vendors:[{name:'Amazon', price:319, ship:'Gratuit', url:'#'}]},
-      {id:'grohe-mitigeur', name:'Mitigeur douche Grohe', brand:'Grohe', price:129, img:autoImg('grohe-mitigeur'), desc:'Mitigeur cartouche céramique — économie d’eau, finition chromée durable.', vendors:[{name:'Amazon', price:129, ship:'Gratuit', url:'#'}]},
+function bindCardButtons(){
+  document.querySelectorAll('.btn-view').forEach(b=> b.onclick=()=> openModal(PRODUCTS.find(p=>p.id===b.dataset.id)));
+  document.querySelectorAll('.btn-add').forEach(b=> b.onclick=()=> addToCart(b.dataset.id));
+}
 
-      {id:'daikin-8kw', name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990, img:autoImg('daikin-8kw'), desc:'PAC air/eau 8 kW — chauffage et ECS. COP élevé, pilotage connecté.', vendors:[{name:'Proclim', price:6990, ship:'Sur devis', url:'#'}]},
-      {id:'thermor-radiateur', name:'Radiateur électrique Thermor', brand:'Thermor', price:229, img:autoImg('thermor-radiateur'), desc:'Radiateur à inertie fluide — chaleur douce, thermostat précis, design fin.', vendors:[{name:'Castorama', price:229, ship:'9,90 €', url:'#'}]},
-
-      {id:'velux-ggl', name:'Fenêtre Velux GGL', brand:'Velux', price:499, img:autoImg('velux-ggl'), desc:'Fenêtre de toit à rotation. Finition blanche, vitrage isolant, aération intégrée.', vendors:[{name:'Leroy Merlin', price:499, ship:'29 €', url:'#'}]},
-      {id:'lapeyre-porte', name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199, img:autoImg('lapeyre-porte'), desc:'Porte isoplane alvéolaire, âme légère, prête à peindre. Plusieurs largeurs.', vendors:[{name:'Lapeyre', price:199, ship:'19 €', url:'#'}]},
-
-      {id:'toupret-enduit', name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9, img:autoImg('toupret-enduit'), desc:'Comble trous et fissures. Application au couteau, séchage rapide.', vendors:[{name:'Leroy Merlin', price:14.9, ship:'Retrait 2h', url:'#'}]},
-      {id:'isover-lv200', name:'Laine de verre Isover 200mm', brand:'Isover', price:49, img:autoImg('isover-lv200'), desc:'Rouleaux 200 mm — isolation thermique et acoustique des combles.', vendors:[{name:'Point P', price:49, ship:'Sur devis', url:'#'}]},
-      {id:'rockwool-120', name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54, img:autoImg('rockwool-120'), desc:'Panneaux rigides — très bonne tenue au feu. Pose entre montants.', vendors:[{name:'Gedimat', price:54, ship:'Sur devis', url:'#'}]},
-
-      {id:'sunpower-400', name:'Panneau SunPower 400W', brand:'SunPower', price:259, img:autoImg('sunpower-400'), desc:'Module monocristallin haut rendement 400W — garantie longue durée.', vendors:[{name:'Prosolaire', price:259, ship:'29 €', url:'#'}]},
-      {id:'qcells-425', name:'Panneau Qcells 425W', brand:'Qcells', price:239, img:autoImg('qcells-425'), desc:'Panneau 425W technologie Q.ANTUM — excellente tenue aux hautes températures.', vendors:[{name:'Prosolaire', price:239, ship:'29 €', url:'#'}]},
-
-      {id:'cartons-10', name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9, img:autoImg('cartons-10'), desc:'Lot de 10 cartons doubles cannelures — 55×35×30 cm.', vendors:[{name:'Amazon', price:24.9, ship:'Gratuit', url:'#'}]},
-      {id:'diable-pliable', name:'Diable pliant 120kg', brand:'Tooli', price:59, img:autoImg('diable-pliable'), desc:'Chariot pliant 120 kg — roues caoutchouc, poignée télescopique.', vendors:[{name:'Leroy Merlin', price:59, ship:'4,90 €', url:'#'}]},
-
-      {id:'dulux-10l', name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69, img:autoImg('dulux-10l'), desc:'Acrylique blanche mat 10L — fort pouvoir couvrant, lessivable.', vendors:[{name:'Bricomarché', price:69, ship:'9,90 €', url:'#'}]},
-      {id:'marazzi-60', name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22, img:autoImg('marazzi-60'), desc:'Grès cérame 60×60 rectifié — adapté pièce de vie, cuisine, salle de bain.', vendors:[{name:'Castorama', price:22, ship:'Sur devis', url:'#'}]},
-
-      {id:'samsung-ll', name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429, img:autoImg('samsung-ll'), desc:'Tambour 9 kg, éco-lavage, moteur Digital Inverter silencieux.', vendors:[{name:'Boulanger', price:429, ship:'Gratuit', url:'#'}]},
-      {id:'whirlpool-lv', name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379, img:autoImg('whirlpool-lv'), desc:'13 couverts, départ différé, faible conso — classe énergétique récente.', vendors:[{name:'Darty', price:379, ship:'Gratuit', url:'#'}]},
-
-      {id:'lafarge-35', name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9, img:autoImg('lafarge-35'), desc:'Sac 35 kg — maçonnerie, scellement, fondations. Prise régulière.', vendors:[{name:'Point P', price:9.9, ship:'Retrait', url:'#'}]},
-      {id:'boschpro-18v', name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149, img:autoImg('boschpro-18v'), desc:'Perceuse 18V brushless — mandrin 13 mm, 2 vitesses, éclairage LED.', vendors:[{name:'Amazon', price:149, ship:'Gratuit', url:'#'}]},
-      {id:'dewalt-190', name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139, img:autoImg('dewalt-190'), desc:'190 mm, guidage précis, pare-éclats. Idéale coupes droites rapides.', vendors:[{name:'ManoMano', price:139, ship:'6,90 €', url:'#'}]}
-    ];
-
-    /* Catégorisation */
-    var RULES = [
-      {cat:'Serrurerie', keys:['Vachette','Fichet','Bricard','Abus','cylindre','serrure']},
-      {cat:'Plomberie', keys:['Atlantic','Thermor','Ariston','Grohe','Geberit','robinet','mitigeur','Chauffe-eau']},
-      {cat:'Chauffage', keys:['chaudière','radiateur','chauffage','Thermor','De Dietrich','Vaillant']},
-      {cat:'Pompe à chaleur', keys:['Daikin','Mitsubishi Electric','PAC','Pompe à chaleur']},
-      {cat:'Menuiserie', keys:['Lapeyre','Velux','fenêtre','porte']},
-      {cat:'Rénovation', keys:['Toupret','enduit','rebouchage']},
-      {cat:'Isolation', keys:['Isover','Rockwool','laine','isolation']},
-      {cat:'Panneaux photovoltaïques', keys:['SunPower','Qcells','photovoltaïque','solaire']},
-      {cat:'Déménagement', keys:['carton','diable','déménagement']},
-      {cat:'Peinture', keys:['Dulux','Ripolin','peinture']},
-      {cat:'Carrelage', keys:['Marazzi','Porcelanosa','carrelage']},
-      {cat:'Électroménager', keys:['Whirlpool','Samsung','Bosch Home','lave-linge','lave-vaisselle','réfrigérateur']},
-      {cat:'Produits de construction', keys:['Lafarge','Semin','ciment','mortier','béton']},
-      {cat:'Chantier / Outillage', keys:['Makita','DeWalt','Bosch Pro','outil','perceuse','scie','ponceuse']}
-    ];
-
-    function guessCategory(item){
-      var hay = (item.name + ' ' + item.brand + ' ' + (item.desc||'')).toLowerCase();
-      for (var i=0;i<RULES.length;i++){
-        var rule = RULES[i];
-        for (var j=0;j<rule.keys.length;j++){
-          if (hay.indexOf(rule.keys[j].toLowerCase()) !== -1) return rule.cat;
-        }
-      }
-      return 'Autres';
-    }
-    function euro(v){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v); }
-    function findItem(id){ return ITEMS.find(function(x){return x.id===id}); }
-
-    /* Panier */
-    var CART_KEY='bati_dc_cart';
-    function getCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]');}catch(e){return []} }
-    function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); renderCartIcon(); }
-    function addToCart(id,qty){ qty=qty||1; var c=getCart(); var it=c.find(function(x){return x.id===id}); if(it) it.qty+=qty; else c.push({id:id,qty:qty}); saveCart(c); }
-    function removeFromCart(id){ saveCart(getCart().filter(function(x){return x.id!==id})); renderCartPanel(); }
-    function setQty(id,qty){ var c=getCart(); c.forEach(function(x){if(x.id===id)x.qty=Math.max(1,qty||1)}); saveCart(c); renderCartPanel(); }
-    function renderCartIcon(){ var n=getCart().reduce(function(s,x){return s+x.qty},0),b=document.getElementById('cartCount'); if(!b)return; b.style.display=n>0?'inline-block':'none'; b.textContent=n>0?n:0; }
-
-    /* Fiche article (image + description + vendeurs) */
-    var currentProductId=null;
-    function openProduct(id){
-      var item=findItem(id); if(!item) return; currentProductId=id;
-      document.getElementById('poTitle').textContent=item.name;
-      document.getElementById('poBrand').textContent=item.brand + (item.desc ? ' — '+item.desc : '');
-      var box=document.getElementById('poVendors'); box.innerHTML='';
-      if(item.img){
-        var ph=document.createElement('div');
-        ph.style.cssText='padding:0;border-bottom:1px solid #eee;background:#fafafa';
-        ph.innerHTML='<img src="'+item.img+'" alt="'+item.name+'" style="width:100%;height:220px;object-fit:cover">';
-        box.appendChild(ph);
-      }
-      (item.vendors||[]).forEach(function(v){
-        var row=document.createElement('div');
-        row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid #eee;background:#fff';
-        row.innerHTML='<div><strong>'+v.name+'</strong><div style="color:#6b7280">'+(v.ship||'')+'</div></div>'
-          +'<div style="display:flex;gap:8px;align-items:center">'
-          +'<div style="font-weight:800">'+euro(v.price)+'</div>'
-          +'<a href="'+(v.url||'#')+'" target="_blank" style="border:2px solid #111;border-radius:10px;padding:6px 10px;text-decoration:none;color:#111;background:#fff">Voir</a>'
-          +'</div>';
-        box.appendChild(row);
-      });
-      document.getElementById('productOverlay').style.display='block';
-    }
-    function closeProduct(){ document.getElementById('productOverlay').style.display='none'; }
-    document.getElementById('poClose').addEventListener('click',closeProduct);
-    document.getElementById('poAdd').addEventListener('click',function(){ if(currentProductId){ addToCart(currentProductId,1); closeProduct(); openCart(); }});
-    document.getElementById('poBuy').addEventListener('click',function(){
-      if(!currentProductId) return; var item=findItem(currentProductId);
-      if(item && item.pay && item.pay!=='#'){ window.location.href=item.pay; }
-      else { addToCart(currentProductId,1); closeProduct(); openCart(); alert('Pas de lien de paiement défini pour cet article.'); }
-    });
-
-    /* Recherche */
-    var qInput = document.querySelector('.input');
-    var qButton = document.querySelector('.cta');
-    function matchesQuery(item, q){
-      if(!q) return true;
-      q = q.toLowerCase();
-      return (item.name && item.name.toLowerCase().includes(q))
-          || (item.brand && item.brand.toLowerCase().includes(q))
-          || (item.desc && item.desc.toLowerCase().includes(q))
-          || (guessCategory(item).toLowerCase().includes(q));
-    }
-
-    /* Rendu catalogue (avec filtre) */
-    function renderCatalogue(query){
-      var groups = {};
-      for (var i=0;i<ITEMS.length;i++){
-        var it = ITEMS[i];
-        if(!matchesQuery(it, query)) continue;
-        var cat = guessCategory(it);
-        if(!groups[cat]) groups[cat] = [];
-        groups[cat].push(it);
-      }
-      var order = []; for (var r=0;r<RULES.length;r++) order.push(RULES[r].cat);
-      for (var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
-
-      var wrap = document.getElementById('catalogue'); if(!wrap) return;
-      wrap.innerHTML = '';
-      var hasAny = false;
-
-      for (var k=0;k<order.length;k++){
-        var cat = order[k], arr = groups[cat]; if(!arr || arr.length===0) continue;
-        hasAny = true;
-        var h = document.createElement('h2'); h.className='category'; h.textContent=cat; wrap.appendChild(h);
-        var grid = document.createElement('div'); grid.className='grid';
-        arr.forEach(function(o){
-          var el = document.createElement('article');
-          el.className='card';
-          var img = o.img || autoImg(o.id);
-          el.innerHTML =
-            '<img class="thumb" src="'+img+'" alt="'+o.name+'">' +
-            '<div class="body">' +
-              '<h3 class="title">'+o.name+'</h3>' +
-              '<div class="sub">'+o.brand+'</div>' +
-              (o.desc ? '<div style="color:#6b7280;margin:6px 0 8px">'+o.desc+'</div>' : '') +
-              '<div class="price">à partir de <strong>'+euro(o.price)+'</strong></div>' +
-              '<div class="actions">' +
-                '<button class="pill primary" data-id="'+o.id+'">Voir les prix</button>' +
-                '<button class="pill dark" data-add="'+o.id+'">Ajouter au devis</button>' +
-              '</div>' +
-            '</div>';
-          grid.appendChild(el);
-        });
-        wrap.appendChild(grid);
-      }
-
-      if(!hasAny){
-        wrap.innerHTML = '<div style="background:#fff;border:2px solid #111;border-radius:12px;padding:16px">Aucun résultat pour « <strong>'+ (query||'') +'</strong> »</div>';
-      }
-
-      wrap.onclick = function(e){
-        var id = e.target.getAttribute('data-id');
-        var add = e.target.getAttribute('data-add');
-        if(id){ openProduct(id); }
-        if(add){ addToCart(add,1); openCart(); }
-      };
-    }
-
-    /* Panier (tiroir droit) */
-    var cartBtn=document.getElementById('cartBtn');
-    var cartPanel=document.getElementById('cartDrawer');
-    var cartClose=document.getElementById('cartClose');
-    function openCart(){ cartPanel.style.translate='0 0'; renderCartPanel(); }
-    function closeCart(){ cartPanel.style.translate='100% 0'; }
-    if(cartBtn) cartBtn.addEventListener('click',openCart);
-    if(cartClose) cartClose.addEventListener('click',closeCart);
-
-    function renderCartPanel(){
-      var area=document.getElementById('cartItems'); if(!area) return;
-      var cart=getCart(); if(cart.length===0){ area.innerHTML='<div style="color:#9ca3af">Votre panier est vide.</div>'; document.getElementById('cartTotal').textContent='0,00 €'; renderCartIcon(); return; }
-      var total=0; area.innerHTML='';
-      cart.forEach(function(l){
-        var it=findItem(l.id); if(!it) return; var lineTotal=it.price*l.qty; total+=lineTotal;
-        var line=document.createElement('div'); line.style.cssText='display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-bottom:1px solid #1f2937';
-        line.innerHTML='<div><div style="font-weight:700">'+it.name+'</div><div style="color:#9ca3af">'+it.brand+'</div></div>'
-          +'<div style="display:flex;gap:6px;align-items:center">'
-          +'<button data-dec="'+it.id+'" style="border:1px solid #374151;background:#111827;color:#fff;border-radius:6px;padding:2px 8px">-</button>'
-          +'<span>'+l.qty+'</span>'
-          +'<button data-inc="'+it.id+'" style="border:1px solid #374151;background:#111827;color:#fff;border-radius:6px;padding:2px 8px">+</button>'
-          +'<strong style="width:80px;text-align:right;display:inline-block">'+euro(lineTotal)+'</strong>'
-          +'<button data-del="'+it.id+'" title="Supprimer" style="border:1px solid #ef4444;background:#7f1d1d;color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px">✕</button>'
-          +'</div>';
-        area.appendChild(line);
-      });
-      document.getElementById('cartTotal').textContent=euro(total);
-      renderCartIcon();
-      area.onclick=function(e){
-        var id;
-        if(id=e.target.getAttribute('data-inc')) setQty(id,(getCart().find(function(x){return x.id===id})||{qty:0}).qty+1);
-        if(id=e.target.getAttribute('data-dec')) setQty(id,(getCart().find(function(x){return x.id===id})||{qty:1}).qty-1);
-        if(id=e.target.getAttribute('data-del')) removeFromCart(id);
-      };
-    }
-    document.getElementById('checkoutBtn').addEventListener('click',function(){
-      alert('Astuce : mets un lien Stripe dans "pay" pour un vrai paiement.');
-    });
-
-    /* Init */
-    var qInput = document.querySelector('.input');
-    var qButton = document.querySelector('.cta');
-    if(qButton) qButton.addEventListener('click', function(){ renderCatalogue(qInput.value); });
-    if(qInput){
-      qInput.addEventListener('input', function(){ renderCatalogue(qInput.value); });
-      qInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ renderCatalogue(qInput.value); } });
-    }
-    renderCartIcon();
-    renderCatalogue('');
-  </script>
+/* Init */
+renderList(PRODUCTS);
+refreshCartUI();
+</script>
 </body>
 </html>
