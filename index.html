@@ -4,53 +4,68 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>BATI DC — Marketplace BTP</title>
-  <meta name="description" content="BATI DC : la marketplace B2B du bâtiment. Matériaux, outillage, EPI, fournisseurs et demandes de devis.">
+  <meta name="description" content="BATI DC : la marketplace B2B du bâtiment. Matériaux, outillage, EPI, devis.">
   <meta property="og:title" content="BATI DC — Marketplace BTP">
   <meta property="og:description" content="Comparez, ajoutez au devis et centralisez vos fournisseurs.">
   <style>
     :root{
-      --bg1:#0b1118;--bg2:#0f1723;--surface:#0f1520;--muted:#9aa3b2;--text:#eef2f7;
-      --brand:#2f9e44;--brand2:#86df5f;--border:#1c2840;--radius:16px;
+      --bg1:#0b1118; --bg2:#0f1723; --surface:#0e1520;
+      --text:#eef2f7; --muted:#9aa3b2;
+      --brand:#2f9e44; --brand2:#86df5f; --border:#1b2940;
+      --radius:16px;
     }
     *{box-sizing:border-box}
     html,body{margin:0;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:var(--text);
       font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
-    .container{max-width:1200px;margin:0 auto;padding:0 20px}
     a{color:inherit;text-decoration:none}
+    .container{max-width:1200px;margin:0 auto;padding:0 20px}
+
     /* NAV */
-    .nav{position:sticky;top:0;z-index:10;background:rgba(10,14,20,.7);backdrop-filter:blur(10px);
+    .nav{position:sticky;top:0;z-index:50;background:rgba(10,14,20,.6);backdrop-filter:blur(10px);
       border-bottom:1px solid var(--border)}
     .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
     .logo{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:.2px}
-    .logo-badge{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
-      border-radius:8px;background:linear-gradient(135deg,var(--brand),var(--brand2));color:#08110a;font-weight:900}
+    .badge-logo{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;
+      background:linear-gradient(135deg,var(--brand),var(--brand2));color:#08110a;font-weight:900}
     .btn{appearance:none;border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;
-      background:linear-gradient(135deg,var(--brand),var(--brand2));color:#08110a;box-shadow:0 12px 28px rgba(47,158,68,.35)}
+      background:linear-gradient(135deg,var(--brand),var(--brand2));color:#08110a;
+      box-shadow:0 12px 28px rgba(47,158,68,.35);transition:transform .15s ease}
+    .btn:hover{transform:translateY(-1px)}
     .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--border);box-shadow:none}
+
     /* HERO */
     .hero{padding:56px 0 26px}
     .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center}
     h1{font-size:44px;line-height:1.06;margin:0 0 10px}
     .subtitle{color:var(--muted);font-size:18px;margin:0 0 16px}
-    .badge{display:inline-flex;gap:8px;align-items:center;background:rgba(47,158,68,.15);color:#c7f9cc;
+    .chip{display:inline-flex;gap:8px;align-items:center;background:rgba(47,158,68,.15);color:#c7f9cc;
       padding:6px 10px;border-radius:999px;font-weight:800;font-size:12px}
+
     .card{background:linear-gradient(180deg,#0e1622,#0b121b);border:1px solid var(--border);
       border-radius:var(--radius);padding:18px}
-    /* FEATURES */
+
+    /* KPIs */
     .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0}
     .kpi{border:1px solid var(--border);border-radius:16px;padding:16px;background:#0c1420}
     .kpi strong{display:block;font-size:22px}
+
     /* CATALOG */
     .filters{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
-    .input,.select{background:#0e1622;border:1px solid #1a2738;border-radius:12px;color:var(--text);
-      padding:12px 14px;min-width:160px}
+    .input,.select,textarea{background:#0e1622;border:1px solid #1a2738;border-radius:12px;color:var(--text);
+      padding:12px 14px;min-width:160px;outline:none}
+    .input:focus,.select:focus,textarea:focus{border-color:#2b86ff;box-shadow:0 0 0 3px rgba(43,134,255,.15)}
     .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-    .item{background:#0f1622;border:1px solid #1a2738;border-radius:16px;overflow:hidden}
+    .item{background:#0f1622;border:1px solid #1a2738;border-radius:16px;overflow:hidden;transform:translateY(0);
+      transition:transform .15s ease, box-shadow .15s ease}
+    .item:hover{transform:translateY(-2px);box-shadow:0 18px 40px rgba(0,0,0,.25)}
     .img{height:160px;background:#101926}
     .body{padding:14px}
     .price{font-weight:900;margin-top:6px}
+    .muted{color:var(--muted)}
+
     /* FOOTER */
     footer{border-top:1px solid var(--border);color:#9aa3b2;padding:32px 0;margin-top:40px}
+
     /* RESPONSIVE */
     @media (max-width:1100px){.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
     @media (max-width:560px){h1{font-size:32px}.grid{grid-template-columns:1fr}}
@@ -60,9 +75,7 @@
   <!-- NAV -->
   <nav class="nav" aria-label="Navigation principale">
     <div class="container nav-inner">
-      <a class="logo" href="#">
-        <span class="logo-badge">BD</span> <span>BATI DC</span>
-      </a>
+      <a class="logo" href="#"><span class="badge-logo">BD</span> <span>BATI DC</span></a>
       <div style="display:flex;gap:10px">
         <a class="btn ghost" href="#catalogue">Catalogue</a>
         <a class="btn" href="#devis">Demander un devis</a>
@@ -74,12 +87,12 @@
   <header class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="badge">Marketplace B2B du bâtiment</span>
+        <span class="chip">Marketplace B2B du bâtiment</span>
         <h1>Le hub d’achats des pros du BTP</h1>
         <p class="subtitle">Comparez les prix, centralisez vos fournisseurs et générez une demande de devis en quelques clics.</p>
         <div class="kpis">
           <div class="kpi"><strong>&lt; 1 min</strong><span>pour créer un devis</span></div>
-          <div class="kpi"><strong>+ de 5</strong><span>catégories produits</span></div>
+          <div class="kpi"><strong>5+</strong><span>catégories produits</span></div>
           <div class="kpi"><strong>0€</strong><span>d’installation</span></div>
           <div class="kpi"><strong>Mobile</strong><span>interface responsive</span></div>
         </div>
@@ -95,13 +108,13 @@
           <li>Ajoutez-les au devis.</li>
           <li>Renseignez vos infos, on s’occupe du reste.</li>
         </ol>
-        <small style="color:var(--muted)">Démo : cette page est un fichier unique pour un déploiement ultra rapide.</small>
+        <small class="muted">Démo : fichier unique pour un déploiement ultra rapide.</small>
       </div>
     </div>
   </header>
 
-  <!-- CATALOG -->
-  <section id="catalogue" class="container card" aria-label="Catalogue filtrable">
+  <!-- CATALOGUE -->
+  <section id="catalogue" class="container card" aria-label="Catalogue (aperçu)">
     <h2 style="margin-top:0">Catalogue (aperçu)</h2>
     <div class="filters">
       <input class="input" placeholder="Rechercher (outil, marque…)">
@@ -127,7 +140,7 @@
     </div>
   </section>
 
-  <!-- CTA -->
+  <!-- DEVIS -->
   <section id="devis" class="container" style="padding:26px 0">
     <div class="card" style="display:grid;gap:12px">
       <h2 style="margin:0">Demander un devis</h2>
@@ -150,5 +163,16 @@
   <footer>
     <div class="container">© 2025 BATI DC — Marketplace BTP • <a href="mailto:contact@batidc.fr">contact@batidc.fr</a></div>
   </footer>
+
+  <script>
+    // Scroll doux sur les ancres (petit confort UX)
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const id=a.getAttribute('href').slice(1);
+        const el=document.getElementById(id);
+        if(el){ e.preventDefault(); el.scrollIntoView({behavior:'smooth'}); }
+      });
+    });
+  </script>
 </body>
 </html>
