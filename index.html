@@ -1,210 +1,274 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BATI DC</title>
   <style>
-    :root{--bg:#0d1116;--ink:#e5e7eb;--card:#fff;--accent:#f59e0b;--muted:#9aa4b2}
-    html,body{margin:0;height:100%;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f3f4f6;color:#111}
-    .appbar{position:sticky;top:0;z-index:10;background:var(--bg);color:#fff;padding:14px;border-bottom:1px solid #1f2937}
-    .bar{max-width:1100px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
-    .brand{font-weight:800;letter-spacing:.3px;font-size:26px}
-    .brand strong{font-size:28px}
+    :root{
+      --bg:#f6f7f9;--ink:#0b0b0c;--muted:#6b7280;--accent:#f59e0b;--dark:#0f1115;
+      --card:#fff;--border:#e5e7eb;--ok:#10b981;--err:#ef4444;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial;background:var(--bg);color:var(--ink)}
+
+    /* App bar */
+    .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
+    .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+    .brand{font-weight:900;letter-spacing:.3px;font-size:28px} /* BATI DC un peu plus grand */
     .icons{display:flex;gap:10px}
-    .iconbtn{width:42px;height:42px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff;cursor:pointer}
-    .searchrow{max-width:1100px;margin:0 auto 10px;padding:8px 14px}
+    .iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff;cursor:pointer}
+    .searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px}
     .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
     .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
     .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
 
-    /* Cartouche info livraison */
-    .note{max-width:1100px;margin:14px auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 16px}
+    .tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
+    .tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
+    .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit;white-space:nowrap}
+    .tab_active{background:#111;color:#fff;border-color:#111}
 
-    /* --- MODAL COMPTE --- */
-    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
-    .card{width:min(92vw,420px);background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:18px}
-    .card h2{margin:0 0 6px}
-    .row{display:flex;gap:8px;margin:8px 0}
-    .row input{flex:1;height:44px;border:1px solid #d1d5db;border-radius:10px;padding:0 12px}
-    .btn{height:44px;border-radius:10px;border:0;background:#111;color:#fff;font-weight:700;cursor:pointer}
-    .btn.alt{background:#e5e7eb;color:#111}
-    .muted{color:#6b7280;font-size:13px}
-    .x{background:transparent;border:0;font-size:20px;cursor:pointer}
-    .ok{background:#10b981}
-    .danger{background:#ef4444}
-    .center{display:flex;justify-content:center}
-    /* --- /MODAL --- */
+    .notice{max-width:1100px;margin:14px auto 0;padding:12px 14px;background:#fff;border:1px solid var(--border);border-radius:14px;display:flex;gap:10px;align-items:center}
+
+    /* Cards */
+    .wrap{max-width:1100px;margin:12px auto;padding:0 14px;display:grid;gap:16px}
+    .section-title{font-size:28px;font-weight:900}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+    .hero{aspect-ratio:16/9;background:#e5e7eb}
+    .pad{padding:16px}
+    .product-title{font:800 22px/1.2 system-ui;margin:0 0 6px}
+    .meta{color:#6b7280;margin-bottom:8px}
+    .price{font:800 22px/1.1 system-ui;margin:12px 0}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn{height:44px;padding:0 16px;border-radius:12px;border:2px solid #111;font-weight:800;cursor:pointer;background:#111;color:#fff}
+    .btn.alt{background:#fff;color:#111;border-color:#111}
+    .right{margin-left:auto}
+
+    /* Auth Panel */
+    dialog{border:0;border-radius:18px;padding:0;max-width:440px;width:calc(100% - 24px)}
+    .dlg-head{padding:14px 16px;background:#111;color:#fff;border-radius:18px 18px 0 0;display:flex;justify-content:space-between;align-items:center}
+    .dlg-body{padding:16px;background:#fff}
+    .fld{display:grid;gap:6px;margin-bottom:12px}
+    input[type="email"],input[type="password"]{height:44px;border-radius:10px;border:1.5px solid var(--border);padding:0 12px}
+    .small{font-size:12px;color:var(--muted)}
+    .alert{padding:10px;border-radius:10px;margin-bottom:10px;display:none}
+    .alert.ok{background:#ecfdf5;color:#064e3b;border:1px solid #a7f3d0}
+    .alert.err{background:#fef2f2;color:#7f1d1d;border:1px solid #fecaca}
+    .link{color:#2563eb;text-decoration:underline;cursor:pointer}
+
+    /* Status badge */
+    #fb-badge{position:fixed;right:12px;bottom:12px;background:#111;color:#fff;padding:10px 14px;border-radius:14px;font:600 14px system-ui;z-index:999;opacity:.95;display:none}
   </style>
 </head>
 <body>
-
-  <!-- BARRE HAUTE -->
-  <header class="appbar">
+  <!-- App bar -->
+  <div class="appbar">
     <div class="bar">
+      <button class="iconbtn" id="menuBtn">≡</button>
+      <div class="brand">BATI DC</div>
       <div class="icons">
-        <button class="iconbtn" id="menuBtn" title="Menu">☰</button>
-      </div>
-      <div class="brand"><strong>BATI DC</strong></div>
-      <div class="icons">
-        <button class="iconbtn" id="accountBtn" title="Mon compte">👤</button>
-        <button class="iconbtn" title="Mes devis">🧾</button>
-        <button class="iconbtn" title="Panier">🛒</button>
+        <button class="iconbtn" id="accountBtn">👤</button>
+        <button class="iconbtn" id="ordersBtn">🧾</button>
+        <button class="iconbtn" id="cartBtn">🛒</button>
       </div>
     </div>
     <div class="searchrow">
       <div class="searchbox">
-        <input class="input" placeholder="Rechercher : perceuse, béton, EPI…" />
+        <input id="q" class="input" placeholder="Rechercher : perceuse, béton, EPI…" />
         <button class="cta">Rechercher</button>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- INFO -->
-  <div class="note">📦 Livraison partout en France</div>
-
-  <!-- Ici, laisse ton contenu de page existant (listes produits, etc.) -->
-
-  <!-- ========= MODAL COMPTE (connexion/inscription) ========= -->
-  <div class="overlay" id="authModal">
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-        <h2 id="cardTitle">Se connecter</h2>
-        <button class="x" id="closeAuth">×</button>
-      </div>
-
-      <div id="authForms">
-        <!-- Connexion -->
-        <div id="loginBox">
-          <div class="row"><input id="loginEmail" type="email" placeholder="Email" autocomplete="email"></div>
-          <div class="row"><input id="loginPass" type="password" placeholder="Mot de passe" autocomplete="current-password"></div>
-          <div class="row">
-            <button class="btn" id="doLogin">Se connecter</button>
-            <button class="btn alt" id="goSignup">Créer un compte</button>
-          </div>
-        </div>
-
-        <!-- Inscription -->
-        <div id="signupBox" style="display:none">
-          <div class="row"><input id="signEmail" type="email" placeholder="Email" autocomplete="email"></div>
-          <div class="row"><input id="signPass" type="password" placeholder="Mot de passe (min. 6 caractères)" autocomplete="new-password"></div>
-          <div class="row">
-            <button class="btn ok" id="doSignup">Créer mon compte</button>
-            <button class="btn alt" id="goLogin">J’ai déjà un compte</button>
-          </div>
-          <p class="muted">Votre compte vous permet de créer un panier, suivre vos commandes et consulter l’historique.</p>
-        </div>
-      </div>
-
-      <!-- État connecté -->
-      <div id="accountBox" style="display:none">
-        <p class="muted">Connecté en tant que</p>
-        <h3 id="who"></h3>
-        <div class="row">
-          <button class="btn" id="gotoOrders">Mes commandes</button>
-          <button class="btn danger" id="doLogout">Se déconnecter</button>
-        </div>
-      </div>
+  <!-- Onglets -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <a class="tab tab_active">Accueil</a>
+      <a class="tab">Produits</a>
+      <a class="tab">Fournisseurs</a>
+      <a class="tab">Services</a>
     </div>
   </div>
-  <!-- ======================================================= -->
 
-  <!-- =================== Firebase (CDN) =================== -->
+  <!-- Notice -->
+  <div class="notice">📦 <b>Livraison partout en France</b></div>
+
+  <!-- Contenu -->
+  <div class="wrap">
+    <div class="section-title">Serrurerie</div>
+
+    <article class="card">
+      <div class="hero" id="hero1" role="img" aria-label="visuel produit"></div>
+      <div class="pad">
+        <div class="meta">Heracles • réf. Y7C+ 30/30</div>
+        <h3 class="product-title">Cylindre de serrure Y7C+ A2P 30x30 (5 clés)</h3>
+        <p class="small">Cylindre européen Y7C+ certifié A2P – corps laiton, sécurité renforcée, anticrottage.</p>
+        <div class="row">
+          <div class="price">À partir de 69,90 €</div>
+          <button class="btn right" id="btnAddToQuote">Ajouter au devis</button>
+          <button class="btn alt" id="btnSeePrices">Voir les prix</button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <!-- Auth dialog -->
+  <dialog id="authDlg">
+    <div class="dlg-head">
+      <div>Compte professionnel</div>
+      <button class="iconbtn" id="closeAuth" style="border-color:#374151">✕</button>
+    </div>
+    <div class="dlg-body">
+      <div class="alert ok" id="okMsg"></div>
+      <div class="alert err" id="errMsg"></div>
+
+      <div class="fld">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="ex: pro@entreprise.fr" autocomplete="email" />
+      </div>
+      <div class="fld">
+        <label>Mot de passe</label>
+        <input type="password" id="pwd" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+
+      <div class="row" style="justify-content:space-between;margin:12px 0">
+        <button class="btn" id="btnLogin">Se connecter</button>
+        <button class="btn alt" id="btnSignup">Créer un compte</button>
+      </div>
+      <div class="small">
+        Mot de passe perdu ? <span class="link" id="btnReset">Réinitialiser</span>
+      </div>
+
+      <hr style="margin:16px 0;border:0;border-top:1px solid var(--border)">
+      <div class="small">
+        Statut : <b id="authState">non connecté</b> •
+        <span class="link" id="btnLogout" style="display:none">Se déconnecter</span>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Badge statut Firebase -->
+  <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
+
+  <!-- Firebase -->
   <script type="module">
-    // 1) Imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-    import { 
-      getAuth, onAuthStateChanged, 
-      createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut 
+    import {
+      getAuth, setPersistence, browserLocalPersistence,
+      onAuthStateChanged, createUserWithEmailAndPassword,
+      signInWithEmailAndPassword, sendPasswordResetEmail, signOut
     } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-    // 2) Ta configuration Firebase
+    /* ---------- CONFIG À PERSONNALISER (mets juste ta apiKey) ---------- */
     const firebaseConfig = {
+      apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw",        // <= remplace uniquement ceci
       authDomain: "bati-dc.firebaseapp.com",
       projectId: "bati-dc",
-      storageBucket: "bati-dc.firebasestorage.app",
+      storageBucket: "bati-dc.appspot.com",
       messagingSenderId: "223128606936",
       appId: "1:223128606936:web:944577b9fe9c0c93419fad"
     };
+    /* ------------------------------------------------------------------- */
 
-    // 3) Init
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    // UI helpers
+    const $ = sel => document.querySelector(sel);
+    const badge = $('#fb-badge'), status = $('#fb-status');
+    const showBadge = t => { badge.style.display='inline-flex'; status.textContent=t; };
+    const okMsg = $('#okMsg'), errMsg = $('#errMsg');
+    const showOK  = t => { okMsg.textContent=t; okMsg.style.display='block'; errMsg.style.display='none'; };
+    const showERR = t => { errMsg.textContent=t; errMsg.style.display='block'; okMsg.style.display='none'; };
 
-    // ---------- UI helpers ----------
-    const modal = document.getElementById('authModal');
-    const accountBtn = document.getElementById('accountBtn');
-    const closeBtn = document.getElementById('closeAuth');
-    const loginBox = document.getElementById('loginBox');
-    const signupBox = document.getElementById('signupBox');
-    const accountBox = document.getElementById('accountBox');
-    const cardTitle = document.getElementById('cardTitle');
-    const who = document.getElementById('who');
-
-    function openModal(mode="login"){
-      modal.style.display = "grid";
-      if(mode==="login"){ loginBox.style.display="block"; signupBox.style.display="none"; cardTitle.textContent="Se connecter"; }
-      else { loginBox.style.display="none"; signupBox.style.display="block"; cardTitle.textContent="Créer un compte"; }
+    // Init Firebase
+    let auth;
+    try {
+      const app = initializeApp(firebaseConfig);
+      auth = getAuth(app);
+      await setPersistence(auth, browserLocalPersistence);
+      showBadge('connecté');
+    } catch (e) {
+      console.error(e);
+      showBadge('erreur');
     }
-    function closeModal(){ modal.style.display="none"; }
-    accountBtn.addEventListener('click', ()=> openModal("login"));
-    closeBtn.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
 
-    // Switcher login/signup
-    document.getElementById('goSignup').onclick = ()=> openModal("signup");
-    document.getElementById('goLogin').onclick  = ()=> openModal("login");
+    // Auth dialog open/close
+    const dlg = $('#authDlg');
+    $('#accountBtn').addEventListener('click', ()=> dlg.showModal());
+    $('#closeAuth').addEventListener('click', ()=> { dlg.close(); okMsg.style.display='none'; errMsg.style.display='none'; });
 
-    // ---------- Actions Auth ----------
-    document.getElementById('doSignup').onclick = async ()=>{
-      const email = (document.getElementById('signEmail').value||"").trim();
-      const pass  = (document.getElementById('signPass').value||"").trim();
-      if(pass.length<6){ alert("Mot de passe : 6 caractères minimum."); return; }
+    // Buttons
+    $('#btnSignup').addEventListener('click', async ()=>{
+      const email = $('#email').value.trim();
+      const pwd   = $('#pwd').value;
+      if(!email || !pwd) return showERR('Renseigne email et mot de passe.');
       try{
-        await createUserWithEmailAndPassword(auth, email, pass);
-        alert("Compte créé ✔");
-        closeModal();
-      }catch(err){ alert(err.message); }
-    };
-
-    document.getElementById('doLogin').onclick = async ()=>{
-      const email = (document.getElementById('loginEmail').value||"").trim();
-      const pass  = (document.getElementById('loginPass').value||"").trim();
-      try{
-        await signInWithEmailAndPassword(auth, email, pass);
-        alert("Connexion réussie ✔");
-        closeModal();
-      }catch(err){ alert(err.message); }
-    };
-
-    document.getElementById('doLogout').onclick = async ()=>{
-      await signOut(auth);
-      alert("Déconnecté.");
-      closeModal();
-    };
-
-    // ---------- Suivi d'état ----------
-    onAuthStateChanged(auth, (user)=>{
-      // met à jour l’UI de la fenêtre compte
-      if(user){
-        who.textContent = user.email || "Compte";
-        // montre le panneau "connecté"
-        accountBox.style.display="block";
-        document.getElementById('authForms').style.display="none";
-        // ouvrir la modale directement si l’utilisateur clique sur 👤 lorsqu’il est déjà connecté
-        accountBtn.onclick = ()=>{ modal.style.display="grid"; accountBox.style.display="block"; document.getElementById('authForms').style.display="none"; cardTitle.textContent="Mon compte"; };
-      }else{
-        accountBox.style.display="none";
-        document.getElementById('authForms').style.display="block";
-        accountBtn.onclick = ()=> openModal("login");
+        await createUserWithEmailAndPassword(auth, email, pwd);
+        showOK('Compte créé, vous êtes connecté.');
+      }catch(e){
+        showERR(mapAuthError(e));
       }
     });
 
-    // Bouton "Mes commandes" (à brancher plus tard vers une page/section)
-    document.getElementById('gotoOrders').onclick = ()=>{
-      alert("La page 'Mes commandes' sera branchée après la base de données (Firestore).");
-    };
+    $('#btnLogin').addEventListener('click', async ()=>{
+      const email = $('#email').value.trim();
+      const pwd   = $('#pwd').value;
+      if(!email || !pwd) return showERR('Renseigne email et mot de passe.');
+      try{
+        await signInWithEmailAndPassword(auth, email, pwd);
+        showOK('Connexion réussie.');
+      }catch(e){
+        showERR(mapAuthError(e));
+      }
+    });
+
+    $('#btnReset').addEventListener('click', async ()=>{
+      const email = $('#email').value.trim();
+      if(!email) return showERR('Entre ton email pour recevoir le lien.');
+      try{
+        await sendPasswordResetEmail(auth, email);
+        showOK('Email de réinitialisation envoyé.');
+      }catch(e){
+        showERR(mapAuthError(e));
+      }
+    });
+
+    $('#btnLogout').addEventListener('click', async ()=>{
+      try{ await signOut(auth); }catch(e){ console.error(e); }
+    });
+
+    // Listen auth state
+    onAuthStateChanged(auth, user=>{
+      const a = $('#authState'), lo = $('#btnLogout');
+      if(user){
+        a.textContent = `connecté (${user.email})`;
+        lo.style.display = 'inline';
+      }else{
+        a.textContent = 'non connecté';
+        lo.style.display = 'none';
+      }
+    });
+
+    // Basic demo actions
+    $('#btnAddToQuote').addEventListener('click', ()=> alert('Ajouté au devis (démo).'));
+    $('#btnSeePrices').addEventListener('click', ()=> alert('Page prix / fiche article (démo).'));
+
+    // Map Firebase errors -> FR
+    function mapAuthError(e){
+      const c = e.code || '';
+      if(c.includes('email-already-in-use')) return "Cet email est déjà utilisé.";
+      if(c.includes('invalid-email')) return "Email invalide.";
+      if(c.includes('weak-password')) return "Mot de passe trop court (min 6).";
+      if(c.includes('wrong-password')) return "Mot de passe incorrect.";
+      if(c.includes('user-not-found')) return "Aucun compte avec cet email.";
+      if(c.includes('too-many-requests')) return "Trop de tentatives. Réessaie plus tard.";
+      return "Erreur : " + (e.message || c);
+    }
+
+    // Petite image de démo pour la carte
+    const demoImg = "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60";
+    const hero = document.getElementById('hero1');
+    hero.style.background = `center/cover no-repeat url('${demoImg}')`;
   </script>
-  <!-- ===================================================== -->
 </body>
 </html>
