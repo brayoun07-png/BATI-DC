@@ -2,22 +2,40 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>TEST OK</title>
+  <title>Produit</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="Cache-Control" content="no-store, must-revalidate, max-age=0">
   <meta http-equiv="Pragma" content="no-cache">
   <style>
-    body{margin:0;display:flex;min-height:100svh;align-items:center;justify-content:center;
-         font:700 24px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0f1117;color:#fff}
-    .card{padding:28px 32px;border:1px solid #2b3242;border-radius:14px;background:#131a26;
-          box-shadow:0 10px 30px rgba(0,0,0,.35)}
-    .card small{display:block;margin-top:8px;font-weight:500;opacity:.75}
+    :root{--bg:#eef3f6;--card:#fff;--text:#111;--muted:#566;--btn:#4f46e5;--btnh:#3a32c8}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;color:var(--text)}
+    .wrap{max-width:720px;margin:28px auto;padding:0 16px}
+    .card{background:var(--card);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08);padding:24px;text-align:center}
+    .figure{width:320px;max-width:100%;margin:0 auto 18px;border:2px solid #d9dee6;border-radius:14px;padding:8px}
+    .figure img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:10px;display:block;background:#f3f5f8}
+    h1{font-size:clamp(22px,4.5vw,36px);margin:10px 0 8px}
+    p{color:#667085;margin:0 auto;max-width:46ch}
+    .btn{display:inline-block;margin-top:22px;background:var(--btn);color:#fff;text-decoration:none;
+         padding:12px 20px;border-radius:10px;font-weight:700}
+    .btn:hover{background:var(--btnh)}
+    .note{font-size:13px;color:#98a2b3;margin-top:10px}
   </style>
 </head>
 <body>
-  <div class="card">
-    ✅ Ça marche — build reçu.
-    <small>Si tu vois encore l’ancienne page, ajoute <code>?nocache=3</code> à l’URL ou ouvre en privé.</small>
+  <div class="wrap">
+    <div class="card">
+      <div class="figure">
+        <img src="img/produit.jpg" alt="Produit"
+             onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<?xml version=%221.0%22?><svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22400%22 height=%22400%22><rect width=%22400%22 height=%22400%22 fill=%23f3f5f8/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%2398a2b3%22 font-family=%22Arial%22 font-size=%2220%22>Image manquante</text></svg>';">
+      </div>
+
+      <h1>Nom du produit</h1>
+      <p>Description rapide du produit. Tu peux mettre ici les caractéristiques principales, la référence, etc.</p>
+
+      <a class="btn" href="#">Acheter</a>
+      <div class="note">Change l’image dans <code>img/produit.jpg</code></div>
+    </div>
   </div>
 </body>
 </html>
