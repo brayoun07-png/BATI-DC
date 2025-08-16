@@ -746,3 +746,175 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BATI DC — Marketplace BTP</title>
+<style>
+  :root{
+    --bg:#ffffff; --text:#111; --muted:#666;
+    --header:#0f1111; --accent:#ff9900; --border:#000;
+    --radius:14px; --shadow:0 4px 14px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+
+  /* Header */
+  .appbar{position:sticky;top:0;z-index:1000;background:var(--header);color:#fff;border-bottom:2px solid var(--border)}
+  .appbar .row{max-width:1100px;margin:auto;display:flex;align-items:center;gap:10px;padding:10px 12px}
+  .brand{font-weight:800;font-size:1.05rem;white-space:nowrap;letter-spacing:.5px} /* BATI DC en une ligne */
+  .spacer{flex:1}
+  .icon{width:34px;height:34px;display:grid;place-items:center;border:1.5px solid #fff;border-radius:8px}
+  .icon svg{fill:#fff;width:18px;height:18px}
+  .search{max-width:1100px;margin:0 auto 10px;display:flex;gap:8px;padding:0 12px}
+  .search input{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:999px;background:#fff;color:#111}
+  .search button{border:2px solid var(--border);border-radius:999px;padding:10px 14px;background:var(--accent);font-weight:700;cursor:pointer}
+
+  /* Tabs & location */
+  .tabs{border-bottom:2px solid var(--border);background:#fff}
+  .tabs .wrap{max-width:1100px;margin:auto;display:flex;gap:18px;overflow:auto;padding:10px 12px}
+  .tabs a{color:#111;text-decoration:none;padding:6px 8px;border:1.5px solid transparent;border-radius:8px}
+  .tabs a:hover,.tabs a.active{border-color:var(--border);background:#f6f6f6}
+  .loc{background:#f3f3f3;border-bottom:2px solid var(--border);padding:10px 12px}
+
+  /* Layout */
+  main{max-width:1100px;margin:0 auto;padding:14px 12px}
+
+  /* Hero */
+  .hero{border:2px solid var(--border);border-radius:18px;padding:18px;background:linear-gradient(135deg,#dff2ff,#bfe9ff);box-shadow:var(--shadow)}
+  .hero h1{font-size:1.35rem;margin-bottom:6px}
+  .hero p{color:#123}
+  .thumbs{display:flex;gap:10px;margin-top:12px}
+  .thumbs img{width:70px;height:70px;object-fit:cover;border:2px solid var(--border);border-radius:10px;background:#fff}
+
+  /* Section title */
+  h2{font-size:1.15rem;margin:18px 0 10px}
+
+  /* Product grid */
+  .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+  .card{border:2px solid var(--border);border-radius:16px;background:#fff;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .thumb{aspect-ratio:4/3;background:#fff;border-bottom:2px solid var(--border)}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .body{padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+  .title{font-weight:700}
+  .meta{color:var(--muted);font-size:.9rem}
+  .price{font-weight:800;margin-top:2px}
+  .actions{display:flex;gap:8px;margin-top:8px}
+  .btn{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;font-weight:700}
+  .btn.primary{background:var(--accent)}
+  .btn.dark{background:#111;color:#fff;border-color:#111}
+
+  /* Footer */
+  footer{margin-top:26px;padding:18px 12px;text-align:center;border-top:2px solid var(--border);background:#fafafa}
+
+  /* Desktop */
+  @media(min-width:900px){ .search input{font-size:1rem} }
+</style>
+</head>
+<body>
+
+<header class="appbar">
+  <div class="row">
+    <div class="brand">BATI DC</div>
+    <div class="spacer"></div>
+    <div class="icon" aria-label="Compte"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14Z"/></svg></div>
+    <div class="icon" aria-label="Panier"><svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2v2h2l3.6 7.6-1.35 2.4A1 1 0 0 0 9 20h10v-2H10.42a.2.2 0 0 1-.18-.1l.1-.2L12 15h6a1 1 0 0 0 .9-.55l3-6A1 1 0 0 0 21 7H7.42L6.2 4Z"/></svg></div>
+  </div>
+  <div class="search">
+    <input type="search" placeholder="Rechercher : perceuse, béton, EPI…" />
+    <button>Rechercher</button>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="wrap">
+    <a href="#" class="active">Catégories</a>
+    <a href="#">Meilleures ventes</a>
+    <a href="#">Promotions</a>
+    <a href="#">Fournisseurs</a>
+    <a href="#">Aide</a>
+  </div>
+</nav>
+
+<div class="loc">📍 Livraison à Paris — <u>Mettre à jour</u></div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Le comparateur BTP en France</h1>
+    <p>Comparez l’outillage et les matériaux des meilleurs fournisseurs.</p>
+    <div class="thumbs">
+      <img src="https://picsum.photos/seed/sacoutils/120/120" alt="Sac d’outils" />
+      <img src="https://picsum.photos/seed/casque/120/120" alt="Casque" />
+      <img src="https://picsum.photos/seed/perfo/120/120" alt="Perforateur" />
+      <img src="https://picsum.photos/seed/echaf/120/120" alt="Échafaudage" />
+    </div>
+  </section>
+
+  <!-- PRODUITS POPULAIRES -->
+  <h2>Produits populaires</h2>
+  <section class="grid">
+    <!-- Carte produit 1 -->
+    <article class="card">
+      <div class="thumb"><img src="https://picsum.photos/seed/perceuse/800/600" alt="Perceuse-visseuse"></div>
+      <div class="body">
+        <div class="title">Perceuse-visseuse 18V</div>
+        <div class="meta">Makita • EAN 0088381234567</div>
+        <div class="price">à partir de 127,00 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Carte produit 2 -->
+    <article class="card">
+      <div class="thumb"><img src="https://picsum.photos/seed/casqueBTP/800/600" alt="Casque de chantier"></div>
+      <div class="body">
+        <div class="title">Casque de chantier EN397</div>
+        <div class="meta">3M • EAN 5410091630001</div>
+        <div class="price">à partir de 14,90 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Carte produit 3 -->
+    <article class="card">
+      <div class="thumb"><img src="https://picsum.photos/seed/laser/800/600" alt="Niveau laser"></div>
+      <div class="body">
+        <div class="title">Niveau laser vert</div>
+        <div class="meta">Bosch Pro • Réf GLL</div>
+        <div class="price">à partir de 89,00 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- Carte produit 4 -->
+    <article class="card">
+      <div class="thumb"><img src="https://picsum.photos/seed/scie/800/600" alt="Scie circulaire"></div>
+      <div class="body">
+        <div class="title">Scie circulaire 190mm</div>
+        <div class="meta">DeWalt • Réf DWE</div>
+        <div class="price">à partir de 129,00 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+  </section>
+</main>
+
+<footer>© 2025 BATI DC — Tous droits réservés</footer>
+
+</body>
+</html>
