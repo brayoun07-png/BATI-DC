@@ -213,3 +213,135 @@
   </footer>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BATI DC – Marketplace BTP</title>
+  <style>
+    :root { --bg:#0d0d0d; --text:#fff; --muted:#9ca3af; --accent:#facc15; --radius:12px; --border:#1f2937; }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+    /* NAVBAR */
+    .navbar{position:sticky;top:0;z-index:50;background:#0b0b0b;border-bottom:1px solid var(--border)}
+    .nav-inner{max-width:1200px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:14px}
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand img{height:34px;display:block}
+    .search{flex:1;display:flex;gap:8px}
+    .input, .select{flex:1;appearance:none;border:1px solid #242424;background:#121212;color:var(--text);padding:12px;border-radius:10px;outline:none}
+    .btn{border:0;border-radius:10px;padding:12px 16px;font-weight:800;cursor:pointer;background:var(--accent);color:#111}
+    .btn.ghost{background:#121212;color:#fff;border:1px solid #242424}
+
+    /* HERO */
+    .hero{background:linear-gradient(180deg,#0f0f0f,#0b0b0b);border-bottom:1px solid var(--border)}
+    .hero-inner{max-width:1200px;margin:0 auto;padding:56px 16px 28px;display:grid;gap:18px}
+    .hero h1{font-size:38px;line-height:1.1}
+    .sub{color:var(--muted)}
+    .points{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+    .point{border:1px solid var(--border);border-radius:999px;padding:6px 10px;color:#e5e7eb;font-size:13px}
+
+    /* GRID PRODUITS */
+    .wrap{max-width:1200px;margin:0 auto;padding:22px 16px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .card{background:#111;border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+    .card:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(0,0,0,.35)}
+    .img{height:170px;background:#151515}
+    .meta{padding:12px}
+    .name{font-weight:800}
+    .submeta{color:#b5b5b5;font-size:13px;margin-top:4px}
+    .price{font-weight:900;margin-top:6px}
+    .cta{display:flex;gap:8px;padding:12px}
+
+    /* FOOTER */
+    footer{border-top:1px solid var(--border);color:#bdbdbd;padding:22px 16px;margin-top:26px}
+
+    /* Responsive */
+    @media (max-width:1024px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}.hero h1{font-size:28px}}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <div class="navbar">
+    <div class="nav-inner">
+      <a class="brand" href="#">
+        <img src="batidc-logo.svg" alt="BATI DC">
+      </a>
+      <div class="search" role="search">
+        <select class="select" aria-label="Catégorie">
+          <option>Toutes</option><option>Outillage</option><option>EPI</option><option>Matériaux</option>
+        </select>
+        <input class="input" placeholder="Rechercher : perceuse, Bosch, EAN…" />
+        <button class="btn">Rechercher</button>
+      </div>
+      <button class="btn ghost">Connexion</button>
+    </div>
+  </div>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-inner">
+      <div>
+        <h1>Le comparateur du BTP en France</h1>
+        <p class="sub">Recherchez l’outillage et comparez les prix des principaux fournisseurs. Interface sobre, rapide, professionnelle.</p>
+        <div class="points">
+          <span class="point">Comparaison instantanée</span>
+          <span class="point">Sources officielles</span>
+          <span class="point">Devis en 1 minute</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- PRODUITS POPULAIRES (exemple) -->
+  <main class="wrap">
+    <h2 style="margin:0 0 12px">Produits populaires</h2>
+    <div class="grid">
+      <article class="card">
+        <div class="img" style="background:url('https://images.unsplash.com/photo-1605649487212-47bdab064dfb?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+        <div class="meta">
+          <div class="name">Perceuse-visseuse 18V</div>
+          <div class="submeta">EAN 0088381234567 • Makita</div>
+          <div class="price">à partir de 127,00 €</div>
+        </div>
+        <div class="cta">
+          <button class="btn">Voir les prix</button>
+          <button class="btn ghost">Ajouter au devis</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="img" style="background:url('https://images.unsplash.com/photo-1600662443802-d7ed78152e07?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+        <div class="meta">
+          <div class="name">Casque de chantier EN397</div>
+          <div class="submeta">EAN 5410091630001 • 3M</div>
+          <div class="price">à partir de 14,90 €</div>
+        </div>
+        <div class="cta">
+          <button class="btn">Voir les prix</button>
+          <button class="btn ghost">Ajouter au devis</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="img" style="background:url('https://images.unsplash.com/photo-1610622685654-5e5f5b8b5f36?q=80&w=1200&auto=format&fit=crop') center/cover"></div>
+        <div class="meta">
+          <div class="name">Scie circulaire 190mm</div>
+          <div class="submeta">EAN 3165140501234 • Bosch</div>
+          <div class="price">à partir de 139,00 €</div>
+        </div>
+        <div class="cta">
+          <button class="btn">Voir les prix</button>
+          <button class="btn ghost">Ajouter au devis</button>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 BATI DC — Marketplace BTP • contact@batidc.fr
+  </footer>
+</body>
+</html>
