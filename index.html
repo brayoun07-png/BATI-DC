@@ -6,90 +6,123 @@
 <title>BATI DC</title>
 <style>
   :root{
-    --bg:#0f1115; --ink:#fff; --muted:#a8b3cf;
-    --paper:#11161c; --card:#fff; --border:#e6e8f0;
-    --accent:#f59e0b; --ink-strong:#111;
+    --bg:#f3f4f6; --ink:#111; --muted:#6b7280;
+    --header:#0f1115; --border:#e5e7eb; --card:#fff; --accent:#f59e0b;
+    --ok:#10b981; --danger:#ef4444;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
-  body{
-    margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;
-    background:#f3f4f6; color:#111;
-  }
-  a{color:inherit; text-decoration:none}
+  body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--ink)}
+  a{color:inherit;text-decoration:none}
+
   /* Appbar */
-  .appbar{
-    position:sticky; top:0; z-index:30;
-    background:#0f1115; color:#fff; border-bottom:1px solid #1f2937;
-  }
-  .bar{max-width:1100px; margin:auto; padding:14px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
-  .brand{font-weight:800; letter-spacing:.3px; display:flex; align-items:center; gap:12px}
-  .menu-btn{display:inline-grid; place-items:center; width:42px; height:42px; border-radius:12px; border:2px solid #374151}
-  .icons{display:flex; gap:10px}
-  .iconbtn{width:42px; height:42px; border-radius:12px; background:transparent; border:2px solid #374151; display:grid; place-items:center; color:#fff}
-  /* Recherche */
-  .searchrow{max-width:1100px; margin:6px auto 14px; padding:0 14px}
-  .searchbox{display:grid; grid-template-columns:1fr auto; gap:12px}
-  .input{height:48px; border-radius:24px; border:2px solid #374151; background:#0d1116; color:#e5e7eb; padding:0 18px}
-  .cta{height:48px; padding:0 18px; border:0; border-radius:24px; background:var(--accent); color:#111; font-weight:800; cursor:pointer}
+  .appbar{position:sticky;top:0;z-index:40;background:var(--header);color:#fff;border-bottom:1px solid #1f2937}
+  .bar{max-width:1150px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+  .menu-btn{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:12px;border:2px solid #374151;background:transparent;color:#fff}
+  .brand{font-weight:900;letter-spacing:.3px;font-size:24px;display:flex;align-items:center;gap:12px} /* +++ taille plus grande */
+  .icons{display:flex;gap:10px}
+  .iconbtn{width:44px;height:44px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff;cursor:pointer}
+
+  /* Search */
+  .searchrow{max-width:1150px;margin:6px auto 14px;padding:0 14px}
+  .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
+  .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
+  .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
+
   /* Tabs */
-  .tabs-wrap{background:#fff; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; position:sticky; top:96px; z-index:25}
-  @media (max-width:680px){.tabs-wrap{top:102px}}
-  .tabs{max-width:1100px; margin:auto; padding:10px 14px; display:flex; gap:10px; overflow:auto}
-  .tab{padding:10px 16px; border:2px solid var(--border); border-radius:12px; background:#fff; font-weight:700; white-space:nowrap}
-  .tab.active{background:#111; color:#fff; border-color:#111}
-  /* Delivery */
-  .banner{max-width:1100px; margin:12px auto; padding:12px 14px}
-  .banner .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px}
-  /* Content */
-  .wrap{max-width:1100px; margin:10px auto 80px; padding:0 14px}
-  .section-title{font-size:24px; font-weight:900; margin:18px 0 10px}
-  .product{background:#fff; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; margin:14px 0}
-  .product .media{background:#e5e7eb; aspect-ratio:16/9; display:block; width:100%; object-fit:cover}
-  .product .pad{padding:14px}
-  .price{font-weight:800; margin:10px 0}
-  .row{display:flex; gap:10px; flex-wrap:wrap}
-  .btn{height:44px; padding:0 16px; border-radius:14px; border:2px solid #111; background:#fff; font-weight:800; cursor:pointer}
-  .btn.primary{background:var(--accent); border-color:var(--accent)}
-  .btn.dark{background:#111; color:#fff}
-  /* Badge devis */
-  .quote-badge{
-    position:fixed; right:14px; bottom:14px; z-index:50;
-    background:#111; color:#fff; border-radius:26px; padding:8px 12px; display:flex; align-items:center; gap:8px;
-    box-shadow:0 8px 30px rgba(0,0,0,.25);
+  .tabs-wrap{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border);position:sticky;top:98px;z-index:30}
+  @media (max-width:680px){.tabs-wrap{top:104px}}
+  .tabs{max-width:1150px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
+  .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;white-space:nowrap}
+  .tab.active{background:#111;color:#fff;border-color:#111}
+
+  /* Banner */
+  .banner{max-width:1150px;margin:12px auto;padding:0 14px}
+  .banner .card{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px}
+
+  /* Grid + cards */
+  .wrap{max-width:1150px;margin:10px auto 100px;padding:0 14px}
+  .section-title{font:900 24px/1.1 system-ui;margin:18px 0 10px}
+  .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:14px}
+  .product{grid-column:span 12;background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden}
+  @media (min-width:680px){.product{grid-column:span 6}}
+  @media (min-width:1024px){.product{grid-column:span 4}}
+
+  /* Media: meilleure qualité & recadrage propre */
+  .media{
+    width:100%;aspect-ratio:16/9;object-fit:cover;background:#e5e7eb;
+    image-rendering:auto; /* utilise la meilleure interpolation dispo */
   }
-  .pill{display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 6px; background:#fff; color:#111; border-radius:999px; font-weight:800; font-size:12px}
+  .pad{padding:14px}
+  .muted{color:var(--muted)}
+  .price{font-weight:900;margin:8px 0 10px}
+  .row{display:flex;gap:10px;flex-wrap:wrap}
+  .btn{height:44px;padding:0 16px;border-radius:14px;border:2px solid #111;background:#fff;font-weight:800;cursor:pointer}
+  .btn.primary{background:var(--accent);border-color:var(--accent)}
+  .btn.dark{background:#111;color:#fff}
+  .btn.ghost{background:#fff}
+
+  /* Panier tiroir */
+  .drawer{
+    position:fixed;inset:auto 0 0 auto;right:-380px;width:360px;max-width:92vw;height:100vh;background:#fff;border-left:1px solid var(--border);
+    box-shadow:-8px 0 30px rgba(0,0,0,.15);z-index:60;transition:transform .28s ease;display:flex;flex-direction:column
+  }
+  .drawer.open{transform:translateX(-380px)}
+  .drawer header{padding:14px 16px;border-bottom:1px solid var(--border);font-weight:900;display:flex;justify-content:space-between;align-items:center}
+  .drawer main{padding:10px 12px 110px;overflow:auto}
+  .line{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border)}
+  .line img{width:56px;height:56px;object-fit:cover;border-radius:8px;background:#f1f5f9}
+  .qty{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:10px;padding:4px 8px}
+  .qty button{border:0;background:#f3f4f6;width:24px;height:24px;border-radius:6px;cursor:pointer}
+  .drawer footer{position:absolute;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--border);padding:12px}
+  .tot{display:flex;justify-content:space-between;margin:6px 0}
+  .pay{display:block;width:100%;height:46px;border-radius:12px;border:0;background:#111;color:#fff;font-weight:800;cursor:pointer}
+
+  /* Devis badge */
+  .quote-badge{position:fixed;right:14px;bottom:14px;z-index:55;background:#111;color:#fff;border-radius:26px;padding:8px 12px;display:flex;align-items:center;gap:8px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
+  .pill{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;background:#fff;color:#111;border-radius:999px;font-weight:800;font-size:12px}
+
+  /* Modal produit */
+  .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:65}
+  .modal.open{display:flex}
+  .sheet{background:#fff;border-radius:18px;max-width:900px;width:95vw;overflow:hidden}
+  .sheet .body{display:grid;grid-template-columns:1fr;gap:0}
+  @media (min-width:860px){.sheet .body{grid-template-columns:1.1fr 1fr}}
+  .sheet img{width:100%;height:100%;object-fit:cover;background:#f1f5f9}
+  .sheet .content{padding:16px}
+  .close-x{position:absolute;right:14px;top:14px;background:#111;color:#fff;border:0;border-radius:10px;width:36px;height:36px;cursor:pointer}
+
   /* Footer */
-  .foot{max-width:1100px; margin:32px auto; padding:20px 14px; color:#6b7280}
+  .foot{max-width:1150px;margin:32px auto;padding:20px 14px;color:var(--muted)}
 </style>
 </head>
 <body>
 
 <header class="appbar">
   <div class="bar">
-    <button class="menu-btn" aria-label="menu">☰</button>
+    <button class="menu-btn" aria-label="menu" onclick="alert('Menu latéral — à connecter plus tard')">☰</button>
     <div class="brand">BATI DC</div>
     <div class="icons">
       <button class="iconbtn" title="Compte">👤</button>
-      <button class="iconbtn" title="Devis">🧾</button>
-      <button class="iconbtn" title="Panier">🛒</button>
+      <button class="iconbtn" title="Devis (ouvrir panier)" onclick="toggleCart(true)">🧾</button>
+      <button class="iconbtn" title="Panier" onclick="toggleCart(true)">🛒</button>
     </div>
   </div>
   <div class="searchrow">
     <div class="searchbox">
-      <input id="q" class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…">
+      <input id="q" class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…" onkeydown="if(event.key==='Enter')doSearch()">
       <button class="cta" onclick="doSearch()">Rechercher</button>
     </div>
   </div>
 </header>
 
 <div class="tabs-wrap">
-  <nav class="tabs">
-    <a class="tab active" href="#" onclick="filterCat('all');return false;">Accueil</a>
-    <a class="tab" href="#" onclick="filterCat('produits');return false;">Produits</a>
-    <a class="tab" href="#" onclick="filterCat('fournisseurs');return false;">Fournisseurs</a>
-    <a class="tab" href="#" onclick="filterCat('serrurerie');return false;">Serrurerie</a>
-    <a class="tab" href="#" onclick="filterCat('plomberie');return false;">Plomberie</a>
+  <nav class="tabs" id="tabs">
+    <a class="tab active" href="#" data-cat="all">Accueil</a>
+    <a class="tab" href="#" data-cat="produits">Produits</a>
+    <a class="tab" href="#" data-cat="fournisseurs">Fournisseurs</a>
+    <a class="tab" href="#" data-cat="serrurerie">Serrurerie</a>
+    <a class="tab" href="#" data-cat="plomberie">Plomberie</a>
   </nav>
 </div>
 
@@ -99,78 +132,123 @@
 
 <main id="app" class="wrap"></main>
 
-<div class="quote-badge">🧾 Devis <span class="pill" data-quote-badge>0</span></div>
+<!-- Panier -->
+<aside id="drawer" class="drawer" aria-hidden="true">
+  <header>
+    <span>Votre panier</span>
+    <button class="iconbtn" style="border-color:#ddd;color:#111" onclick="toggleCart(false)">✕</button>
+  </header>
+  <main id="cartLines"></main>
+  <footer>
+    <div class="tot"><span>Total HT</span><strong id="totHT">0,00 €</strong></div>
+    <div class="tot"><span>TVA (20%)</span><strong id="totTVA">0,00 €</strong></div>
+    <div class="tot" style="font-weight:900"><span>Total TTC</span><strong id="totTTC">0,00 €</strong></div>
+    <button class="pay" onclick="pay()">Procéder au paiement</button>
+  </footer>
+</aside>
+
+<!-- Badge -->
+<div class="quote-badge" onclick="toggleCart(true)">🧾 Panier <span class="pill" data-quote-badge>0</span></div>
+
+<!-- Modal produit -->
+<div id="modal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="sheet">
+    <button class="close-x" onclick="closeModal()">✕</button>
+    <div class="body">
+      <img id="mImg" src="" alt="">
+      <div class="content">
+        <div class="muted" id="mBrand"></div>
+        <h2 id="mName" style="margin:.2rem 0 .4rem"></h2>
+        <div class="muted">Réf. <span id="mRef"></span> • <span id="mCat"></span></div>
+        <p id="mDesc" style="margin:10px 0 12px"></p>
+        <div style="font-weight:900;margin:8px 0">Prix : <span id="mPriceHT"></span> HT — <span id="mPriceTTC"></span> TTC</div>
+        <div style="display:flex;gap:10px;align-items:center;margin:12px 0">
+          <div class="qty">
+            <button onclick="mQty(-1)">−</button>
+            <span id="mQtyVal">1</span>
+            <button onclick="mQty(1)">+</button>
+          </div>
+          <button class="btn dark" onclick="addModal()">Ajouter au panier</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <footer class="foot">© 2025 BATI DC — Tous droits réservés</footer>
 
 <script>
-/* --- 1) Données produits (tu peux juste compléter ce tableau) --- */
+/* ========= 1) Données PRODUITS =========
+   Remplace juste image par un lien HD (site fournisseur).
+   Astuce: n'hésite pas à coller des images 1200px de large mini.
+*/
 const PRODUCTS = [
-  /* === SERRURERIE === */
   { id:"HRC-Y7C-30x30", brand:"Heracles", name:"Cylindre de serrure Y7C+ A2P 30x30 (5 clés)", category:"serrurerie",
     price_ht:69.90, price_ttc:83.88,
-    image:"https://via.placeholder.com/900x520?text=Heracles+Y7C%2B+30x30",
-    ref:"Y7C+ 30/30", short:"Cylindre européen Y7C+ certifié A2P, livré avec 5 clés." },
+    image:"https://images.unsplash.com/photo-1517832207067-4db24a2ae47c?q=80&w=1200&auto=format&fit=crop", /* remplace par vraie photo */
+    ref:"Y7C+ 30/30", short:"Cylindre européen Y7C+ certifié A2P, livré avec 5 clés. Corps laiton, sécurité renforcée." },
   { id:"HRC-Y7C-30x40", brand:"Heracles", name:"Cylindre de serrure Y7C+ A2P 30x40 (5 clés)", category:"serrurerie",
     price_ht:72.90, price_ttc:87.48,
-    image:"https://via.placeholder.com/900x520?text=Heracles+Y7C%2B+30x40",
+    image:"https://images.unsplash.com/photo-1524758631624-e2822e304c36?q=80&w=1200&auto=format&fit=crop",
     ref:"Y7C+ 30/40", short:"Haute sécurité, compatible profil européen." },
   { id:"VACH-A2P-35x35", brand:"Vachette", name:"Cylindre européen A2P 35x35", category:"serrurerie",
     price_ht:79.00, price_ttc:94.80,
-    image:"https://via.placeholder.com/900x520?text=Vachette+A2P+35x35",
+    image:"https://images.unsplash.com/photo-1518779578993-ec3579fee39f?q=80&w=1200&auto=format&fit=crop",
     ref:"A2P 35/35", short:"Cylindre A2P, 3 clés, finition laiton." },
-
-  /* === PLOMBERIE === */
   { id:"ATL-CE-100L", brand:"Atlantic", name:"Chauffe-eau Atlantic 100 L – vertical", category:"plomberie",
     price_ht:189.00, price_ttc:226.80,
-    image:"https://via.placeholder.com/900x520?text=Atlantic+100L",
+    image:"https://images.unsplash.com/photo-1581093458791-9d09b05c2b3f?q=80&w=1200&auto=format&fit=crop",
     ref:"CE100", short:"Résistance stéatite, garantie fabricant." },
   { id:"THER-CE-150L", brand:"Thermor", name:"Chauffe-eau Thermor 150 L", category:"plomberie",
     price_ht:249.00, price_ttc:298.80,
-    image:"https://via.placeholder.com/900x520?text=Thermor+150L",
+    image:"https://images.unsplash.com/photo-1602526218032-9fde88f9c1c1?q=80&w=1200&auto=format&fit=crop",
     ref:"CE150", short:"Anti-corrosion, installation facile." }
 ];
 
-/* --- 2) Rendu des cartes produits --- */
+/* ========= 2) Etat & Panier ========= */
 let CURRENT_FILTER = 'all';
+let MODAL_ITEM = null;
+function getCart(){ return JSON.parse(localStorage.getItem('cart')||'[]'); }
+function setCart(v){ localStorage.setItem('cart', JSON.stringify(v)); updateBadge(); drawCart(); }
+
+/* ========= 3) Rendu ========= */
 function render(list=PRODUCTS){
   const root = document.getElementById('app');
-  if(!list.length){
-    root.innerHTML = `<p>Aucun article trouvé.</p>`;
-    return;
-  }
-  // regrouper par catégorie
-  const groups = {};
-  list.forEach(p => { (groups[p.category] ||= []).push(p); });
+  if(!list.length){ root.innerHTML = `<p style="margin:18px 0">Aucun article trouvé.</p>`; return; }
 
+  // Groupes catégorie -> grille de cartes
+  const groups = {};
+  list.forEach(p => (groups[p.category] ||= []).push(p));
   root.innerHTML = Object.keys(groups).map(cat => `
     <section>
-      <h2 class="section-title">${capitalize(cat)}</h2>
-      ${groups[cat].map(p => card(p)).join('')}
+      <h2 class="section-title">${cap(cat)}</h2>
+      <div class="grid">
+        ${groups[cat].map(p => card(p)).join('')}
+      </div>
     </section>
   `).join('');
 }
 
 function card(p){
   return `
-  <article class="product">
-    <img class="media" src="${p.image}" alt="${escapeHtml(p.name)}">
-    <div class="pad">
-      <h3 style="font-size:20px;margin:6px 0 2px">${escapeHtml(p.name)}</h3>
-      <div style="color:#6b7280">${escapeHtml(p.brand)} • Réf. ${escapeHtml(p.ref)}</div>
-      <p style="margin:8px 0 6px; color:#374151">${escapeHtml(p.short||'')}</p>
-      <div class="price">à partir de ${p.price_ht.toFixed(2)} € HT</div>
-      <div class="row">
-        <button class="btn primary" onclick="openProduct('${p.id}')">Voir les prix</button>
-        <button class="btn dark" onclick="addQuote('${p.id}')">Ajouter au devis</button>
+    <article class="product" onclick="openProduct('${p.id}')">
+      <img class="media" loading="lazy" src="${p.image}" alt="${esc(p.name)}">
+      <div class="pad">
+        <div class="muted">${esc(p.brand)} • Réf. ${esc(p.ref)}</div>
+        <h3 style="margin:6px 0 6px;font:700 18px/1.25 system-ui">${esc(p.name)}</h3>
+        <p class="muted" style="min-height:40px">${esc(p.short||'')}</p>
+        <div class="price">à partir de ${p.price_ht.toFixed(2)} € HT</div>
+        <div class="row" onclick="event.stopPropagation()">
+          <button class="btn primary" onclick="openProduct('${p.id}')">Voir les prix</button>
+          <button class="btn dark" onclick="addToCart('${p.id}',1)">Ajouter au panier</button>
+        </div>
       </div>
-    </div>
-  </article>`;
+    </article>`;
 }
 
-/* --- 3) Recherche & filtres --- */
+/* ========= 4) Recherche + Filtres ========= */
 function doSearch(){
-  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  const q = (document.getElementById('q').value||'').toLowerCase().trim();
   const arr = PRODUCTS.filter(p=>{
     const hay = [p.name,p.brand,p.ref,p.category,p.short].join(' ').toLowerCase();
     const okCat = (CURRENT_FILTER==='all' || p.category===CURRENT_FILTER || CURRENT_FILTER==='produits');
@@ -178,64 +256,130 @@ function doSearch(){
   });
   render(arr);
 }
-function filterCat(cat){
-  CURRENT_FILTER = cat;
+document.getElementById('tabs').addEventListener('click',e=>{
+  const a = e.target.closest('.tab'); if(!a) return;
+  e.preventDefault();
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  // marquer la tab active si elle existe
-  const map = {all:0, produits:1, fournisseurs:2, serrurerie:3, plomberie:4};
-  const idx = map[cat] ?? 0;
-  document.querySelectorAll('.tab')[idx].classList.add('active');
-
+  a.classList.add('active');
+  const cat = a.dataset.cat; CURRENT_FILTER = cat;
   if(cat==='fournisseurs'){
-    // vue simple fournisseurs (liste marques présentes)
-    const marques = [...new Set(PRODUCTS.map(p=>p.brand))].sort();
-    document.getElementById('app').innerHTML = `
-      <section>
-        <h2 class="section-title">Fournisseurs</h2>
-        ${marques.map(m=>`<div class="product"><div class="pad"><strong>${escapeHtml(m)}</strong></div></div>`).join('')}
-      </section>`;
-    return;
+    const brands = [...new Set(PRODUCTS.map(p=>p.brand))].sort();
+    document.getElementById('app').innerHTML =
+      `<section><h2 class="section-title">Fournisseurs</h2>
+        <div class="grid">
+          ${brands.map(b=>`<div class="product"><div class="pad"><strong>${esc(b)}</strong></div></div>`).join('')}
+        </div></section>`;
+  }else{
+    doSearch();
   }
-  doSearch();
-}
+});
 
-/* --- 4) Fiche rapide + Devis localStorage --- */
+/* ========= 5) Modal produit ========= */
 function openProduct(id){
-  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
-  alert(`${p.name}\n\nPrix HT : ${p.price_ht.toFixed(2)} €\nPrix TTC : ${p.price_ttc.toFixed(2)} €`);
+  MODAL_ITEM = PRODUCTS.find(x=>x.id===id); if(!MODAL_ITEM) return;
+  const p = MODAL_ITEM;
+  document.getElementById('mImg').src = p.image;
+  document.getElementById('mImg').alt = p.name;
+  document.getElementById('mBrand').textContent = p.brand;
+  document.getElementById('mName').textContent = p.name;
+  document.getElementById('mRef').textContent = p.ref;
+  document.getElementById('mCat').textContent = cap(p.category);
+  document.getElementById('mDesc').textContent = p.short || '';
+  document.getElementById('mPriceHT').textContent = money(p.price_ht);
+  document.getElementById('mPriceTTC').textContent = money(p.price_ttc);
+  document.getElementById('mQtyVal').textContent = 1;
+  document.getElementById('modal').classList.add('open');
 }
-function addQuote(id){
-  const cart = JSON.parse(localStorage.getItem('quote') || '[]');
-  const line = cart.find(i=>i.id===id);
-  if(line){ line.qty += 1; } else { cart.push({id, qty:1}); }
-  localStorage.setItem('quote', JSON.stringify(cart));
-  updateQuoteBadge();
-  // petit feedback
-  const p = PRODUCTS.find(x=>x.id===id);
-  if(p) toast(`« ${p.name} » ajouté au devis`);
+function closeModal(){ document.getElementById('modal').classList.remove('open'); }
+function mQty(delta){
+  const el = document.getElementById('mQtyVal');
+  let v = parseInt(el.textContent||'1',10) + delta;
+  if(v<1) v = 1; if(v>99) v=99; el.textContent = v;
 }
-function updateQuoteBadge(){
-  const cart = JSON.parse(localStorage.getItem('quote') || '[]');
-  let count = 0; cart.forEach(i=>count += i.qty || 1);
-  const badge = document.querySelector('[data-quote-badge]');
-  if(badge) badge.textContent = count;
-}
-
-/* --- 5) Utilitaires --- */
-function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
-function escapeHtml(s){return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));}
-function toast(msg){
-  const t = document.createElement('div');
-  t.textContent = msg;
-  t.style.cssText = "position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:60";
-  document.body.appendChild(t);
-  setTimeout(()=>{ t.remove(); },1400);
+function addModal(){
+  const qty = parseInt(document.getElementById('mQtyVal').textContent,10) || 1;
+  if(MODAL_ITEM) addToCart(MODAL_ITEM.id, qty);
+  closeModal(); toggleCart(true);
 }
 
-/* --- 6) Init --- */
-document.addEventListener('DOMContentLoaded', ()=>{
+/* ========= 6) Panier ========= */
+function addToCart(id, qty=1){
+  const cart = getCart();
+  const line = cart.find(l=>l.id===id);
+  if(line) line.qty += qty;
+  else cart.push({id, qty});
+  setCart(cart);
+}
+function removeFromCart(id){
+  let cart = getCart().filter(l=>l.id!==id);
+  setCart(cart);
+}
+function changeQty(id, d){
+  const cart = getCart();
+  const line = cart.find(l=>l.id===id); if(!line) return;
+  line.qty += d; if(line.qty<1) line.qty=1; if(line.qty>99) line.qty=99;
+  setCart(cart);
+}
+function drawCart(){
+  const cont = document.getElementById('cartLines');
+  const cart = getCart();
+  if(!cart.length){ cont.innerHTML = `<p class="muted" style="padding:8px 2px">Votre panier est vide.</p>`; tot(0); return; }
+
+  let sumHT = 0;
+  cont.innerHTML = cart.map(l=>{
+    const p = PRODUCTS.find(x=>x.id===l.id); if(!p) return '';
+    const lineHT = p.price_ht * l.qty; sumHT += lineHT;
+    return `<div class="line">
+      <img src="${p.image}" alt="${esc(p.name)}">
+      <div>
+        <div style="font-weight:700">${esc(p.name)}</div>
+        <div class="muted">${esc(p.brand)} • ${esc(p.ref)}</div>
+        <div class="muted">Prix HT : ${money(p.price_ht)} — Total : ${money(lineHT)}</div>
+        <div class="qty" style="margin-top:6px">
+          <button onclick="changeQty('${p.id}',-1)">−</button>
+          <span>${l.qty}</span>
+          <button onclick="changeQty('${p.id}',1)">+</button>
+          <button class="btn ghost" style="margin-left:8px" onclick="removeFromCart('${p.id}')">Supprimer</button>
+        </div>
+      </div>
+      <div style="font-weight:900">${money(lineHT)}</div>
+    </div>`;
+  }).join('');
+
+  tot(sumHT);
+}
+function tot(sumHT){
+  const tva = sumHT * .20, ttc = sumHT + tva;
+  document.getElementById('totHT').textContent = money(sumHT);
+  document.getElementById('totTVA').textContent = money(tva);
+  document.getElementById('totTTC').textContent = money(ttc);
+}
+function updateBadge(){
+  const cart = getCart();
+  let count=0; cart.forEach(l=>count+=l.qty||1);
+  const b = document.querySelector('[data-quote-badge]'); if(b) b.textContent = count;
+}
+function toggleCart(open){
+  const d = document.getElementById('drawer');
+  if(open){ d.classList.add('open'); drawCart(); }
+  else{ d.classList.remove('open'); }
+}
+function pay(){
+  alert("Paiement en ligne : on pourra brancher Stripe Checkout ici. En attendant, téléchargement PDF devis possible (prochaine étape).");
+}
+
+/* ========= 7) Utils & init ========= */
+function money(n){return (n||0).toFixed(2).replace('.',',')+' €';}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function esc(s){return String(s).replace(/[&<>\"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+
+document.addEventListener('DOMContentLoaded',()=>{
   render(PRODUCTS);
-  updateQuoteBadge();
+  updateBadge();
+  // fermer modal en cliquant hors de la fiche
+  document.getElementById('modal').addEventListener('click',e=>{
+    if(e.target.id==='modal') closeModal();
+  });
 });
 </script>
 </body>
