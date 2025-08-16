@@ -389,3 +389,146 @@
   </div>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BATI DC – Marketplace BTP</title>
+  <style>
+    :root{
+      --bg:#ffffff;           /* Fond blanc */
+      --text:#000000;         /* Noir */
+      --accent:#000000;       /* Noir pour liens/accents */
+      --muted:#555555;        /* Gris pour secondaires */
+      --radius:10px;
+      --transition:0.3s ease;
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:Arial, sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+
+    /* NAVBAR / ONGLETS */
+    .navbar{
+      position:sticky; top:0; z-index:10;
+      background:#fff; border-bottom:2px solid var(--text);
+    }
+    .nav{
+      max-width:1100px; margin:auto; display:flex; gap:20px; padding:14px 16px;
+      align-items:center; justify-content:flex-start;
+    }
+    .brand{font-weight:700; margin-right:auto}
+    .nav a{
+      text-decoration:none; color:var(--text); padding:8px 10px; border-radius:6px;
+      border:1.5px solid transparent; transition:var(--transition);
+    }
+    .nav a:hover, .nav a[aria-current="page"]{
+      border-color:var(--text); background:#f6f6f6;
+    }
+
+    /* SECTIONS */
+    section{max-width:1100px; margin:32px auto; padding:0 16px}
+    h2{margin:12px 0 18px 0}
+    p.muted{color:var(--muted); margin-bottom:10px}
+
+    /* MOTIF (cadres noirs) */
+    .motif{border:2px solid var(--text); border-radius:var(--radius); padding:14px}
+
+    /* GALERIE */
+    .gallery{display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:16px}
+    .card{
+      border:2px solid var(--text); border-radius:var(--radius); overflow:hidden;
+      transition:transform var(--transition);
+      background:#fff;
+    }
+    .card:hover{transform:translateY(-3px)}
+    .card img{width:100%; height:180px; object-fit:cover; display:block}
+    .card figcaption{padding:10px; font-size:0.95rem; border-top:1.5px solid var(--text)}
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR avec onglets -->
+  <header class="navbar">
+    <nav class="nav">
+      <div class="brand">BATI DC</div>
+      <a href="#accueil" aria-current="page">Accueil</a>
+      <a href="#presentation">Présentation</a>
+      <a href="#galerie">Galerie</a> <!-- 🌟 Nouvel onglet -->
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- ACCUEIL -->
+  <section id="accueil">
+    <div class="motif">
+      <h2>Bienvenue</h2>
+      <p class="muted">Marketplace BTP — Matériaux, outillage et services pour pros & particuliers.</p>
+    </div>
+  </section>
+
+  <!-- PRÉSENTATION -->
+  <section id="presentation">
+    <h2>Présentation</h2>
+    <p>
+      BATI DC connecte les professionnels du BTP et les clients finaux avec une
+      sélection d’outillage, de matériaux et de prestataires de confiance.
+    </p>
+  </section>
+
+  <!-- GALERIE (Bâtiments + Outillage) -->
+  <section id="galerie">
+    <h2>Galerie</h2>
+    <p class="muted">Remplace simplement les chemins <code>src</code> par tes images (ex: <code>assets/...</code>).</p>
+
+    <h3>Bâtiments</h3>
+    <div class="gallery">
+      <figure class="card">
+        <img src="images/batiment1.jpg" alt="Chantier structure béton" loading="lazy">
+        <figcaption>Structure béton</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/batiment2.jpg" alt="Façade moderne" loading="lazy">
+        <figcaption>Façade moderne</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/batiment3.jpg" alt="Charpente métallique" loading="lazy">
+        <figcaption>Charpente métallique</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/batiment4.jpg" alt="Maison en rénovation" loading="lazy">
+        <figcaption>Rénovation</figcaption>
+      </figure>
+    </div>
+
+    <h3 style="margin-top:22px">Outillage</h3>
+    <div class="gallery">
+      <figure class="card">
+        <img src="images/outillage1.jpg" alt="Perforateur burineur" loading="lazy">
+        <figcaption>Perforateur</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/outillage2.jpg" alt="Scie circulaire" loading="lazy">
+        <figcaption>Scie circulaire</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/outillage3.jpg" alt="Niveau laser" loading="lazy">
+        <figcaption>Niveau laser</figcaption>
+      </figure>
+      <figure class="card">
+        <img src="images/outillage4.jpg" alt="Échafaudage aluminium" loading="lazy">
+        <figcaption>Échafaudage</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <div class="motif">
+      <p>📧 contact@batidc.com &nbsp; | &nbsp; 📞 01 23 45 67 89</p>
+    </div>
+  </section>
+
+</body>
+</html>
