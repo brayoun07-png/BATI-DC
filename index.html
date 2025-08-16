@@ -4,33 +4,26 @@
   <meta charset="utf-8" />
   <title>BATI DC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- ⬇️ GARDE TOUT ce CSS entre <style> et </style> -->
   <style>
     :root{--bg:#f3f4f6;--ink:#0b0b0c;--muted:#6b7280;--card:#fff;--border:#111;--accent:#f59e0b;--dark:#0f1115}
     *{box-sizing:border-box}
     body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
-    /* Top bar */
     .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
     .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
     .brand{font-weight:800;letter-spacing:.3px}
     .icons{display:flex;gap:10px}
     .iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
-    /* Search */
     .searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
     .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
     .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
     .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
-    /* Tabs */
     .tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
     @media (max-width:680px){.tabs-wrap{top:102px}}
     .tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
     .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit}
     .tab.active{background:#111;color:#fff}
-    /* Location */
     .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
     .loc a{color:#111;font-weight:700;text-decoration:underline}
-    /* Content + cards */
     .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
     .grid{display:grid;gap:14px}
     @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
@@ -49,7 +42,6 @@
 </head>
 <body>
 
-  <!-- Barre haute -->
   <div class="appbar">
     <div class="bar">
       <div class="brand">BATI DC</div>
@@ -68,7 +60,6 @@
     </div>
   </div>
 
-  <!-- Onglets -->
   <div class="tabs-wrap">
     <div class="tabs">
       <a class="tab active" href="#">Accueil</a>
@@ -78,13 +69,11 @@
     </div>
   </div>
 
-  <!-- Bandeau localisation -->
   <div class="loc">
     <span>📍 <strong>Livraison à Paris</strong> —</span>
     <a href="#">Mettre à jour</a>
   </div>
 
-  <!-- Cartes exemple -->
   <div class="wrap">
     <div class="grid">
       <article class="card">
