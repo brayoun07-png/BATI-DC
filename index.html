@@ -486,5 +486,31 @@ document.addEventListener('DOMContentLoaded', ()=>{
 <!-- Petit badge d'état Firebase -->
 <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
 
-</body>
+<!-- === Correctifs visuels BATI DC (fond blanc + header) === -->
+<style id="fix-batidc-light">
+  /* Fond du site en blanc + texte foncé */
+  html, body { background:#ffffff !important; color:#111 !important; }
+
+  /* Sections/cartes claires si ton thème avait du “dark” */
+  .page, .main, .section, .container { background:#ffffff !important; }
+  .card { background:#ffffff !important; color:#111 !important; }
+  .pill, .tab, .btn-outline { background:#fff !important; color:#111 !important; border-color:#e5e7eb !important; }
+
+  /* Barre du haut : fond sombre, texte/icônes blancs (comme ta 2e photo) */
+  .appbar, header.topbar, .topbar {
+    background:#111 !important; color:#fff !important;
+  }
+  .appbar a, .topbar a, .appbar .icon, .topbar .icon { color:#fff !important; }
+
+  /* Titre BATI DC un peu plus grand (léger) */
+  .brand, .logo, .site-title {
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    letter-spacing: .3px;
+  }
+
+  /* Onglets cliquables au-dessus des images (en cas de recouvrement) */
+  .tabs, .tabs-wrap, nav { position: relative; z-index: 30; }
+</style>
+<!-- === Fin correctifs === --></body>
 </html>
