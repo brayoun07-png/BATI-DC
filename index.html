@@ -1,163 +1,158 @@
-<!-- ======= COMPARATEUR DYNAMIQUE (VERSION PROPRE) ======= -->
-<section id="comparateur" style="margin-top:24px">
-  <h2>Comparateur de prix</h2>
-
-  <div class="cmp-toolbar">
-    <label for="cmpProduct">Produit :</label>
-    <select id="cmpProduct"></select>
-
-    <label for="cmpSearch" class="hidden-sm">Filtrer vendeur :</label>
-    <input id="cmpSearch" type="search" placeholder="Amazon, Leroy Merlin, …" />
-  </div>
-
-  <div class="cmp-product-head">
-    <img id="cmpImage" alt="">
-    <div>
-      <h3 id="cmpTitle"></h3>
-      <p id="cmpBrand" class="muted"></p>
-    </div>
-  </div>
-
-  <div class="cmp-table-wrap">
-    <table class="cmp-table" id="cmpTable" aria-describedby="cmpTitle">
-      <thead>
-        <tr>
-          <th>Vendeur</th>
-          <th>Prix</th>
-          <th>Livraison</th>
-          <th>Total</th>
-          <th>Stock</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody><!-- rempli par JS --></tbody>
-    </table>
-  </div>
-</section>
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BATI DC — Marketplace BTP</title>
 <style>
-  /* ---- Styles comparateur ---- */
-  #comparateur h2{font-size:1.2rem;margin-bottom:12px}
-  .cmp-toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 14px}
-  .cmp-toolbar label{font-weight:600}
-  #cmpProduct,#cmpSearch{padding:8px 10px;border:2px solid var(--border);border-radius:10px;background:#fff;min-width:220px}
-  .cmp-product-head{display:flex;gap:12px;align-items:center;margin:12px 0}
-  .cmp-product-head img{width:70px;height:70px;object-fit:cover;border:2px solid var(--border);border-radius:10px;background:#fff}
-  .cmp-table-wrap{overflow:auto;border:2px solid var(--border);border-radius:14px}
-  .cmp-table{width:100%;border-collapse:separate;border-spacing:0}
-  .cmp-table thead th{text-align:left;padding:10px;border-bottom:2px solid var(--border);background:#f6f6f6}
-  .cmp-table td{padding:10px;border-bottom:1px solid #eee}
-  .cmp-table tr:last-child td{border-bottom:none}
-  .cmp-table td:nth-child(4){font-weight:800}
-  .cmp-go{padding:8px 10px;border:2px solid var(--border);border-radius:10px;background:var(--accent);font-weight:700;cursor:pointer;display:inline-block}
-  .muted{color:var(--muted)}
-  @media (max-width:520px){
-    .hidden-sm{display:none}
-    .cmp-table thead{display:none}
-    .cmp-table tr{display:grid;grid-template-columns:1fr 1fr;gap:6px;border-bottom:2px solid var(--border);padding:10px}
-    .cmp-table td{border:none;padding:0}
-    .cmp-table td[data-label]:before{content:attr(data-label) " : ";font-weight:700}
-    .cmp-table td:last-child{grid-column:1 / -1;margin-top:6px}
+  :root{
+    --bg:#ffffff; --text:#111; --muted:#666;
+    --header:#0f1111; --accent:#ff9900; --border:#000;
+    --radius:14px; --shadow:0 4px 14px rgba(0,0,0,.08);
   }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.5}
+
+  /* ==== HEADER (unique) ==== */
+  .appbar{position:sticky;top:0;z-index:1000;background:var(--header);color:#fff;border-bottom:2px solid var(--border)}
+  .appbar .row{max-width:1100px;margin:auto;display:flex;align-items:center;gap:10px;padding:10px 12px}
+  .brand{font-weight:800;font-size:1.05rem;letter-spacing:.5px;white-space:nowrap}
+  .spacer{flex:1}
+  .icon{width:34px;height:34px;display:grid;place-items:center;border:1.5px solid #fff;border-radius:8px;cursor:pointer}
+  .icon svg{fill:#fff;width:18px;height:18px}
+  .search{max-width:1100px;margin:0 auto 10px;display:flex;gap:8px;padding:0 12px}
+  .search input{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:999px;background:#fff;color:#111}
+  .search button{border:2px solid var(--border);border-radius:999px;padding:10px 14px;background:var(--accent);font-weight:700;cursor:pointer}
+
+  /* (optionnel) menu latéral déclenché par le hamburger */
+  .sidebar{position:fixed;top:0;left:-280px;width:260px;height:100%;background:#fff;border-right:2px solid var(--border);
+           box-shadow:2px 0 12px rgba(0,0,0,.2);transition:left .3s ease;z-index:2000;padding:20px}
+  .sidebar.active{left:0}
+  .sidebar h3{margin-bottom:12px}
+  .sidebar a{display:block;padding:10px 0;text-decoration:none;color:var(--text);border-bottom:1px solid #eee}
+  .overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:1500}
+  .overlay.active{display:block}
+
+  /* ==== ONGLET NAV ==== */
+  .tabs{border-bottom:2px solid var(--border);background:#fff}
+  .tabs .wrap{max-width:1100px;margin:auto;display:flex;gap:18px;overflow:auto;padding:10px 12px}
+  .tabs a{color:#111;text-decoration:none;padding:8px 12px;border:2px solid #0000;border-radius:12px;white-space:nowrap}
+  .tabs a:hover,.tabs a.active{border-color:var(--border);background:#f6f6f6}
+
+  .loc{background:#f3f3f3;border-bottom:2px solid var(--border);padding:10px 12px}
+  main{max-width:1100px;margin:0 auto;padding:14px 12px}
+
+  /* ==== CARTES PRODUITS ==== */
+  .grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));margin-top:12px}
+  .card{border:2px solid var(--border);border-radius:16px;background:#fff;overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+  .thumb{aspect-ratio:4/3;background:#fff;border-bottom:2px solid var(--border)}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .body{padding:12px}
+  .title{font-weight:800;font-size:1.05rem}
+  .meta{color:var(--muted);margin-top:2px}
+  .price{font-weight:800;margin-top:8px;font-size:1.05rem}
+  .actions{display:flex;gap:10px;margin-top:10px}
+  .btn{flex:1;padding:10px 12px;border:2px solid var(--border);border-radius:12px;cursor:pointer;text-align:center;font-weight:700}
+  .btn.primary{background:var(--accent)}
+  .btn.dark{background:#111;color:#fff;border-color:#111}
+
+  footer{margin:20px 0 30px;padding:0 12px;text-align:center;color:#333}
 </style>
+</head>
+<body>
+
+<!-- overlay + sidebar (facultatif) -->
+<div class="overlay" id="overlay"></div>
+<aside class="sidebar" id="sidebar">
+  <h3>Catégories</h3>
+  <a href="#">🏗️ Matériaux</a>
+  <a href="#">🔧 Outillage</a>
+  <a href="#">🚚 Fournisseurs</a>
+  <a href="#">👷 Interventions</a>
+  <a href="#">🛠️ Services</a>
+  <a href="#">⭐ Meilleures ventes</a>
+</aside>
+
+<!-- ==== HEADER (unique) ==== -->
+<header class="appbar">
+  <div class="row">
+    <button class="icon" id="menuBtn" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="2"/><rect x="3" y="11" width="18" height="2"/><rect x="3" y="16" width="18" height="2"/></svg>
+    </button>
+    <div class="brand">BATI DC</div>
+    <div class="spacer"></div>
+    <div class="icon" aria-label="Compte"><svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14Z"/></svg></div>
+    <div class="icon" aria-label="Panier"><svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2v2h2l3.6 7.6-1.35 2.4A1 1 0 0 0 9 20h10v-2H10.42a.2.2 0 0 1-.18-.1l.1-.2L12 15h6a1 1 0 0 0 .9-.55l3-6A1 1 0 0 0 21 7H7.42L6.2 4Z"/></svg></div>
+  </div>
+  <div class="search">
+    <input type="search" placeholder="Rechercher : perceuse, béton, EPI…" />
+    <button>Rechercher</button>
+  </div>
+</header>
+
+<!-- ==== ONGLET NAV (celui que tu voulais garder) ==== -->
+<nav class="tabs">
+  <div class="wrap">
+    <a class="active" href="#">Accueil</a>
+    <a href="#">Produits</a>
+    <a href="#">Fournisseurs</a>
+    <a href="#">Interventions</a>
+    <a href="#">Contact</a>
+  </div>
+</nav>
+
+<div class="loc">📍 Livraison à Paris — <u>Mettre à jour</u></div>
+
+<main>
+  <!-- EXEMPLES DE CARTES PRODUITS (comme ta capture) -->
+  <section class="grid">
+
+    <article class="card">
+      <div class="thumb">
+        <img src="https://images.unsplash.com/photo-1568043210943-0d0f4e9b0c71?q=80&w=900&auto=format&fit=crop" alt="Niveau laser">
+      </div>
+      <div class="body">
+        <div class="title">Niveau laser vert</div>
+        <div class="meta">Bosch Pro · Réf GLL</div>
+        <div class="price">à partir de 89,00 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+
+    <article class="card">
+      <div class="thumb">
+        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=900&auto=format&fit=crop" alt="Scie circulaire">
+      </div>
+      <div class="body">
+        <div class="title">Scie circulaire 190mm</div>
+        <div class="meta">DeWalt · Réf DWE</div>
+        <div class="price">à partir de 129,00 €</div>
+        <div class="actions">
+          <button class="btn primary">Voir les prix</button>
+          <button class="btn dark">Ajouter au devis</button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ajoute d'autres cartes au besoin -->
+  </section>
+</main>
+
+<footer>© 2025 BATI DC — Tous droits réservés</footer>
 
 <script>
-/* ======= Données produits & offres (ICI UNIQUEMENT) ======= */
-const catalog = [
-  {
-    id: 'echafaudageAlu',
-    name: 'Échafaudage aluminium 4m',
-    brand: 'Centaur / Hymer',
-    image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=600&auto=format&fit=crop',
-    offers: [
-      { vendor: 'Amazon',      price: 399.00, shipping: 0.00,  stock: 'En stock', url: '#' },
-      { vendor: 'Manutan',     price: 419.00, shipping: 15.00, stock: '3-5 j',    url: '#' },
-      { vendor: 'Brico Dépôt', price: 389.00, shipping: 29.00, stock: 'Magasin',  url: '#' }
-    ]
-  },
-  {
-    id: 'perceuse18v',
-    name: 'Perceuse-visseuse 18V',
-    brand: 'Makita / Bosch / DeWalt',
-    image: 'https://images.unsplash.com/photo-1581091012184-7c54a6e2847d?q=80&w=600&auto=format&fit=crop',
-    offers: [
-      { vendor: 'Amazon',       price: 127.00, shipping: 0.00, stock: 'En stock', url: '#' },
-      { vendor: 'Leroy Merlin', price: 129.90, shipping: 5.90, stock: 'En stock', url: '#' },
-      { vendor: 'ManoMano',     price: 125.00, shipping: 4.99, stock: '2-3 j',    url: '#' }
-    ]
-  },
-  {
-    id: 'casqueEN397',
-    name: 'Casque de chantier EN397',
-    brand: '3M / Delta Plus',
-    image: 'https://images.unsplash.com/photo-1602751584552-9a5b4d2d6e53?q=80&w=600&auto=format&fit=crop',
-    offers: [
-      { vendor: 'Amazon',     price: 14.90, shipping: 2.90, stock: 'En stock', url: '#' },
-      { vendor: 'Castorama',  price: 16.50, shipping: 5.50, stock: 'En stock', url: '#' },
-      { vendor: 'Brico Dépôt',price: 13.99, shipping: 6.90, stock: 'Magasin',  url: '#' }
-    ]
-  },
-  {
-    id: 'scie190',
-    name: 'Scie circulaire 190mm',
-    brand: 'DeWalt / Makita',
-    image: 'https://images.unsplash.com/photo-1568043210943-0d0f4e9b0c71?q=80&w=600&auto=format&fit=crop',
-    offers: [
-      { vendor: 'Amazon',       price: 129.00, shipping: 0.00, stock: 'En stock', url: '#' },
-      { vendor: 'Leroy Merlin', price: 135.00, shipping: 5.90, stock: '2-4 j',    url: '#' },
-      { vendor: 'Brico Privé',  price: 120.00, shipping: 7.90, stock: 'En stock', url: '#' }
-    ]
+  // Sidebar (hamburger)
+  const menuBtn = document.getElementById('menuBtn');
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  if(menuBtn){
+    menuBtn.onclick = ()=>{ sidebar.classList.add('active'); overlay.classList.add('active'); };
+    overlay.onclick = ()=>{ sidebar.classList.remove('active'); overlay.classList.remove('active'); };
   }
-];
-
-/* ======= Logique du comparateur ======= */
-const € = n => n.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
-const sel = id => document.getElementById(id);
-
-const productSelect = sel('cmpProduct');
-const searchInput   = sel('cmpSearch');
-const tableBody     = sel('cmpTable').querySelector('tbody');
-const titleEl       = sel('cmpTitle');
-const brandEl       = sel('cmpBrand');
-const imgEl         = sel('cmpImage');
-
-// remplir la liste de produits
-catalog.forEach(p => {
-  const opt = document.createElement('option');
-  opt.value = p.id; opt.textContent = p.name;
-  productSelect.appendChild(opt);
-});
-
-function render(productId){
-  const p = catalog.find(x => x.id === productId) || catalog[0];
-  titleEl.textContent = p.name;
-  brandEl.textContent = p.brand;
-  imgEl.src = p.image; imgEl.alt = p.name;
-
-  const q = (searchInput.value || '').trim().toLowerCase();
-  const rows = p.offers
-    .map(o => ({ ...o, total: o.price + o.shipping }))
-    .filter(o => q ? o.vendor.toLowerCase().includes(q) : true)
-    .sort((a,b) => a.total - b.total);
-
-  tableBody.innerHTML = rows.map(o => `
-    <tr>
-      <td data-label="Vendeur">${o.vendor}</td>
-      <td data-label="Prix">${€(o.price)}</td>
-      <td data-label="Livraison">${€(o.shipping)}</td>
-      <td data-label="Total"><strong>${€(o.total)}</strong></td>
-      <td data-label="Stock">${o.stock}</td>
-      <td data-label=""><a class="cmp-go" href="${o.url}" target="_blank" rel="noopener">Aller sur le site</a></td>
-    </tr>
-  `).join('');
-}
-
-// init
-productSelect.value = catalog[0].id;
-render(productSelect.value);
-
-// events
-productSelect.addEventListener('change', e => render(e.target.value));
-searchInput.addEventListener('input',   () => render(productSelect.value));
 </script>
-<!-- ===== FIN / COMPARATEUR ===== -->
+
+</body>
+</html>
