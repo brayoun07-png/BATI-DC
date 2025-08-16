@@ -9,7 +9,6 @@
     *{box-sizing:border-box}
     body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
 
-    /* App bar */
     .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
     .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;position:relative}
     .brand{font-weight:800}
@@ -21,18 +20,15 @@
     .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
     .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
 
-    /* Tabs */
     .tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
     @media (max-width:680px){.tabs-wrap{top:102px}}
     .tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
     .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit}
     .tab.active{background:#111;color:#fff}
 
-    /* Loc */
     .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
     .loc strong{font-weight:800}
 
-    /* Content */
     .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
     .category{margin:18px 0 8px;font-weight:900}
     .grid{display:grid;gap:14px}
@@ -49,7 +45,6 @@
     .pill.dark{background:#111;color:#fff}
     .footer{max-width:1100px;margin:18px auto 30px;padding:16px 14px;color:#6b7280;text-align:center}
 
-    /* Drawer gauche */
     .side-tab{position:absolute;left:12px;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:12px;border:2px solid #374151;background:transparent;color:#fff;display:grid;place-items:center;font-size:20px;cursor:pointer}
     .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:40}
     .backdrop.show{opacity:1;pointer-events:auto}
@@ -70,7 +65,6 @@
 </head>
 <body>
 
-  <!-- Backdrop + Drawer -->
   <div class="backdrop" id="backdrop"></div>
   <aside class="drawer" id="drawer">
     <header>
@@ -94,7 +88,6 @@
     </div>
   </aside>
 
-  <!-- Header -->
   <div class="appbar">
     <div class="bar">
       <button class="side-tab" id="openDrawer" aria-label="Menu">☰</button>
@@ -115,7 +108,6 @@
     </div>
   </div>
 
-  <!-- Tabs -->
   <div class="tabs-wrap"><div class="tabs">
     <a class="tab active" href="#">Accueil</a>
     <a class="tab" href="#">Produits</a>
@@ -123,13 +115,10 @@
     <a class="tab" href="#">Interventions</a>
   </div></div>
 
-  <!-- Livraison -->
   <div class="loc"><span>📦 <strong>Livraison partout en France</strong></span></div>
 
-  <!-- Catalogue -->
   <div id="catalogue" class="wrap"></div>
 
-  <!-- Fiche article -->
   <div id="productOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:60">
     <div style="max-width:680px;margin:60px auto;background:#fff;border:2px solid #111;border-radius:16px;overflow:hidden">
       <div style="padding:14px 16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
@@ -147,7 +136,6 @@
     </div>
   </div>
 
-  <!-- Panier -->
   <div id="cartDrawer" style="position:fixed;inset:0 0 0 auto;width:min(92vw,380px);background:#0f1115;color:#fff;translate:100% 0;transition:translate .25s ease;z-index:70;display:flex;flex-direction:column">
     <div style="padding:14px;border-bottom:1px solid #1f2937;display:flex;justify-content:space-between;align-items:center">
       <strong>Panier</strong>
@@ -177,50 +165,45 @@
       document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
     })();
 
-    /* Images auto */
+    /* Images automatiques */
     function autoImg(id){ return 'https://picsum.photos/seed/'+encodeURIComponent(id)+'/800/600'; }
 
-    /* Articles (avec vendeurs) */
+    /* Données produits (avec desc + img) */
     var ITEMS = [
-      {id:'vachette-a2p', name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9, img:autoImg('vachette-a2p'), pay:'#', vendors:[
-        {name:'Amazon', price:69.9, ship:'Gratuit', url:'#'},
-        {name:'Leroy Merlin', price:72.5, ship:'4,90 €', url:'#'},
-        {name:'Cdiscount', price:64.0, ship:'7,90 €', url:'#'}]},
-      {id:'fichet-f3d', name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289, img:autoImg('fichet-f3d'), pay:'#', vendors:[
-        {name:'Amazon', price:289, ship:'Gratuit', url:'#'}, {name:'Bricomarché', price:299, ship:'9,90 €', url:'#'}]},
-      {id:'bricard-mp', name:'Serrure multipoints Bricard', brand:'Bricard', price:189, img:autoImg('bricard-mp'), pay:'#', vendors:[
-        {name:'Cdiscount', price:179, ship:'7,90 €', url:'#'}, {name:'Castorama', price:189, ship:'4,90 €', url:'#'}]},
+      {id:'vachette-a2p', name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9, img:autoImg('vachette-a2p'), desc:'Cylindre de sécurité certifié A2P — haute résistance au crochetage et à la percussion.', vendors:[{name:'Amazon', price:69.9, ship:'Gratuit', url:'#'},{name:'Leroy Merlin', price:72.5, ship:'4,90 €', url:'#'},{name:'Cdiscount', price:64.0, ship:'7,90 €', url:'#'}]},
+      {id:'fichet-f3d', name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289, img:autoImg('fichet-f3d'), desc:'Serrure multipoints à clés F3D — protection renforcée, idéale porte d’entrée.', vendors:[{name:'Amazon', price:289, ship:'Gratuit', url:'#'},{name:'Bricomarché', price:299, ship:'9,90 €', url:'#'}]},
+      {id:'bricard-mp', name:'Serrure multipoints Bricard', brand:'Bricard', price:189, img:autoImg('bricard-mp'), desc:'Serrure 3 à 5 points avec gâches renforcées — pose en rénovation.', vendors:[{name:'Cdiscount', price:179, ship:'7,90 €', url:'#'},{name:'Castorama', price:189, ship:'4,90 €', url:'#'}]},
 
-      {id:'atlantic-200', name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429, img:autoImg('atlantic-200'), pay:'#', vendors:[{name:'ManoMano', price:429, ship:'29 €', url:'#'}]},
-      {id:'thermor-150', name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379, img:autoImg('thermor-150'), pay:'#', vendors:[{name:'Leroy Merlin', price:379, ship:'29 €', url:'#'}]},
-      {id:'ariston-100', name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319, img:autoImg('ariston-100'), pay:'#', vendors:[{name:'Amazon', price:319, ship:'Gratuit', url:'#'}]},
-      {id:'grohe-mitigeur', name:'Mitigeur douche Grohe', brand:'Grohe', price:129, img:autoImg('grohe-mitigeur'), pay:'#', vendors:[{name:'Amazon', price:129, ship:'Gratuit', url:'#'}]},
+      {id:'atlantic-200', name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429, img:autoImg('atlantic-200'), desc:'Ballon 200L vertical mural. Protection anti-corrosion et résistance stéatite.', vendors:[{name:'ManoMano', price:429, ship:'29 €', url:'#'}]},
+      {id:'thermor-150', name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379, img:autoImg('thermor-150'), desc:'Cuve émaillée, résistance stéatite, anode en magnésium. Installation facile.', vendors:[{name:'Leroy Merlin', price:379, ship:'29 €', url:'#'}]},
+      {id:'ariston-100', name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319, img:autoImg('ariston-100'), desc:'Format compact 100L. Réglage frontal, chauffe rapide et silencieuse.', vendors:[{name:'Amazon', price:319, ship:'Gratuit', url:'#'}]},
+      {id:'grohe-mitigeur', name:'Mitigeur douche Grohe', brand:'Grohe', price:129, img:autoImg('grohe-mitigeur'), desc:'Mitigeur cartouche céramique — économie d’eau, finition chromée durable.', vendors:[{name:'Amazon', price:129, ship:'Gratuit', url:'#'}]},
 
-      {id:'daikin-8kw', name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990, img:autoImg('daikin-8kw'), pay:'#', vendors:[{name:'Proclim', price:6990, ship:'Sur devis', url:'#'}]},
-      {id:'thermor-radiateur', name:'Radiateur électrique Thermor', brand:'Thermor', price:229, img:autoImg('thermor-radiateur'), pay:'#', vendors:[{name:'Castorama', price:229, ship:'9,90 €', url:'#'}]},
+      {id:'daikin-8kw', name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990, img:autoImg('daikin-8kw'), desc:'PAC air/eau 8 kW — chauffage et ECS. COP élevé, pilotage connecté.', vendors:[{name:'Proclim', price:6990, ship:'Sur devis', url:'#'}]},
+      {id:'thermor-radiateur', name:'Radiateur électrique Thermor', brand:'Thermor', price:229, img:autoImg('thermor-radiateur'), desc:'Radiateur à inertie fluide — chaleur douce, thermostat précis, design fin.', vendors:[{name:'Castorama', price:229, ship:'9,90 €', url:'#'}]},
 
-      {id:'velux-ggl', name:'Fenêtre Velux GGL', brand:'Velux', price:499, img:autoImg('velux-ggl'), pay:'#', vendors:[{name:'Leroy Merlin', price:499, ship:'29 €', url:'#'}]},
-      {id:'lapeyre-porte', name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199, img:autoImg('lapeyre-porte'), pay:'#', vendors:[{name:'Lapeyre', price:199, ship:'19 €', url:'#'}]},
+      {id:'velux-ggl', name:'Fenêtre Velux GGL', brand:'Velux', price:499, img:autoImg('velux-ggl'), desc:'Fenêtre de toit à rotation. Finition blanche, vitrage isolant, aération intégrée.', vendors:[{name:'Leroy Merlin', price:499, ship:'29 €', url:'#'}]},
+      {id:'lapeyre-porte', name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199, img:autoImg('lapeyre-porte'), desc:'Porte isoplane alvéolaire, âme légère, prête à peindre. Plusieurs largeurs.', vendors:[{name:'Lapeyre', price:199, ship:'19 €', url:'#'}]},
 
-      {id:'toupret-enduit', name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9, img:autoImg('toupret-enduit'), pay:'#', vendors:[{name:'Leroy Merlin', price:14.9, ship:'Retrait 2h', url:'#'}]},
-      {id:'isover-lv200', name:'Laine de verre Isover 200mm', brand:'Isover', price:49, img:autoImg('isover-lv200'), pay:'#', vendors:[{name:'Point P', price:49, ship:'Sur devis', url:'#'}]},
-      {id:'rockwool-120', name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54, img:autoImg('rockwool-120'), pay:'#', vendors:[{name:'Gedimat', price:54, ship:'Sur devis', url:'#'}]},
+      {id:'toupret-enduit', name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9, img:autoImg('toupret-enduit'), desc:'Comble trous et fissures. Application au couteau, séchage rapide.', vendors:[{name:'Leroy Merlin', price:14.9, ship:'Retrait 2h', url:'#'}]},
+      {id:'isover-lv200', name:'Laine de verre Isover 200mm', brand:'Isover', price:49, img:autoImg('isover-lv200'), desc:'Rouleaux 200 mm — isolation thermique et acoustique des combles.', vendors:[{name:'Point P', price:49, ship:'Sur devis', url:'#'}]},
+      {id:'rockwool-120', name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54, img:autoImg('rockwool-120'), desc:'Panneaux rigides — très bonne tenue au feu. Pose entre montants.', vendors:[{name:'Gedimat', price:54, ship:'Sur devis', url:'#'}]},
 
-      {id:'sunpower-400', name:'Panneau SunPower 400W', brand:'SunPower', price:259, img:autoImg('sunpower-400'), pay:'#', vendors:[{name:'Prosolaire', price:259, ship:'29 €', url:'#'}]},
-      {id:'qcells-425', name:'Panneau Qcells 425W', brand:'Qcells', price:239, img:autoImg('qcells-425'), pay:'#', vendors:[{name:'Prosolaire', price:239, ship:'29 €', url:'#'}]},
+      {id:'sunpower-400', name:'Panneau SunPower 400W', brand:'SunPower', price:259, img:autoImg('sunpower-400'), desc:'Module monocristallin haut rendement 400W — garantie longue durée.', vendors:[{name:'Prosolaire', price:259, ship:'29 €', url:'#'}]},
+      {id:'qcells-425', name:'Panneau Qcells 425W', brand:'Qcells', price:239, img:autoImg('qcells-425'), desc:'Panneau 425W technologie Q.ANTUM — excellente tenue aux hautes températures.', vendors:[{name:'Prosolaire', price:239, ship:'29 €', url:'#'}]},
 
-      {id:'cartons-10', name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9, img:autoImg('cartons-10'), pay:'#', vendors:[{name:'Amazon', price:24.9, ship:'Gratuit', url:'#'}]},
-      {id:'diable-pliable', name:'Diable pliant 120kg', brand:'Tooli', price:59, img:autoImg('diable-pliable'), pay:'#', vendors:[{name:'Leroy Merlin', price:59, ship:'4,90 €', url:'#'}]},
+      {id:'cartons-10', name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9, img:autoImg('cartons-10'), desc:'Lot de 10 cartons doubles cannelures — 55×35×30 cm.', vendors:[{name:'Amazon', price:24.9, ship:'Gratuit', url:'#'}]},
+      {id:'diable-pliable', name:'Diable pliant 120kg', brand:'Tooli', price:59, img:autoImg('diable-pliable'), desc:'Chariot pliant 120 kg — roues caoutchouc, poignée télescopique.', vendors:[{name:'Leroy Merlin', price:59, ship:'4,90 €', url:'#'}]},
 
-      {id:'dulux-10l', name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69, img:autoImg('dulux-10l'), pay:'#', vendors:[{name:'Bricomarché', price:69, ship:'9,90 €', url:'#'}]},
-      {id:'marazzi-60', name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22, img:autoImg('marazzi-60'), pay:'#', vendors:[{name:'Castorama', price:22, ship:'Sur devis', url:'#'}]},
+      {id:'dulux-10l', name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69, img:autoImg('dulux-10l'), desc:'Acrylique blanche mat 10L — fort pouvoir couvrant, lessivable.', vendors:[{name:'Bricomarché', price:69, ship:'9,90 €', url:'#'}]},
+      {id:'marazzi-60', name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22, img:autoImg('marazzi-60'), desc:'Grès cérame 60×60 rectifié — adapté pièce de vie, cuisine, salle de bain.', vendors:[{name:'Castorama', price:22, ship:'Sur devis', url:'#'}]},
 
-      {id:'samsung-ll', name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429, img:autoImg('samsung-ll'), pay:'#', vendors:[{name:'Boulanger', price:429, ship:'Gratuit', url:'#'}]},
-      {id:'whirlpool-lv', name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379, img:autoImg('whirlpool-lv'), pay:'#', vendors:[{name:'Darty', price:379, ship:'Gratuit', url:'#'}]},
+      {id:'samsung-ll', name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429, img:autoImg('samsung-ll'), desc:'Tambour 9 kg, éco-lavage, moteur Digital Inverter silencieux.', vendors:[{name:'Boulanger', price:429, ship:'Gratuit', url:'#'}]},
+      {id:'whirlpool-lv', name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379, img:autoImg('whirlpool-lv'), desc:'13 couverts, départ différé, faible conso — classe énergétique récente.', vendors:[{name:'Darty', price:379, ship:'Gratuit', url:'#'}]},
 
-      {id:'lafarge-35', name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9, img:autoImg('lafarge-35'), pay:'#', vendors:[{name:'Point P', price:9.9, ship:'Retrait', url:'#'}]},
-      {id:'boschpro-18v', name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149, img:autoImg('boschpro-18v'), pay:'#', vendors:[{name:'Amazon', price:149, ship:'Gratuit', url:'#'}]},
-      {id:'dewalt-190', name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139, img:autoImg('dewalt-190'), pay:'#', vendors:[{name:'ManoMano', price:139, ship:'6,90 €', url:'#'}]}
+      {id:'lafarge-35', name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9, img:autoImg('lafarge-35'), desc:'Sac 35 kg — maçonnerie, scellement, fondations. Prise régulière.', vendors:[{name:'Point P', price:9.9, ship:'Retrait', url:'#'}]},
+      {id:'boschpro-18v', name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149, img:autoImg('boschpro-18v'), desc:'Perceuse 18V brushless — mandrin 13 mm, 2 vitesses, éclairage LED.', vendors:[{name:'Amazon', price:149, ship:'Gratuit', url:'#'}]},
+      {id:'dewalt-190', name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139, img:autoImg('dewalt-190'), desc:'190 mm, guidage précis, pare-éclats. Idéale coupes droites rapides.', vendors:[{name:'ManoMano', price:139, ship:'6,90 €', url:'#'}]}
     ];
 
     /* Catégorisation */
@@ -242,7 +225,7 @@
     ];
 
     function guessCategory(item){
-      var hay = (item.name + ' ' + item.brand).toLowerCase();
+      var hay = (item.name + ' ' + item.brand + ' ' + (item.desc||'')).toLowerCase();
       for (var i=0;i<RULES.length;i++){
         var rule = RULES[i];
         for (var j=0;j<rule.keys.length;j++){
@@ -263,14 +246,20 @@
     function setQty(id,qty){ var c=getCart(); c.forEach(function(x){if(x.id===id)x.qty=Math.max(1,qty||1)}); saveCart(c); renderCartPanel(); }
     function renderCartIcon(){ var n=getCart().reduce(function(s,x){return s+x.qty},0),b=document.getElementById('cartCount'); if(!b)return; b.style.display=n>0?'inline-block':'none'; b.textContent=n>0?n:0; }
 
-    /* Fiche article */
+    /* Fiche article (image + description + vendeurs) */
     var currentProductId=null;
     function openProduct(id){
       var item=findItem(id); if(!item) return; currentProductId=id;
       document.getElementById('poTitle').textContent=item.name;
-      document.getElementById('poBrand').textContent=item.brand;
+      document.getElementById('poBrand').textContent=item.brand + (item.desc ? ' — '+item.desc : '');
       var box=document.getElementById('poVendors'); box.innerHTML='';
-      item.vendors.forEach(function(v){
+      if(item.img){
+        var ph=document.createElement('div');
+        ph.style.cssText='padding:0;border-bottom:1px solid #eee;background:#fafafa';
+        ph.innerHTML='<img src="'+item.img+'" alt="'+item.name+'" style="width:100%;height:220px;object-fit:cover">';
+        box.appendChild(ph);
+      }
+      (item.vendors||[]).forEach(function(v){
         var row=document.createElement('div');
         row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid #eee;background:#fff';
         row.innerHTML='<div><strong>'+v.name+'</strong><div style="color:#6b7280">'+(v.ship||'')+'</div></div>'
@@ -291,26 +280,50 @@
       else { addToCart(currentProductId,1); closeProduct(); openCart(); alert('Pas de lien de paiement défini pour cet article.'); }
     });
 
-    /* Rendu catalogue */
-    (function render(){
-      var groups={};
-      for(var i=0;i<ITEMS.length;i++){ var it=ITEMS[i],cat=guessCategory(it); if(!groups[cat])groups[cat]=[]; groups[cat].push(it); }
-      var order=[]; for(var r=0;r<RULES.length;r++) order.push(RULES[r].cat); for(var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
+    /* Recherche */
+    var qInput = document.querySelector('.input');
+    var qButton = document.querySelector('.cta');
+    function matchesQuery(item, q){
+      if(!q) return true;
+      q = q.toLowerCase();
+      return (item.name && item.name.toLowerCase().includes(q))
+          || (item.brand && item.brand.toLowerCase().includes(q))
+          || (item.desc && item.desc.toLowerCase().includes(q))
+          || (guessCategory(item).toLowerCase().includes(q));
+    }
 
-      var wrap=document.getElementById('catalogue'); if(!wrap) return; wrap.innerHTML='';
-      for(var k=0;k<order.length;k++){
-        var cat=order[k],arr=groups[cat]; if(!arr) continue;
-        var h=document.createElement('h2'); h.className='category'; h.textContent=cat; wrap.appendChild(h);
+    /* Rendu catalogue (avec filtre) */
+    function renderCatalogue(query){
+      var groups = {};
+      for (var i=0;i<ITEMS.length;i++){
+        var it = ITEMS[i];
+        if(!matchesQuery(it, query)) continue;
+        var cat = guessCategory(it);
+        if(!groups[cat]) groups[cat] = [];
+        groups[cat].push(it);
+      }
+      var order = []; for (var r=0;r<RULES.length;r++) order.push(RULES[r].cat);
+      for (var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
 
-        var grid=document.createElement('div'); grid.className='grid';
+      var wrap = document.getElementById('catalogue'); if(!wrap) return;
+      wrap.innerHTML = '';
+      var hasAny = false;
+
+      for (var k=0;k<order.length;k++){
+        var cat = order[k], arr = groups[cat]; if(!arr || arr.length===0) continue;
+        hasAny = true;
+        var h = document.createElement('h2'); h.className='category'; h.textContent=cat; wrap.appendChild(h);
+        var grid = document.createElement('div'); grid.className='grid';
         arr.forEach(function(o){
-          var el=document.createElement('article'); el.className='card';
+          var el = document.createElement('article');
+          el.className='card';
           var img = o.img || autoImg(o.id);
           el.innerHTML =
             '<img class="thumb" src="'+img+'" alt="'+o.name+'">' +
             '<div class="body">' +
               '<h3 class="title">'+o.name+'</h3>' +
               '<div class="sub">'+o.brand+'</div>' +
+              (o.desc ? '<div style="color:#6b7280;margin:6px 0 8px">'+o.desc+'</div>' : '') +
               '<div class="price">à partir de <strong>'+euro(o.price)+'</strong></div>' +
               '<div class="actions">' +
                 '<button class="pill primary" data-id="'+o.id+'">Voir les prix</button>' +
@@ -321,15 +334,20 @@
         });
         wrap.appendChild(grid);
       }
-      wrap.addEventListener('click',function(e){
-        var id=e.target.getAttribute('data-id');
-        var add=e.target.getAttribute('data-add');
-        if(id) openProduct(id);
-        if(add){ addToCart(add,1); openCart(); }
-      });
-    })();
 
-    /* Panier */
+      if(!hasAny){
+        wrap.innerHTML = '<div style="background:#fff;border:2px solid #111;border-radius:12px;padding:16px">Aucun résultat pour « <strong>'+ (query||'') +'</strong> »</div>';
+      }
+
+      wrap.onclick = function(e){
+        var id = e.target.getAttribute('data-id');
+        var add = e.target.getAttribute('data-add');
+        if(id){ openProduct(id); }
+        if(add){ addToCart(add,1); openCart(); }
+      };
+    }
+
+    /* Panier (tiroir droit) */
     var cartBtn=document.getElementById('cartBtn');
     var cartPanel=document.getElementById('cartDrawer');
     var cartClose=document.getElementById('cartClose');
@@ -365,11 +383,19 @@
       };
     }
     document.getElementById('checkoutBtn').addEventListener('click',function(){
-      alert('Démo : mets un lien Stripe dans "pay" pour un vrai paiement.');
+      alert('Astuce : mets un lien Stripe dans "pay" pour un vrai paiement.');
     });
 
-    // Badge init
+    /* Init */
+    var qInput = document.querySelector('.input');
+    var qButton = document.querySelector('.cta');
+    if(qButton) qButton.addEventListener('click', function(){ renderCatalogue(qInput.value); });
+    if(qInput){
+      qInput.addEventListener('input', function(){ renderCatalogue(qInput.value); });
+      qInput.addEventListener('keydown', function(e){ if(e.key==='Enter'){ renderCatalogue(qInput.value); } });
+    }
     renderCartIcon();
+    renderCatalogue('');
   </script>
 </body>
 </html>
