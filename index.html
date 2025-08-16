@@ -131,3 +131,215 @@
 .drawer a{ color:#fff; text-decoration:none; padding:10px 6px; border-radius:8px }
 .drawer a:hover{ background:#151a21 }
 .drawer .close{ align-self:flex-end; border:2px solid #374151; border-radius:10px; padding:6px 10px; cursor:pointer }
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>BATI DC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    :root{--bg:#f3f4f6;--ink:#0b0b0c;--muted:#6b7280;--card:#fff;--border:#111;--accent:#f59e0b;--dark:#0f1115}
+    *{box-sizing:border-box}
+    body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
+
+    /* Top bar */
+    .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
+    .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;position:relative}
+    .brand{font-weight:800;letter-spacing:.3px}
+    .icons{display:flex;gap:10px}
+    .iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
+
+    /* Search */
+    .searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
+    .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
+    .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
+    .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
+
+    /* Tabs */
+    .tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
+    @media (max-width:680px){.tabs-wrap{top:102px}}
+    .tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
+    .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit}
+    .tab.active{background:#111;color:#fff}
+
+    /* Location */
+    .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
+    .loc a{color:#111;font-weight:700;text-decoration:underline}
+
+    /* Content + cards */
+    .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
+    .grid{display:grid;gap:14px}
+    @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+    .card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden}
+    .thumb{height:140px;background:#d6d3d1}
+    .body{padding:14px}
+    .title{font-weight:800;font-size:20px;line-height:1.2;margin:4px 0}
+    .sub{color:#6b7280;margin-bottom:8px}
+    .price{font-weight:900;font-size:18px;margin:6px 0 12px}
+    .actions{display:flex;gap:12px}
+    .pill{flex:1;display:grid;place-items:center;height:52px;border-radius:16px;font-weight:800;cursor:pointer;border:2px solid var(--border)}
+    .pill.primary{background:var(--accent)}
+    .pill.dark{background:#111;color:#fff}
+    .footer{max-width:1100px;margin:18px auto 30px;padding:16px 14px;color:#6b7280;text-align:center}
+
+    /* ── Onglet gauche + tiroir ────────────────────────── */
+    .side-tab{
+      position:absolute; left:12px; top:50%; translate:0 -50%;
+      width:42px; height:42px; border-radius:12px;
+      border:2px solid #374151; background:transparent; color:#fff;
+      display:grid; place-items:center; font-size:20px; cursor:pointer;
+    }
+    .backdrop{
+      position:fixed; inset:0; background:rgba(0,0,0,.35);
+      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:40;
+    }
+    .backdrop.show{opacity:1; pointer-events:auto}
+    .drawer{
+      position:fixed; inset:0 auto 0 0; width:min(84vw,340px);
+      background:#0f1115; color:#fff; border-right:1px solid #1f2937;
+      translate:-100% 0; transition:translate .25s ease; z-index:50;
+      display:flex; flex-direction:column; gap:14px;
+    }
+    .drawer.open{translate:0 0}
+    .drawer header{display:flex; align-items:center; justify-content:space-between; padding:14px 16px}
+    .drawer .close{border:2px solid #374151; border-radius:10px; padding:6px 10px; background:transparent; color:#fff; cursor:pointer}
+    .drawer .title{font-weight:800; letter-spacing:.3px}
+    .drawer .content{padding:0 10px 12px; overflow:auto}
+    .menu-list{display:grid; gap:6px; padding:0 6px 14px}
+    .menu-list a{display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:10px; text-decoration:none; color:#fff}
+    .menu-list a:hover{background:#151a21}
+    .chips{display:flex; flex-wrap:wrap; gap:8px; padding:0 12px 14px}
+    .chip{padding:8px 10px; border-radius:999px; border:1px solid #2f3948; background:#111827; color:#e5e7eb; font-weight:600; text-decoration:none}
+    .chip:hover{background:#1a2230}
+    .sep{height:1px; background:#1f2937; margin:6px 12px}
+  </style>
+</head>
+<body>
+
+  <!-- Drawer + backdrop -->
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer">
+    <header>
+      <div class="title">Menu</div>
+      <button class="close" id="closeDrawer">Fermer ✕</button>
+    </header>
+
+    <div class="content">
+      <!-- Liens principaux -->
+      <nav class="menu-list">
+        <a href="#">🏠 Accueil</a>
+        <a href="#">🧰 Produits</a>
+        <a href="#">🏭 Fournisseurs</a>
+        <a href="#">🛠️ Interventions</a>
+      </nav>
+
+      <div class="sep"></div>
+
+      <!-- Catégories -->
+      <div class="chips">
+        <a class="chip" href="#">Fournisseur</a>
+        <a class="chip" href="#">Entreprise</a>
+        <a class="chip" href="#">Article</a>
+        <a class="chip" href="#">Plomberie</a>
+        <a class="chip" href="#">Serrurerie</a>
+        <a class="chip" href="#">Chauffage</a>
+        <a class="chip" href="#">Menuiserie</a>
+        <a class="chip" href="#">Rénovation</a>
+        <a class="chip" href="#">Isolation</a>
+        <a class="chip" href="#">Panneaux photovoltaïques</a>
+        <a class="chip" href="#">Pompe à chaleur</a>
+        <a class="chip" href="#">Déménagement</a>
+        <a class="chip" href="#">Peinture</a>
+        <a class="chip" href="#">Carrelage</a>
+        <a class="chip" href="#">Électroménager</a>
+        <a class="chip" href="#">Produits de construction</a>
+        <a class="chip" href="#">Chantier</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header sombre -->
+  <div class="appbar">
+    <div class="bar">
+      <button class="side-tab" id="openDrawer" aria-label="Menu">☰</button>
+      <div class="brand" style="margin-left:56px">BATI DC</div>
+      <div class="icons">
+        <a class="iconbtn" href="#" title="Compte">👤</a>
+        <a class="iconbtn" href="#" title="Devis">📄</a>
+        <a class="iconbtn" href="#" title="Panier">🛒</a>
+      </div>
+    </div>
+    <div class="searchrow">
+      <div class="searchbox">
+        <input class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…">
+        <button class="cta">Rechercher</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Onglets -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <a class="tab active" href="#">Accueil</a>
+      <a class="tab" href="#">Produits</a>
+      <a class="tab" href="#">Fournisseurs</a>
+      <a class="tab" href="#">Interventions</a>
+    </div>
+  </div>
+
+  <!-- Localisation -->
+  <div class="loc">
+    <span>📍 <strong>Livraison à Paris</strong> —</span>
+    <a href="#">Mettre à jour</a>
+  </div>
+
+  <!-- Cartes démo -->
+  <div class="wrap">
+    <div class="grid">
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <h3 class="title">Niveau laser vert</h3>
+          <div class="sub">Bosch Pro • Réf GLL</div>
+          <div class="price">à partir de <strong>89,00 €</strong></div>
+          <div class="actions">
+            <button class="pill primary">Voir les prix</button>
+            <button class="pill dark">Ajouter au devis</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="thumb"></div>
+        <div class="body">
+          <h3 class="title">Scie circulaire 190&nbsp;mm</h3>
+          <div class="sub">DeWalt • Réf DWE</div>
+          <div class="price">à partir de <strong>129,00 €</strong></div>
+          <div class="actions">
+            <button class="pill primary">Voir les prix</button>
+            <button class="pill dark">Ajouter au devis</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 BATI DC — Tous droits réservés</div>
+
+  <!-- JS tiroir -->
+  <script>
+    (function(){
+      const openBtn = document.getElementById('openDrawer');
+      const closeBtn = document.getElementById('closeDrawer');
+      const drawer  = document.getElementById('drawer');
+      const backdrop= document.getElementById('backdrop');
+      const open = ()=>{ drawer.classList.add('open'); backdrop.classList.add('show'); };
+      const close= ()=>{ drawer.classList.remove('open'); backdrop.classList.remove('show'); };
+      if(openBtn) openBtn.addEventListener('click', open);
+      if(closeBtn) closeBtn.addEventListener('click', close);
+      if(backdrop) backdrop.addEventListener('click', close);
+      document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+    })();
+  </script>
+</body>
+</html>
