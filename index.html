@@ -516,5 +516,32 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 </style>
 
+<!-- === ✅ Nouveau correctif demandé : barres blanches + texte noir === -->
+<style id="fix-bars-white">
+  /* Bandeau “Livraison partout en France” en BLANC + texte noir */
+  .notice{
+    background:#ffffff !important;
+    color:#111 !important;
+    border:1px solid #e5e7eb !important;
+  }
+
+  /* Barre des onglets en BLANC + texte noir */
+  .tabs-wrap{
+    background:#ffffff !important;
+    border-top:1px solid #e5e7eb !important;
+    border-bottom:1px solid #e5e7eb !important;
+  }
+  .tabs .tablink{
+    background:#ffffff !important;
+    color:#111 !important;
+    border:1px solid #e5e7eb !important;
+  }
+  .tabs .tablink.active{
+    background:#ffffff !important;   /* reste blanc */
+    color:#111 !important;           /* écriture noire */
+    border-color:#111 !important;    /* bord plus marqué pour l’onglet actif */
+  }
+</style>
+
 </body>
 </html>
