@@ -2,47 +2,22 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Produit</title>
+  <title>TEST OK</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Cache-Control" content="no-store, must-revalidate, max-age=0">
+  <meta http-equiv="Pragma" content="no-cache">
   <style>
-    body{
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      margin:0; padding:20px;
-      background:#f7f8fa; color:#222;
-    }
-    .container{
-      max-width:600px; margin:auto;
-      background:#fff; border-radius:12px;
-      padding:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);
-    }
-    .product{
-      display:flex; flex-direction:column; align-items:center; text-align:center;
-    }
-    .product img{
-      width:180px; height:auto; margin-bottom:15px;
-      border-radius:8px; border:1px solid #ddd;
-    }
-    .product h1{
-      font-size:1.4rem; margin:10px 0;
-    }
-    .product p{
-      color:#555; line-height:1.4;
-    }
-    .btn{
-      margin-top:20px; background:#4f46e5; color:white;
-      padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:600;
-    }
-    .btn:hover{ background:#3730a3; }
+    body{margin:0;display:flex;min-height:100svh;align-items:center;justify-content:center;
+         font:700 24px/1.2 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#0f1117;color:#fff}
+    .card{padding:28px 32px;border:1px solid #2b3242;border-radius:14px;background:#131a26;
+          box-shadow:0 10px 30px rgba(0,0,0,.35)}
+    .card small{display:block;margin-top:8px;font-weight:500;opacity:.75}
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="product">
-      <img src="https://via.placeholder.com/180" alt="Produit">
-      <h1>Nom du produit</h1>
-      <p>Description rapide du produit. Tu peux mettre ici les caractéristiques principales, la référence, etc.</p>
-      <a href="#" class="btn">Acheter</a>
-    </div>
+  <div class="card">
+    ✅ Ça marche — build reçu.
+    <small>Si tu vois encore l’ancienne page, ajoute <code>?nocache=3</code> à l’URL ou ouvre en privé.</small>
   </div>
 </body>
 </html>
