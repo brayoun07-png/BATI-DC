@@ -5,7 +5,7 @@
   <title>BATI DC</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
-    :root{--bg:#f3f4f6;--ink:#0b0b0c;--muted:#6b7280;--card:#fff;--border:#111;--accent:#f59e0b;--dark:#0f1115}
+    :root{--bg:#f3f4f6;--muted:#6b7280;--card:#fff;--border:#111;--accent:#f59e0b;--dark:#0f1115}
     *{box-sizing:border-box}
     body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
 
@@ -13,10 +13,9 @@
     .appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
     .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;position:relative}
     .brand{font-weight:800;letter-spacing:.3px}
-    .icons{display:flex;gap:10px}
-    .iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
+    .icons{display:flex;gap:10px;position:relative}
+    .iconbtn{position:relative;width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
 
-    /* Search */
     .searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
     .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
     .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
@@ -29,20 +28,20 @@
     .tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:inherit}
     .tab.active{background:#111;color:#fff}
 
-    /* Location */
+    /* Loc */
     .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
     .loc strong{font-weight:800}
 
     /* Content + cards */
     .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
+    .category{margin:18px 0 8px;font-weight:900}
     .grid{display:grid;gap:14px}
     @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
-    .category{margin:18px 0 8px;font-weight:900}
     .card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden}
     .thumb{height:140px;background:#d6d3d1}
     .body{padding:14px}
     .title{font-weight:800;font-size:20px;line-height:1.2;margin:4px 0}
-    .sub{color:#6b7280;margin-bottom:8px}
+    .sub{color:var(--muted);margin-bottom:8px}
     .price{font-weight:900;font-size:18px;margin:6px 0 12px}
     .actions{display:flex;gap:12px}
     .pill{flex:1;display:grid;place-items:center;height:52px;border-radius:16px;font-weight:800;cursor:pointer;border:2px solid var(--border)}
@@ -50,36 +49,23 @@
     .pill.dark{background:#111;color:#fff}
     .footer{max-width:1100px;margin:18px auto 30px;padding:16px 14px;color:#6b7280;text-align:center}
 
-    /* ── Onglet gauche + tiroir ────────────────────────── */
-    .side-tab{
-      position:absolute; left:12px; top:50%; translate:0 -50%;
-      width:42px; height:42px; border-radius:12px;
-      border:2px solid #374151; background:transparent; color:#fff;
-      display:grid; place-items:center; font-size:20px; cursor:pointer;
-    }
-    .backdrop{
-      position:fixed; inset:0; background:rgba(0,0,0,.35);
-      opacity:0; pointer-events:none; transition:opacity .2s ease; z-index:40;
-    }
-    .backdrop.show{opacity:1; pointer-events:auto}
-    .drawer{
-      position:fixed; inset:0 auto 0 0; width:min(84vw,340px);
-      background:#0f1115; color:#fff; border-right:1px solid #1f2937;
-      translate:-100% 0; transition:translate .25s ease; z-index:50;
-      display:flex; flex-direction:column; gap:14px;
-    }
+    /* Drawer gauche */
+    .side-tab{position:absolute;left:12px;top:50%;translate:0 -50%;width:42px;height:42px;border-radius:12px;border:2px solid #374151;background:transparent;color:#fff;display:grid;place-items:center;font-size:20px;cursor:pointer}
+    .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .2s ease;z-index:40}
+    .backdrop.show{opacity:1;pointer-events:auto}
+    .drawer{position:fixed;inset:0 auto 0 0;width:min(84vw,340px);background:#0f1115;color:#fff;border-right:1px solid #1f2937;translate:-100% 0;transition:translate .25s ease;z-index:50;display:flex;flex-direction:column;gap:14px}
     .drawer.open{translate:0 0}
-    .drawer header{display:flex; align-items:center; justify-content:space-between; padding:14px 16px}
-    .drawer .close{border:2px solid #374151; border-radius:10px; padding:6px 10px; background:transparent; color:#fff; cursor:pointer}
-    .drawer .title{font-weight:800; letter-spacing:.3px}
-    .drawer .content{padding:0 10px 12px; overflow:auto}
-    .menu-list{display:grid; gap:6px; padding:0 6px 14px}
-    .menu-list a{display:flex; gap:10px; align-items:center; padding:10px 12px; border-radius:10px; text-decoration:none; color:#fff}
+    .drawer header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+    .drawer .close{border:2px solid #374151;border-radius:10px;padding:6px 10px;background:transparent;color:#fff;cursor:pointer}
+    .drawer .title{font-weight:800;letter-spacing:.3px}
+    .drawer .content{padding:0 10px 12px;overflow:auto}
+    .menu-list{display:grid;gap:6px;padding:0 6px 14px}
+    .menu-list a{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:10px;text-decoration:none;color:#fff}
     .menu-list a:hover{background:#151a21}
-    .chips{display:flex; flex-wrap:wrap; gap:8px; padding:0 12px 14px}
-    .chip{padding:8px 10px; border-radius:999px; border:1px solid #2f3948; background:#111827; color:#e5e7eb; font-weight:600; text-decoration:none}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 12px 14px}
+    .chip{padding:8px 10px;border-radius:999px;border:1px solid #2f3948;background:#111827;color:#e5e7eb;font-weight:600;text-decoration:none}
     .chip:hover{background:#1a2230}
-    .sep{height:1px; background:#1f2937; margin:6px 12px}
+    .sep{height:1px;background:#1f2937;margin:6px 12px}
   </style>
 </head>
 <body>
@@ -91,7 +77,6 @@
       <div class="title">Menu</div>
       <button class="close" id="closeDrawer">Fermer ✕</button>
     </header>
-
     <div class="content">
       <nav class="menu-list">
         <a href="#">🏠 Accueil</a>
@@ -99,27 +84,14 @@
         <a href="#">🏭 Fournisseurs</a>
         <a href="#">🛠️ Interventions</a>
       </nav>
-
       <div class="sep"></div>
-
       <div class="chips">
-        <a class="chip" href="#">Fournisseur</a>
-        <a class="chip" href="#">Entreprise</a>
-        <a class="chip" href="#">Article</a>
-        <a class="chip" href="#">Plomberie</a>
-        <a class="chip" href="#">Serrurerie</a>
-        <a class="chip" href="#">Chauffage</a>
-        <a class="chip" href="#">Menuiserie</a>
-        <a class="chip" href="#">Rénovation</a>
-        <a class="chip" href="#">Isolation</a>
-        <a class="chip" href="#">Panneaux photovoltaïques</a>
-        <a class="chip" href="#">Pompe à chaleur</a>
-        <a class="chip" href="#">Déménagement</a>
-        <a class="chip" href="#">Peinture</a>
-        <a class="chip" href="#">Carrelage</a>
-        <a class="chip" href="#">Électroménager</a>
-        <a class="chip" href="#">Produits de construction</a>
-        <a class="chip" href="#">Chantier</a>
+        <a class="chip" href="#">Fournisseur</a><a class="chip" href="#">Entreprise</a><a class="chip" href="#">Article</a>
+        <a class="chip" href="#">Plomberie</a><a class="chip" href="#">Serrurerie</a><a class="chip" href="#">Chauffage</a>
+        <a class="chip" href="#">Menuiserie</a><a class="chip" href="#">Rénovation</a><a class="chip" href="#">Isolation</a>
+        <a class="chip" href="#">Panneaux photovoltaïques</a><a class="chip" href="#">Pompe à chaleur</a><a class="chip" href="#">Déménagement</a>
+        <a class="chip" href="#">Peinture</a><a class="chip" href="#">Carrelage</a><a class="chip" href="#">Électroménager</a>
+        <a class="chip" href="#">Produits de construction</a><a class="chip" href="#">Chantier</a>
       </div>
     </div>
   </aside>
@@ -132,7 +104,10 @@
       <div class="icons">
         <a class="iconbtn" href="#" title="Compte">👤</a>
         <a class="iconbtn" href="#" title="Devis">📄</a>
-        <a class="iconbtn" href="#" title="Panier">🛒</a>
+        <!-- Panier avec badge -->
+        <a class="iconbtn" id="cartBtn" href="javascript:void(0)" title="Panier">🛒
+          <span id="cartCount" style="position:absolute;transform:translate(12px,-10px);font:700 12px/1 system-ui;background:#f59e0b;color:#111;border-radius:999px;padding:2px 6px;display:none">0</span>
+        </a>
       </div>
     </div>
     <div class="searchrow">
@@ -143,83 +118,114 @@
     </div>
   </div>
 
-  <!-- Onglets -->
-  <div class="tabs-wrap">
-    <div class="tabs">
-      <a class="tab active" href="#">Accueil</a>
-      <a class="tab" href="#">Produits</a>
-      <a class="tab" href="#">Fournisseurs</a>
-      <a class="tab" href="#">Interventions</a>
+  <!-- Tabs -->
+  <div class="tabs-wrap"><div class="tabs">
+    <a class="tab active" href="#">Accueil</a>
+    <a class="tab" href="#">Produits</a>
+    <a class="tab" href="#">Fournisseurs</a>
+    <a class="tab" href="#">Interventions</a>
+  </div></div>
+
+  <!-- Livraison -->
+  <div class="loc"><span>📦 <strong>Livraison partout en France</strong></span></div>
+
+  <!-- Zone catalogue -->
+  <div id="catalogue" class="wrap"></div>
+
+  <!-- FICHE ARTICLE (overlay) -->
+  <div id="productOverlay" style="position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:60">
+    <div style="max-width:680px;margin:60px auto;background:#fff;border:2px solid #111;border-radius:16px;overflow:hidden">
+      <div style="padding:14px 16px;border-bottom:1px solid #eee;display:flex;justify-content:space-between;align-items:center">
+        <strong id="poTitle">Article</strong>
+        <button id="poClose" style="border:2px solid #111;background:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Fermer ✕</button>
+      </div>
+      <div style="padding:14px 16px">
+        <div id="poBrand" style="color:#6b7280;margin-bottom:8px"></div>
+        <div id="poVendors" class="list" style="border:2px solid #111;border-radius:12px;overflow:hidden"></div>
+        <div style="margin-top:12px;display:flex;gap:10px">
+          <button id="poAdd" class="pill primary" style="flex:1;height:48px">Ajouter au devis</button>
+          <button id="poBuy" class="pill dark" style="flex:1;height:48px">Acheter</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Localisation (mise à jour demandée) -->
-  <div class="loc">
-    <span>📦 <strong>Livraison partout en France</strong></span>
+  <!-- PANIER (tiroir droit) -->
+  <div id="cartDrawer" style="position:fixed;inset:0 0 0 auto;width:min(92vw,380px);background:#0f1115;color:#fff;translate:100% 0;transition:translate .25s ease;z-index:70;display:flex;flex-direction:column">
+    <div style="padding:14px;border-bottom:1px solid #1f2937;display:flex;justify-content:space-between;align-items:center">
+      <strong>Panier</strong>
+      <button id="cartClose" style="border:2px solid #374151;background:transparent;color:#fff;border-radius:10px;padding:6px 10px;cursor:pointer">Fermer ✕</button>
+    </div>
+    <div id="cartItems" style="padding:10px;overflow:auto;flex:1"></div>
+    <div style="padding:12px;border-top:1px solid #1f2937">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span>Total</span><strong id="cartTotal">0,00 €</strong></div>
+      <button id="checkoutBtn" class="pill primary" style="width:100%;height:48px">Payer (démo)</button>
+    </div>
   </div>
-
-  <!-- Zone de rendu auto -->
-  <div id="catalogue" class="wrap"></div>
 
   <div class="footer">© 2025 BATI DC — Tous droits réservés</div>
 
-  <!-- JS : tiroir + rendu catalogue -->
+  <!-- JS (catalogue + fiche + panier) -->
   <script>
     // Drawer
     (function(){
-      const openBtn = document.getElementById('openDrawer');
-      const closeBtn = document.getElementById('closeDrawer');
-      const drawer  = document.getElementById('drawer');
-      const backdrop= document.getElementById('backdrop');
-      const open = ()=>{ drawer.classList.add('open'); backdrop.classList.add('show'); };
-      const close= ()=>{ drawer.classList.remove('open'); backdrop.classList.remove('show'); };
+      var openBtn = document.getElementById('openDrawer');
+      var closeBtn = document.getElementById('closeDrawer');
+      var drawer  = document.getElementById('drawer');
+      var backdrop= document.getElementById('backdrop');
+      function open(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
+      function close(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
       if(openBtn) openBtn.addEventListener('click', open);
       if(closeBtn) closeBtn.addEventListener('click', close);
       if(backdrop) backdrop.addEventListener('click', close);
-      document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+      document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
     })();
 
-    // --- Données démo (tu peux les changer facilement) ---
-    const ITEMS = [
-      // Serrurerie
-      {name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9},
-      {name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289},
-      {name:'Serrure multipoints Bricard', brand:'Bricard', price:189},
-      // Plomberie / Chauffe-eau
-      {name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429},
-      {name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379},
-      {name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319},
-      {name:'Mitigeur douche Grohe', brand:'Grohe', price:129},
-      // Chauffage / PAC
-      {name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990},
-      {name:'Radiateur électrique Thermor', brand:'Thermor', price:229},
-      // Menuiserie
-      {name:'Fenêtre Velux GGL', brand:'Velux', price:499},
-      {name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199},
-      // Rénovation / Isolation
-      {name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9},
-      {name:'Laine de verre Isover 200mm', brand:'Isover', price:49},
-      {name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54},
-      // Panneaux photovoltaïques
-      {name:'Panneau SunPower 400W', brand:'SunPower', price:259},
-      {name:'Panneau Qcells 425W', brand:'Qcells', price:239},
-      // Déménagement
-      {name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9},
-      {name:'Diable pliant 120kg', brand:'Tooli', price:59},
-      // Peinture / Carrelage
-      {name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69},
-      {name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22},
-      // Électroménager
-      {name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429},
-      {name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379},
-      // Produits de construction / Chantier / Outillage
-      {name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9},
-      {name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149},
-      {name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139},
+    // Articles (avec vendeurs)
+    var ITEMS = [
+      {id:'vachette-a2p', name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9, vendors:[
+        {name:'Amazon', price:69.9, ship:'Gratuit', url:'#'},
+        {name:'Leroy Merlin', price:72.5, ship:'4,90 €', url:'#'},
+        {name:'Cdiscount', price:64.0, ship:'7,90 €', url:'#'}]},
+      {id:'fichet-f3d', name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289, vendors:[
+        {name:'Amazon', price:289, ship:'Gratuit', url:'#'}, {name:'Bricomarché', price:299, ship:'9,90 €', url:'#'}]},
+      {id:'bricard-mp', name:'Serrure multipoints Bricard', brand:'Bricard', price:189, vendors:[
+        {name:'Cdiscount', price:179, ship:'7,90 €', url:'#'}, {name:'Castorama', price:189, ship:'4,90 €', url:'#'}]},
+
+      {id:'atlantic-200', name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429, vendors:[{name:'ManoMano', price:429, ship:'29 €', url:'#'}]},
+      {id:'thermor-150', name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379, vendors:[{name:'Leroy Merlin', price:379, ship:'29 €', url:'#'}]},
+      {id:'ariston-100', name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319, vendors:[{name:'Amazon', price:319, ship:'Gratuit', url:'#'}]},
+      {id:'grohe-mitigeur', name:'Mitigeur douche Grohe', brand:'Grohe', price:129, vendors:[{name:'Amazon', price:129, ship:'Gratuit', url:'#'}]},
+
+      {id:'daikin-8kw', name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990, vendors:[{name:'Proclim', price:6990, ship:'Sur devis', url:'#'}]},
+      {id:'thermor-radiateur', name:'Radiateur électrique Thermor', brand:'Thermor', price:229, vendors:[{name:'Castorama', price:229, ship:'9,90 €', url:'#'}]},
+
+      {id:'velux-ggl', name:'Fenêtre Velux GGL', brand:'Velux', price:499, vendors:[{name:'Leroy Merlin', price:499, ship:'29 €', url:'#'}]},
+      {id:'lapeyre-porte', name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199, vendors:[{name:'Lapeyre', price:199, ship:'19 €', url:'#'}]},
+
+      {id:'toupret-enduit', name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9, vendors:[{name:'Leroy Merlin', price:14.9, ship:'Retrait 2h', url:'#'}]},
+      {id:'isover-lv200', name:'Laine de verre Isover 200mm', brand:'Isover', price:49, vendors:[{name:'Point P', price:49, ship:'Sur devis', url:'#'}]},
+      {id:'rockwool-120', name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54, vendors:[{name:'Gedimat', price:54, ship:'Sur devis', url:'#'}]},
+
+      {id:'sunpower-400', name:'Panneau SunPower 400W', brand:'SunPower', price:259, vendors:[{name:'Prosolaire', price:259, ship:'29 €', url:'#'}]},
+      {id:'qcells-425', name:'Panneau Qcells 425W', brand:'Qcells', price:239, vendors:[{name:'Prosolaire', price:239, ship:'29 €', url:'#'}]},
+
+      {id:'cartons-10', name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9, vendors:[{name:'Amazon', price:24.9, ship:'Gratuit', url:'#'}]},
+      {id:'diable-pliable', name:'Diable pliant 120kg', brand:'Tooli', price:59, vendors:[{name:'Leroy Merlin', price:59, ship:'4,90 €', url:'#'}]},
+
+      {id:'dulux-10l', name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69, vendors:[{name:'Bricomarché', price:69, ship:'9,90 €', url:'#'}]},
+      {id:'marazzi-60', name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22, vendors:[{name:'Castorama', price:22, ship:'Sur devis', url:'#'}]},
+
+      {id:'samsung-ll', name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429, vendors:[{name:'Boulanger', price:429, ship:'Gratuit', url:'#'}]},
+      {id:'whirlpool-lv', name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379, vendors:[{name:'Darty', price:379, ship:'Gratuit', url:'#'}]},
+
+      {id:'lafarge-35', name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9, vendors:[{name:'Point P', price:9.9, ship:'Retrait', url:'#'}]},
+      {id:'boschpro-18v', name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149, vendors:[{name:'Amazon', price:149, ship:'Gratuit', url:'#'}]},
+      {id:'dewalt-190', name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139, vendors:[{name:'ManoMano', price:139, ship:'6,90 €', url:'#'}]}
     ];
 
-    // --- Règles de catégorisation (ordre = priorité) ---
-    const RULES = [
+    // Règles de catégories
+    var RULES = [
       {cat:'Serrurerie', keys:['Vachette','Fichet','Bricard','Abus','cylindre','serrure']},
       {cat:'Plomberie', keys:['Atlantic','Thermor','Ariston','Grohe','Geberit','robinet','mitigeur','Chauffe-eau']},
       {cat:'Chauffage', keys:['chaudière','radiateur','chauffage','Thermor','De Dietrich','Vaillant']},
@@ -237,180 +243,116 @@
     ];
 
     function guessCategory(item){
-      const hay = (item.name + ' ' + item.brand).toLowerCase();
-      for(const rule of RULES){
-        if(rule.keys.some(k => hay.includes(k.toLowerCase()))) return rule.cat;
+      var hay = (item.name + ' ' + item.brand).toLowerCase();
+      for (var i=0;i<RULES.length;i++){
+        var rule = RULES[i];
+        for (var j=0;j<rule.keys.length;j++){
+          if (hay.indexOf(rule.keys[j].toLowerCase()) !== -1) return rule.cat;
+        }
       }
       return 'Autres';
     }
 
-    function €(v){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v); }
+    /* Panier */
+    var CART_KEY='bati_dc_cart';
+    function getCart(){ try{return JSON.parse(localStorage.getItem(CART_KEY)||'[]');}catch(e){return []} }
+    function saveCart(c){ localStorage.setItem(CART_KEY, JSON.stringify(c)); renderCartIcon(); }
+    function addToCart(id,qty){ qty=qty||1; var c=getCart(); var it=c.find(function(x){return x.id===id}); if(it) it.qty+=qty; else c.push({id:id,qty:qty}); saveCart(c); }
+    function removeFromCart(id){ saveCart(getCart().filter(function(x){return x.id!==id})); renderCartPanel(); }
+    function setQty(id,qty){ var c=getCart(); c.forEach(function(x){if(x.id===id)x.qty=Math.max(1,qty||1)}); saveCart(c); renderCartPanel(); }
+    function euro(v){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v); }
+    function findItem(id){ return ITEMS.find(function(x){return x.id===id}); }
+    function renderCartIcon(){ var n=getCart().reduce(function(s,x){return s+x.qty},0),b=document.getElementById('cartCount'); if(!b)return; b.style.display=n>0?'inline-block':'none'; b.textContent=n>0?n:0; }
 
-    // Regroupe par catégorie et rend la page
+    /* Fiche article */
+    var currentProductId=null;
+    function openProduct(id){
+      var item=findItem(id); if(!item) return; currentProductId=id;
+      document.getElementById('poTitle').textContent=item.name;
+      document.getElementById('poBrand').textContent=item.brand;
+      var box=document.getElementById('poVendors'); box.innerHTML='';
+      item.vendors.forEach(function(v){
+        var row=document.createElement('div');
+        row.style.cssText='display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-top:1px solid #eee;background:#fff';
+        row.innerHTML='<div><strong>'+v.name+'</strong><div style="color:#6b7280">'+(v.ship||'')+'</div></div>'
+          +'<div style="display:flex;gap:8px;align-items:center">'
+          +'<div style="font-weight:800">'+euro(v.price)+'</div>'
+          +'<a href="'+(v.url||'#')+'" target="_blank" style="border:2px solid #111;border-radius:10px;padding:6px 10px;text-decoration:none;color:#111;background:#fff">Voir</a>'
+          +'</div>';
+        box.appendChild(row);
+      });
+      document.getElementById('productOverlay').style.display='block';
+    }
+    function closeProduct(){ document.getElementById('productOverlay').style.display='none'; }
+    document.getElementById('poClose').addEventListener('click',closeProduct);
+    document.getElementById('poAdd').addEventListener('click',function(){ if(currentProductId){ addToCart(currentProductId,1); closeProduct(); openCart(); }});
+    document.getElementById('poBuy').addEventListener('click',function(){ if(currentProductId){ addToCart(currentProductId,1); closeProduct(); openCart(); }});
+
+    /* Rendu catalogue */
     (function render(){
-      const groups = {};
-      for(const it of ITEMS){
-        const cat = guessCategory(it);
-        (groups[cat] ||= []).push(it);
-      }
-      const order = RULES.map(r=>r.cat).concat(Object.keys(groups).filter(c=>!RULES.some(r=>r.cat===c)));
-      const wrap = document.getElementById('catalogue');
-      wrap.innerHTML = '';
-      for(const cat of order){
-        const arr = groups[cat];
-        if(!arr) continue;
-        const h = document.createElement('h2');
-        h.className='category'; h.textContent = cat;
-        wrap.appendChild(h);
-
-        const grid = document.createElement('div');
-        grid.className='grid';
-        arr.forEach(o=>{
-          const el = document.createElement('article');
-          el.className='card';
-          el.innerHTML = `
-            <div class="thumb"></div>
-            <div class="body">
-              <h3 class="title">${o.name}</h3>
-              <div class="sub">${o.brand}</div>
-              <div class="price">à partir de <strong>${€(o.price)}</strong></div>
-              <div class="actions">
-                <button class="pill primary">Voir les prix</button>
-                <button class="pill dark">Ajouter au devis</button>
-              </div>
-            </div>`;
+      var groups={};
+      for(var i=0;i<ITEMS.length;i++){ var it=ITEMS[i],cat=guessCategory(it); if(!groups[cat])groups[cat]=[]; groups[cat].push(it); }
+      var order=[]; for(var r=0;r<RULES.length;r++) order.push(RULES[r].cat); for(var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
+      var wrap=document.getElementById('catalogue'); if(!wrap) return; wrap.innerHTML='';
+      for(var k=0;k<order.length;k++){ var cat=order[k],arr=groups[cat]; if(!arr) continue;
+        var h=document.createElement('h2'); h.className='category'; h.textContent=cat; wrap.appendChild(h);
+        var grid=document.createElement('div'); grid.className='grid';
+        arr.forEach(function(o){
+          var el=document.createElement('article'); el.className='card';
+          el.innerHTML='<div class="thumb"></div><div class="body"><h3 class="title">'+o.name+'</h3><div class="sub">'+o.brand+'</div><div class="price">à partir de <strong>'+euro(o.price)+'</strong></div><div class="actions"><button class="pill primary" data-id="'+o.id+'">Voir les prix</button><button class="pill dark" data-add="'+o.id+'">Ajouter au devis</button></div></div>';
           grid.appendChild(el);
         });
         wrap.appendChild(grid);
       }
+      // Events cartes
+      wrap.addEventListener('click',function(e){
+        var id=e.target.getAttribute('data-id');
+        var add=e.target.getAttribute('data-add');
+        if(id) openProduct(id);
+        if(add){ addToCart(add,1); openCart(); }
+      });
     })();
+
+    /* Panier tiroir droit */
+    var cartBtn=document.getElementById('cartBtn');
+    var cartPanel=document.getElementById('cartDrawer');
+    var cartClose=document.getElementById('cartClose');
+    function openCart(){ cartPanel.style.translate='0 0'; renderCartPanel(); }
+    function closeCart(){ cartPanel.style.translate='100% 0'; }
+    if(cartBtn) cartBtn.addEventListener('click',openCart);
+    if(cartClose) cartClose.addEventListener('click',closeCart);
+
+    function renderCartPanel(){
+      var area=document.getElementById('cartItems'); if(!area) return;
+      var cart=getCart(); if(cart.length===0){ area.innerHTML='<div style="color:#9ca3af">Votre panier est vide.</div>'; document.getElementById('cartTotal').textContent='0,00 €'; renderCartIcon(); return; }
+      var total=0; area.innerHTML='';
+      cart.forEach(function(l){
+        var it=findItem(l.id); if(!it) return; var lineTotal=it.price*l.qty; total+=lineTotal;
+        var line=document.createElement('div'); line.style.cssText='display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:10px;border-bottom:1px solid #1f2937';
+        line.innerHTML='<div><div style="font-weight:700">'+it.name+'</div><div style="color:#9ca3af">'+it.brand+'</div></div>'
+          +'<div style="display:flex;gap:6px;align-items:center">'
+          +'<button data-dec="'+it.id+'" style="border:1px solid #374151;background:#111827;color:#fff;border-radius:6px;padding:2px 8px">-</button>'
+          +'<span>'+l.qty+'</span>'
+          +'<button data-inc="'+it.id+'" style="border:1px solid #374151;background:#111827;color:#fff;border-radius:6px;padding:2px 8px">+</button>'
+          +'<strong style="width:80px;text-align:right;display:inline-block">'+euro(lineTotal)+'</strong>'
+          +'<button data-del="'+it.id+'" title="Supprimer" style="border:1px solid #ef4444;background:#7f1d1d;color:#fff;border-radius:6px;padding:2px 8px;margin-left:6px">✕</button>'
+          +'</div>';
+        area.appendChild(line);
+      });
+      document.getElementById('cartTotal').textContent=euro(total);
+      renderCartIcon();
+      area.onclick=function(e){
+        var id;
+        if(id=e.target.getAttribute('data-inc')) setQty(id,(getCart().find(function(x){return x.id===id})||{qty:0}).qty+1);
+        if(id=e.target.getAttribute('data-dec')) setQty(id,(getCart().find(function(x){return x.id===id})||{qty:1}).qty-1);
+        if(id=e.target.getAttribute('data-del')) removeFromCart(id);
+      };
+    }
+    document.getElementById('checkoutBtn').addEventListener('click',function(){ alert('Démo : paiement à brancher (Stripe/PayPal).'); });
+
+    // init
+    renderCartIcon();
+    document.getElementById('poClose').addEventListener('click', function(){ document.getElementById('productOverlay').style.display='none'; });
   </script>
-<script>
-  // Drawer (menu latéral)
-  (function(){
-    var openBtn = document.getElementById('openDrawer');
-    var closeBtn = document.getElementById('closeDrawer');
-    var drawer  = document.getElementById('drawer');
-    var backdrop= document.getElementById('backdrop');
-    function open(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
-    function close(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
-    if(openBtn) openBtn.addEventListener('click', open);
-    if(closeBtn) closeBtn.addEventListener('click', close);
-    if(backdrop) backdrop.addEventListener('click', close);
-    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
-  })();
-
-  // Données démo
-  var ITEMS = [
-    {name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9},
-    {name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289},
-    {name:'Serrure multipoints Bricard', brand:'Bricard', price:189},
-    {name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429},
-    {name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379},
-    {name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319},
-    {name:'Mitigeur douche Grohe', brand:'Grohe', price:129},
-    {name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990},
-    {name:'Radiateur électrique Thermor', brand:'Thermor', price:229},
-    {name:'Fenêtre Velux GGL', brand:'Velux', price:499},
-    {name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199},
-    {name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9},
-    {name:'Laine de verre Isover 200mm', brand:'Isover', price:49},
-    {name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54},
-    {name:'Panneau SunPower 400W', brand:'SunPower', price:259},
-    {name:'Panneau Qcells 425W', brand:'Qcells', price:239},
-    {name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9},
-    {name:'Diable pliant 120kg', brand:'Tooli', price:59},
-    {name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69},
-    {name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22},
-    {name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429},
-    {name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379},
-    {name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9},
-    {name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149},
-    {name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139}
-  ];
-
-  // Règles de catégories
-  var RULES = [
-    {cat:'Serrurerie', keys:['Vachette','Fichet','Bricard','Abus','cylindre','serrure']},
-    {cat:'Plomberie', keys:['Atlantic','Thermor','Ariston','Grohe','Geberit','robinet','mitigeur','Chauffe-eau']},
-    {cat:'Chauffage', keys:['chaudière','radiateur','chauffage','Thermor','De Dietrich','Vaillant']},
-    {cat:'Pompe à chaleur', keys:['Daikin','Mitsubishi Electric','PAC','Pompe à chaleur']},
-    {cat:'Menuiserie', keys:['Lapeyre','Velux','fenêtre','porte']},
-    {cat:'Rénovation', keys:['Toupret','enduit','rebouchage']},
-    {cat:'Isolation', keys:['Isover','Rockwool','laine','isolation']},
-    {cat:'Panneaux photovoltaïques', keys:['SunPower','Qcells','photovoltaïque','solaire']},
-    {cat:'Déménagement', keys:['carton','diable','déménagement']},
-    {cat:'Peinture', keys:['Dulux','Ripolin','peinture']},
-    {cat:'Carrelage', keys:['Marazzi','Porcelanosa','carrelage']},
-    {cat:'Électroménager', keys:['Whirlpool','Samsung','Bosch Home','lave-linge','lave-vaisselle','réfrigérateur']},
-    {cat:'Produits de construction', keys:['Lafarge','Semin','ciment','mortier','béton']},
-    {cat:'Chantier / Outillage', keys:['Makita','DeWalt','Bosch Pro','outil','perceuse','scie','ponceuse']}
-  ];
-
-  function guessCategory(item){
-    var hay = (item.name + ' ' + item.brand).toLowerCase();
-    for(var i=0;i<RULES.length;i++){
-      var rule = RULES[i];
-      for(var j=0;j<rule.keys.length;j++){
-        if(hay.indexOf(rule.keys[j].toLowerCase()) !== -1) return rule.cat;
-      }
-    }
-    return 'Autres';
-  }
-
-  function euro(v){
-    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v);
-  }
-
-  (function render(){
-    var groups = {};
-    for(var i=0;i<ITEMS.length;i++){
-      var it = ITEMS[i];
-      var cat = guessCategory(it);
-      if(!groups[cat]) groups[cat] = [];   // <-- compatibilité Safari
-      groups[cat].push(it);
-    }
-
-    // ordre des catégories
-    var order = [];
-    for(var r=0;r<RULES.length;r++){ order.push(RULES[r].cat); }
-    for(var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
-
-    var wrap = document.getElementById('catalogue');
-    if(!wrap) return;
-    wrap.innerHTML = '';
-
-    for(var k=0;k<order.length;k++){
-      var catName = order[k];
-      var arr = groups[catName];
-      if(!arr) continue;
-
-      var h = document.createElement('h2');
-      h.className = 'category';
-      h.textContent = catName;
-      wrap.appendChild(h);
-
-      var grid = document.createElement('div');
-      grid.className = 'grid';
-
-      for(var t=0;t<arr.length;t++){
-        var o = arr[t];
-        var el = document.createElement('article');
-        el.className = 'card';
-        el.innerHTML =
-          '<div class="thumb"></div>' +
-          '<div class="body">' +
-          '<h3 class="title">'+o.name+'</h3>' +
-          '<div class="sub">'+o.brand+'</div>' +
-          '<div class="price">à partir de <strong>'+euro(o.price)+'</strong></div>' +
-          '<div class="actions">' +
-          '<button class="pill primary">Voir les prix</button>' +
-          '<button class="pill dark">Ajouter au devis</button>' +
-          '</div></div>';
-        grid.appendChild(el);
-      }
-      wrap.appendChild(grid);
-    }
-  })();
-</script></body>
+</body>
 </html>
