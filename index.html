@@ -49,3 +49,160 @@
   </div>
 </body>
 </html>
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>BATI DC</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root{
+    --bg:#f3f4f6; --ink:#0b0b0c; --muted:#6b7280;
+    --card:#fff; --border:#d1d5db;
+    --accent:#f59e0b; --accent-ink:#111827; --dark:#0f1115;
+    --pill:#111; --radius:16px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:#111}
+
+  /* Top app bar */
+  .appbar{
+    position:sticky; top:0; z-index:30;
+    background:var(--dark); color:#fff; border-bottom:1px solid #1f2937;
+  }
+  .bar{max-width:1100px; margin:auto; padding:14px 14px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
+  .brand{font-weight:800; letter-spacing:.3px}
+  .icons{display:flex; gap:10px}
+  .iconbtn{
+    width:40px; height:40px; border-radius:12px; background:transparent; border:2px solid #374151;
+    display:grid; place-items:center; color:#fff; cursor:pointer
+  }
+  .iconbtn svg{width:20px; height:20px; fill:#fff}
+
+  /* Search row */
+  .searchrow{max-width:1100px; margin:0 auto 10px; padding:0 14px 14px}
+  .searchbox{
+    display:grid; grid-template-columns:1fr auto; gap:12px;
+  }
+  .input{
+    height:48px; border-radius:24px; border:2px solid #374151; background:#0d1116; color:#e5e7eb;
+    padding:0 18px; outline:none;
+  }
+  .cta{
+    height:48px; padding:0 18px; border:0; border-radius:24px;
+    background:var(--accent); color:var(--accent-ink); font-weight:800; cursor:pointer
+  }
+
+  /* Tabs */
+  .tabs-wrap{background:#fff; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; position:sticky; top:96px; z-index:25}
+  @media (max-width:680px){ .tabs-wrap{top:102px} }
+  .tabs{max-width:1100px; margin:auto; padding:10px 14px; display:flex; gap:10px; overflow:auto}
+  .tab{padding:10px 16px; border:2px solid #111; border-radius:12px; background:#fff; font-weight:700}
+  .tab.active{background:#111; color:#fff}
+
+  /* Location strip */
+  .loc{max-width:1100px; margin:0 auto; padding:12px 14px; background:#fff; border-bottom:1px solid #e5e7eb; display:flex; gap:8px; align-items:center}
+  .loc a{color:#111; font-weight:700; text-decoration:underline}
+
+  /* Cards */
+  .wrap{max-width:1100px; margin:16px auto; padding:0 14px}
+  .grid{display:grid; gap:14px}
+  @media (min-width:720px){ .grid{grid-template-columns:repeat(2,1fr)} }
+  .card{
+    background:var(--card); border:2px solid #111; border-radius:18px; overflow:hidden
+  }
+  .thumb{height:140px; background:#d6d3d1; display:block}
+  .body{padding:14px}
+  .title{font-weight:800; font-size:20px; line-height:1.2; margin:4px 0}
+  .sub{color:#6b7280; margin-bottom:8px}
+  .price{font-weight:900; font-size:18px; margin:6px 0 12px}
+  .actions{display:flex; gap:12px}
+  .pill{
+    flex:1; display:grid; place-items:center; height:52px; border-radius:16px; font-weight:800; cursor:pointer;
+    border:2px solid #111;
+  }
+  .pill.primary{background:var(--accent)}
+  .pill.dark{background:#111; color:#fff}
+  /* Footer */
+  .footer{max-width:1100px; margin:18px auto 30px; padding:16px 14px; color:var(--muted); text-align:center}
+</style>
+</head>
+<body>
+
+  <!-- App bar -->
+  <div class="appbar">
+    <div class="bar">
+      <div class="brand">BATI DC</div>
+      <div></div>
+      <div class="icons">
+        <button class="iconbtn" aria-label="Compte">
+          <svg viewBox="0 0 24 24"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5Zm0 2c-5 0-9 2.5-9 5.5V22h18v-2.5C21 16.5 17 14 12 14Z"/></svg>
+        </button>
+        <button class="iconbtn" aria-label="Devis">
+          <svg viewBox="0 0 24 24"><path d="M7 2h10a2 2 0 0 1 2 2v16l-7-3-7 3V4a2 2 0 0 1 2-2Z"/></svg>
+        </button>
+        <button class="iconbtn" aria-label="Panier">
+          <svg viewBox="0 0 24 24"><path d="M7 4h-2l-1 2v2h2l3.6 7.59A2 2 0 0 0 11.4 17h6.2a2 2 0 0 0 1.8-1.09L22 9H7M7 22a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm10 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="searchrow">
+      <div class="searchbox">
+        <input class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…">
+        <button class="cta">Rechercher</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-wrap">
+    <div class="tabs">
+      <div class="tab active">Accueil</div>
+      <div class="tab">Produits</div>
+      <div class="tab">Fournisseurs</div>
+      <div class="tab">Interventions</div>
+    </div>
+  </div>
+
+  <!-- Location strip -->
+  <div class="loc">
+    <span>📍 <strong>Livraison à Paris</strong> —</span>
+    <a href="#">Mettre à jour</a>
+  </div>
+
+  <!-- Demo catalogue -->
+  <div class="wrap">
+    <div class="grid">
+      <article class="card">
+        <span class="thumb" aria-hidden="true"></span>
+        <div class="body">
+          <h3 class="title">Niveau laser vert</h3>
+          <div class="sub">Bosch Pro • Réf GLL</div>
+          <div class="price">à partir de <strong>89,00 €</strong></div>
+          <div class="actions">
+            <button class="pill primary">Voir les prix</button>
+            <button class="pill dark">Ajouter au devis</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <span class="thumb" aria-hidden="true"></span>
+        <div class="body">
+          <h3 class="title">Scie circulaire 190&nbsp;mm</h3>
+          <div class="sub">DeWalt • Réf DWE</div>
+          <div class="price">à partir de <strong>129,00 €</strong></div>
+          <div class="actions">
+            <button class="pill primary">Voir les prix</button>
+            <button class="pill dark">Ajouter au devis</button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <div class="footer">© 2025 BATI DC — Tous droits réservés</div>
+
+</body>
+</html>
