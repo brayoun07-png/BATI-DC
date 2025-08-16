@@ -509,8 +509,43 @@ document.addEventListener('DOMContentLoaded', ()=>{
     letter-spacing: .3px;
   }
 
-  /* Onglets cliquables au-dessus des images (en cas de recouvrement) */
-  .tabs, .tabs-wrap, nav { position: relative; z-index: 30; }
-</style>
-<!-- === Fin correctifs === --></body>
+  <style id="fix-batidc-header-only">
+  /* Ligne du haut : forcer un alignement propre sans rien casser autour */
+  .appbar, header.topbar, .topbar, .app-header, header.site-header {
+    display: flex !important;
+    flex-wrap: wrap;                /* permet de mettre la recherche en dessous */
+    align-items: center !important;
+    gap: 12px;
+  }
+
+  /* Bloc titre à gauche */
+  .appbar .brand, .topbar .brand, .app-header .brand, .site-header .brand,
+  .appbar .logo,  .topbar .logo,  .app-header .logo,  .site-header .logo {
+    order: 1;
+  }
+
+  /* Icônes/Actions à droite */
+  .appbar .icons, .topbar .icons, .app-header .icons, .site-header .icons,
+  .appbar .actions, .topbar .actions, .app-header .actions, .site-header .actions {
+    order: 1;
+    margin-left: auto !important;   /* pousse à droite */
+    display: flex !important;
+    gap: 12px;
+  }
+
+  /* Barre de recherche sous la ligne du haut (plein largeur) */
+  .appbar .search, .topbar .search, .app-header .search,
+  .appbar .searchbar, .topbar .searchbar, .app-header .searchbar {
+    order: 2;
+    flex: 1 0 100%;
+    margin-top: 10px;
+  }
+
+  /* Taille du titre BATI DC (légèrement plus grand) */
+  .brand .site-title, .logo .site-title, .brand, .logo {
+    font-size: 28px !important;
+    font-weight: 800 !important;
+    letter-spacing: 2px !important;
+  }
+</style> </body>
 </html>
