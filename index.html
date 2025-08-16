@@ -285,5 +285,132 @@
       }
     })();
   </script>
-</body>
+<script>
+  // Drawer (menu latéral)
+  (function(){
+    var openBtn = document.getElementById('openDrawer');
+    var closeBtn = document.getElementById('closeDrawer');
+    var drawer  = document.getElementById('drawer');
+    var backdrop= document.getElementById('backdrop');
+    function open(){ drawer.classList.add('open'); backdrop.classList.add('show'); }
+    function close(){ drawer.classList.remove('open'); backdrop.classList.remove('show'); }
+    if(openBtn) openBtn.addEventListener('click', open);
+    if(closeBtn) closeBtn.addEventListener('click', close);
+    if(backdrop) backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape') close(); });
+  })();
+
+  // Données démo
+  var ITEMS = [
+    {name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9},
+    {name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289},
+    {name:'Serrure multipoints Bricard', brand:'Bricard', price:189},
+    {name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429},
+    {name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379},
+    {name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319},
+    {name:'Mitigeur douche Grohe', brand:'Grohe', price:129},
+    {name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990},
+    {name:'Radiateur électrique Thermor', brand:'Thermor', price:229},
+    {name:'Fenêtre Velux GGL', brand:'Velux', price:499},
+    {name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199},
+    {name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9},
+    {name:'Laine de verre Isover 200mm', brand:'Isover', price:49},
+    {name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54},
+    {name:'Panneau SunPower 400W', brand:'SunPower', price:259},
+    {name:'Panneau Qcells 425W', brand:'Qcells', price:239},
+    {name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9},
+    {name:'Diable pliant 120kg', brand:'Tooli', price:59},
+    {name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69},
+    {name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22},
+    {name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429},
+    {name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379},
+    {name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9},
+    {name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149},
+    {name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139}
+  ];
+
+  // Règles de catégories
+  var RULES = [
+    {cat:'Serrurerie', keys:['Vachette','Fichet','Bricard','Abus','cylindre','serrure']},
+    {cat:'Plomberie', keys:['Atlantic','Thermor','Ariston','Grohe','Geberit','robinet','mitigeur','Chauffe-eau']},
+    {cat:'Chauffage', keys:['chaudière','radiateur','chauffage','Thermor','De Dietrich','Vaillant']},
+    {cat:'Pompe à chaleur', keys:['Daikin','Mitsubishi Electric','PAC','Pompe à chaleur']},
+    {cat:'Menuiserie', keys:['Lapeyre','Velux','fenêtre','porte']},
+    {cat:'Rénovation', keys:['Toupret','enduit','rebouchage']},
+    {cat:'Isolation', keys:['Isover','Rockwool','laine','isolation']},
+    {cat:'Panneaux photovoltaïques', keys:['SunPower','Qcells','photovoltaïque','solaire']},
+    {cat:'Déménagement', keys:['carton','diable','déménagement']},
+    {cat:'Peinture', keys:['Dulux','Ripolin','peinture']},
+    {cat:'Carrelage', keys:['Marazzi','Porcelanosa','carrelage']},
+    {cat:'Électroménager', keys:['Whirlpool','Samsung','Bosch Home','lave-linge','lave-vaisselle','réfrigérateur']},
+    {cat:'Produits de construction', keys:['Lafarge','Semin','ciment','mortier','béton']},
+    {cat:'Chantier / Outillage', keys:['Makita','DeWalt','Bosch Pro','outil','perceuse','scie','ponceuse']}
+  ];
+
+  function guessCategory(item){
+    var hay = (item.name + ' ' + item.brand).toLowerCase();
+    for(var i=0;i<RULES.length;i++){
+      var rule = RULES[i];
+      for(var j=0;j<rule.keys.length;j++){
+        if(hay.indexOf(rule.keys[j].toLowerCase()) !== -1) return rule.cat;
+      }
+    }
+    return 'Autres';
+  }
+
+  function euro(v){
+    return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v);
+  }
+
+  (function render(){
+    var groups = {};
+    for(var i=0;i<ITEMS.length;i++){
+      var it = ITEMS[i];
+      var cat = guessCategory(it);
+      if(!groups[cat]) groups[cat] = [];   // <-- compatibilité Safari
+      groups[cat].push(it);
+    }
+
+    // ordre des catégories
+    var order = [];
+    for(var r=0;r<RULES.length;r++){ order.push(RULES[r].cat); }
+    for(var c in groups){ if(order.indexOf(c)===-1) order.push(c); }
+
+    var wrap = document.getElementById('catalogue');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+
+    for(var k=0;k<order.length;k++){
+      var catName = order[k];
+      var arr = groups[catName];
+      if(!arr) continue;
+
+      var h = document.createElement('h2');
+      h.className = 'category';
+      h.textContent = catName;
+      wrap.appendChild(h);
+
+      var grid = document.createElement('div');
+      grid.className = 'grid';
+
+      for(var t=0;t<arr.length;t++){
+        var o = arr[t];
+        var el = document.createElement('article');
+        el.className = 'card';
+        el.innerHTML =
+          '<div class="thumb"></div>' +
+          '<div class="body">' +
+          '<h3 class="title">'+o.name+'</h3>' +
+          '<div class="sub">'+o.brand+'</div>' +
+          '<div class="price">à partir de <strong>'+euro(o.price)+'</strong></div>' +
+          '<div class="actions">' +
+          '<button class="pill primary">Voir les prix</button>' +
+          '<button class="pill dark">Ajouter au devis</button>' +
+          '</div></div>';
+        grid.appendChild(el);
+      }
+      wrap.appendChild(grid);
+    }
+  })();
+</script></body>
 </html>
