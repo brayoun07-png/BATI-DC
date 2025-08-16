@@ -8,7 +8,8 @@
   :root{--bg:#0f1115;--ink:#e5e7eb;--muted:#9aa4b2;--accent:#f59e0b;--stroke:#1f2937}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-  /* Appbar */
+
+  /* Appbar (structure d’origine) */
   header.appbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--stroke)}
   .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
   .brand{font-weight:900;letter-spacing:.3px;font-size:30px}
@@ -17,11 +18,13 @@
   .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
   .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
   .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
+
   /* Tabs */
   .tabs-wrap{position:sticky;top:96px;z-index:25;background:var(--bg);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke)}
   .tabs{max-width:1100px;margin:auto;padding:10px;display:flex;gap:10px;overflow:auto}
   .tablink{padding:10px 16px;border:2px solid #374151;border-radius:12px;background:#111418;text-decoration:none;color:#e5e7eb;font-weight:700;white-space:nowrap}
   .tablink.active{background:#e5e7eb;color:#111}
+
   /* Notices & layout */
   .notice{max-width:1100px;margin:12px auto;padding:12px;border-radius:12px;background:#111418;border:1px solid var(--stroke)}
   main{max-width:1100px;margin:16px auto;padding:0 10px}
@@ -37,20 +40,24 @@
   .btn{height:40px;padding:0 14px;border-radius:10px;border:2px solid #374151;background:#111418;color:#e5e7eb;font-weight:800;cursor:pointer}
   .btn.primary{background:#e5e7eb;color:#111;border-color:#e5e7eb}
   .chip{display:inline-block;padding:6px 10px;border:1px solid #374151;border-radius:999px;margin:2px 6px 2px 0;font-size:13px}
+
   /* Drawer */
   .sidedrawer{width:280px;background:#111418;border-right:1px solid var(--stroke);padding:14px}
   .sidedrawer h3{margin:6px 8px}
   .sidedrawer a{display:block;padding:10px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none}
   .sidedrawer a:hover{background:#1f2937}
+
   /* Modals (auth & cart & fiche) */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:90}
   .sheet{width:min(720px,92vw);background:#111418;border:1px solid var(--stroke);border-radius:16px;overflow:hidden}
   .sheet header{padding:14px 16px;border-bottom:1px solid var(--stroke);font-weight:800;display:flex;justify-content:space-between;align-items:center}
   .sheet .content{padding:16px}
   .fld input{width:100%;height:44px;border-radius:10px;border:1px solid #2b3340;background:#0d1116;color:#e5e7eb;padding:0 12px}
+
   /* Cart list rows */
   .rowline{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #2b3340;border-radius:12px;padding:10px;margin:8px 0}
   .row{display:flex;gap:10px;flex-wrap:wrap}
+
   /* Firebase badge */
   #fb-badge{position:fixed;right:12px;bottom:12px;background:#111;color:#fff;padding:10px 14px;border-radius:14px;font:600 14px system-ui;z-index:999;opacity:.95;display:none}
 </style>
@@ -240,36 +247,30 @@
   </div>
 </div>
 
-<!-- Badge Firebase -->
+<!-- Badge Firebase (unique) -->
 <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
 
 <script>
-/* ======================= Données produits (exemples réels) ======================= */
+/* ======================= Données produits (exemples) ======================= */
 const PRODUCTS = [
-  // Serrurerie
   {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées."},
   {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage."},
   {id:"jpm-serrure-multi", title:"Serrure JPM multipoints", brand:"JPM", category:"serrurerie", price:189.00, img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&auto=format&fit=crop&q=60", desc:"Serrure multipoints pour porte d’entrée, pêne renforcé."},
-  // Plomberie
   {id:"atlantic-ce-200l", title:"Chauffe-eau Atlantic 200 L", brand:"Atlantic", category:"plomberie", price:349.00, img:"https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=1200&auto=format&fit=crop&q=60", desc:"Vertical, résistance stéatite, garantie 5 ans cuve."},
   {id:"thermor-ce-150l", title:"Chauffe-eau Thermor 150 L", brand:"Thermor", category:"plomberie", price:299.00, img:"https://images.unsplash.com/photo-1581093588401-16f7b8e2c5c0?w=1200&auto=format&fit=crop&q=60", desc:"Installation murale, économies d’énergie."},
-  // Électricité
   {id:"legrand-disj-20a", title:"Disjoncteur Legrand 20A", brand:"Legrand", category:"electricite", price:14.90, img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&auto=format&fit=crop&q=60", desc:"Protection circuit 20 A – DIN."},
   {id:"schneider-plexo", title:"Prise extérieure Schneider Plexo IP55", brand:"Schneider Electric", category:"electricite", price:12.50, img:"https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1200&auto=format&fit=crop&q=60", desc:"Étanche IP55 – gris."},
-  // Isolation / matériaux
   {id:"placo-ba13", title:"Plaque de plâtre Placo BA13", brand:"Placo", category:"isolation", price:6.90, img:"https://images.unsplash.com/photo-1600566753141-0b0b58f1d9eb?w=1200&auto=format&fit=crop&q=60", desc:"Plaque standard 2500×1200×13mm."},
   {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique."},
 ];
 
-/* ======================= Utilitaires et état ======================= */
 const fmt = v => (v||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
 const $ = (s, r=document)=> r.querySelector(s);
 const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
 
-let CART = JSON.parse(localStorage.getItem('cart')||'{}'); // {id: qty}
+let CART = JSON.parse(localStorage.getItem('cart')||'{}');
 const saveCart = ()=> localStorage.setItem('cart', JSON.stringify(CART));
 
-/* ======================= Rendu Produits ======================= */
 function cardHTML(p){
   return `
   <article class="card">
@@ -292,9 +293,7 @@ function labelCat(c){
   return c==='serrurerie'?'Serrurerie' : c==='plomberie'?'Plomberie' : c==='electricite'?'Électricité' :
          c==='isolation'?'Isolation' : c;
 }
-function renderHome(){
-  $('#homeGrid').innerHTML = PRODUCTS.slice(0,4).map(cardHTML).join('');
-}
+function renderHome(){ $('#homeGrid').innerHTML = PRODUCTS.slice(0,4).map(cardHTML).join(''); }
 function renderProducts(filterCat=null, q=null){
   let list=[...PRODUCTS];
   if(filterCat) list = list.filter(p=>p.category===filterCat);
@@ -312,7 +311,6 @@ function renderCatChips(){
   });
 }
 
-/* ======================= Fiche produit & Ajout Panier ======================= */
 function openFiche(p){
   $('#pmTitle').textContent = p.title;
   $('#pmBody').innerHTML = `
@@ -338,7 +336,6 @@ function addToCart(id){
   saveCart(); renderCart(); $('#cartModal').style.display='flex';
 }
 
-/* ======================= Panier ======================= */
 function renderCart(){
   const box = $('#cartList'); box.innerHTML='';
   const entries = Object.entries(CART);
@@ -364,7 +361,6 @@ function renderCart(){
   });
   $('#cartTotal').textContent = fmt(total);
 
-  // handlers
   $$('#cartList [data-inc]').forEach(b=> b.onclick=()=>{ CART[b.dataset.inc]++; saveCart(); renderCart(); });
   $$('#cartList [data-dec]').forEach(b=> b.onclick=()=>{ CART[b.dataset.dec]=Math.max(1,(CART[b.dataset.dec]||1)-1); saveCart(); renderCart(); });
   $$('#cartList [data-del]').forEach(b=> b.onclick=()=>{ delete CART[b.dataset.del]; saveCart(); renderCart(); });
@@ -376,20 +372,13 @@ $('[data-cart-close]').onclick = ()=> $('#cartModal').style.display='none';
 $('#cartModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) e.currentTarget.style.display='none'; });
 $('#cartCheckout').onclick = ()=> alert('Commande enregistrée (démo).');
 
-/* ======================= Interactions list/fiche ======================= */
 function bindProductButtons(root=document){
-  root.querySelectorAll('[data-add]').forEach(btn=>{
-    btn.onclick = ()=> addToCart(btn.dataset.add);
-  });
+  root.querySelectorAll('[data-add]').forEach(btn=>{ btn.onclick = ()=> addToCart(btn.dataset.add); });
   root.querySelectorAll('[data-fiche]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const p = PRODUCTS.find(x=>x.id===btn.dataset.fiche);
-      if(p) openFiche(p);
-    };
+    btn.onclick = ()=>{ const p = PRODUCTS.find(x=>x.id===btn.dataset.fiche); if(p) openFiche(p); };
   });
 }
 
-/* ======================= Tabs & drawer & modals ======================= */
 function showTabId(id){
   $$('.tabsection').forEach(s=> s.style.display = (('#'+s.id)===id)?'':'none');
   $$('.tablink').forEach(a=> a.classList.toggle('active', a.dataset.tab===id));
@@ -426,7 +415,6 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
   modal.addEventListener('click', e=>{ if(e.target===modal) close(); });
 })();
 
-/* ======================= Recherche & initialisation ======================= */
 $('#doSearch').onclick = ()=>{
   const q = $('#q').value.trim();
   showTabId('#produits'); renderProducts(null, q); bindProductButtons($('#prodGrid'));
@@ -444,7 +432,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw",     /* ⇐ remplace uniquement cette valeur */
+    apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw", /* ⇐ remplace uniquement cette valeur */
     authDomain: "bati-dc.firebaseapp.com",
     projectId: "bati-dc",
     storageBucket: "bati-dc.appspot.com",
@@ -475,7 +463,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
       const el = document.getElementById('authState');
       el.textContent = user ? `connecté (${user.email})` : 'non connecté';
     });
-    // Expose signOut si tu veux l'ajouter plus tard :
     window.signout = ()=> signOut(auth);
   }catch(e){
     console.error('Firebase init error:', e);
@@ -483,69 +470,26 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 </script>
 
-<!-- Petit badge d'état Firebase -->
-<div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
-
-<!-- === Correctifs visuels BATI DC (fond blanc + header) === -->
-<style id="fix-batidc-light">
-  /* Fond du site en blanc + texte foncé */
+<!-- === Correctifs visuels MINIMAUX (ne change rien d’autre) === -->
+<style>
+  /* Fond de page blanc + contenu clair */
   html, body { background:#ffffff !important; color:#111 !important; }
+  .notice, .card, main, .tabs-wrap { background:#ffffff !important; color:#111 !important; }
+  .btn, .tablink { color:#111 !important; }
 
-  /* Sections/cartes claires si ton thème avait du “dark” */
-  .page, .main, .section, .container { background:#ffffff !important; }
-  .card { background:#ffffff !important; color:#111 !important; }
-  .pill, .tab, .btn-outline { background:#fff !important; color:#111 !important; border-color:#e5e7eb !important; }
+  /* Barre du haut sombre + texte/icônes blancs */
+  .appbar{ background:#111 !important; color:#fff !important; }
+  .appbar .iconbtn{ border-color:#2b2f36; color:#fff; }
 
-  /* Barre du haut : fond sombre, texte/icônes blancs (comme ta 2e photo) */
-  .appbar, header.topbar, .topbar {
-    background:#111 !important; color:#fff !important;
+  /* Alignement du header (comme ta capture) */
+  .appbar .bar{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
+  .appbar .brand{ margin-left:8px; }
+  /* Sur mobile, on met la recherche en dessous mais on garde le même look */
+  @media (max-width:520px){
+    .appbar .bar{ grid-template-columns:auto 1fr auto; }
+    .appbar .searchrow{ grid-column:1/-1; padding:10px 0 0 0 !important; }
   }
-  .appbar a, .topbar a, .appbar .icon, .topbar .icon { color:#fff !important; }
+</style>
 
-  /* Titre BATI DC un peu plus grand (léger) */
-  .brand, .logo, .site-title {
-    font-size: 28px !important;
-    font-weight: 800 !important;
-    letter-spacing: .3px;
-  }
-
-  <style id="fix-batidc-header-only">
-  /* Ligne du haut : forcer un alignement propre sans rien casser autour */
-  .appbar, header.topbar, .topbar, .app-header, header.site-header {
-    display: flex !important;
-    flex-wrap: wrap;                /* permet de mettre la recherche en dessous */
-    align-items: center !important;
-    gap: 12px;
-  }
-
-  /* Bloc titre à gauche */
-  .appbar .brand, .topbar .brand, .app-header .brand, .site-header .brand,
-  .appbar .logo,  .topbar .logo,  .app-header .logo,  .site-header .logo {
-    order: 1;
-  }
-
-  /* Icônes/Actions à droite */
-  .appbar .icons, .topbar .icons, .app-header .icons, .site-header .icons,
-  .appbar .actions, .topbar .actions, .app-header .actions, .site-header .actions {
-    order: 1;
-    margin-left: auto !important;   /* pousse à droite */
-    display: flex !important;
-    gap: 12px;
-  }
-
-  /* Barre de recherche sous la ligne du haut (plein largeur) */
-  .appbar .search, .topbar .search, .app-header .search,
-  .appbar .searchbar, .topbar .searchbar, .app-header .searchbar {
-    order: 2;
-    flex: 1 0 100%;
-    margin-top: 10px;
-  }
-
-  /* Taille du titre BATI DC (légèrement plus grand) */
-  .brand .site-title, .logo .site-title, .brand, .logo {
-    font-size: 28px !important;
-    font-weight: 800 !important;
-    letter-spacing: 2px !important;
-  }
-</style> </body>
+</body>
 </html>
