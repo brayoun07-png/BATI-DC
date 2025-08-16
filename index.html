@@ -31,12 +31,13 @@
 
     /* Location */
     .loc{max-width:1100px;margin:0 auto;padding:12px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center}
-    .loc a{color:#111;font-weight:700;text-decoration:underline}
+    .loc strong{font-weight:800}
 
     /* Content + cards */
     .wrap{max-width:1100px;margin:16px auto;padding:0 14px}
     .grid{display:grid;gap:14px}
     @media (min-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+    .category{margin:18px 0 8px;font-weight:900}
     .card{background:#fff;border:2px solid var(--border);border-radius:18px;overflow:hidden}
     .thumb{height:140px;background:#d6d3d1}
     .body{padding:14px}
@@ -92,7 +93,6 @@
     </header>
 
     <div class="content">
-      <!-- Liens principaux -->
       <nav class="menu-list">
         <a href="#">🏠 Accueil</a>
         <a href="#">🧰 Produits</a>
@@ -102,7 +102,6 @@
 
       <div class="sep"></div>
 
-      <!-- Catégories -->
       <div class="chips">
         <a class="chip" href="#">Fournisseur</a>
         <a class="chip" href="#">Entreprise</a>
@@ -154,47 +153,19 @@
     </div>
   </div>
 
-  <!-- Localisation -->
+  <!-- Localisation (mise à jour demandée) -->
   <div class="loc">
-    <span>📍 <strong>Livraison à Paris</strong> —</span>
-    <a href="#">Mettre à jour</a>
+    <span>📦 <strong>Livraison partout en France</strong></span>
   </div>
 
-  <!-- Cartes démo -->
-  <div class="wrap">
-    <div class="grid">
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <h3 class="title">Niveau laser vert</h3>
-          <div class="sub">Bosch Pro • Réf GLL</div>
-          <div class="price">à partir de <strong>89,00 €</strong></div>
-          <div class="actions">
-            <button class="pill primary">Voir les prix</button>
-            <button class="pill dark">Ajouter au devis</button>
-          </div>
-        </div>
-      </article>
-
-      <article class="card">
-        <div class="thumb"></div>
-        <div class="body">
-          <h3 class="title">Scie circulaire 190&nbsp;mm</h3>
-          <div class="sub">DeWalt • Réf DWE</div>
-          <div class="price">à partir de <strong>129,00 €</strong></div>
-          <div class="actions">
-            <button class="pill primary">Voir les prix</button>
-            <button class="pill dark">Ajouter au devis</button>
-          </div>
-        </div>
-      </article>
-    </div>
-  </div>
+  <!-- Zone de rendu auto -->
+  <div id="catalogue" class="wrap"></div>
 
   <div class="footer">© 2025 BATI DC — Tous droits réservés</div>
 
-  <!-- JS tiroir -->
+  <!-- JS : tiroir + rendu catalogue -->
   <script>
+    // Drawer
     (function(){
       const openBtn = document.getElementById('openDrawer');
       const closeBtn = document.getElementById('closeDrawer');
@@ -206,6 +177,112 @@
       if(closeBtn) closeBtn.addEventListener('click', close);
       if(backdrop) backdrop.addEventListener('click', close);
       document.addEventListener('keydown', e=>{ if(e.key==='Escape') close(); });
+    })();
+
+    // --- Données démo (tu peux les changer facilement) ---
+    const ITEMS = [
+      // Serrurerie
+      {name:'Cylindre de serrure Vachette A2P', brand:'Vachette', price:69.9},
+      {name:'Serrure de sécurité Fichet F3D', brand:'Fichet', price:289},
+      {name:'Serrure multipoints Bricard', brand:'Bricard', price:189},
+      // Plomberie / Chauffe-eau
+      {name:'Chauffe-eau 200L Atlantic', brand:'Atlantic', price:429},
+      {name:'Chauffe-eau mural Thermor 150L', brand:'Thermor', price:379},
+      {name:'Chauffe-eau Ariston 100L', brand:'Ariston', price:319},
+      {name:'Mitigeur douche Grohe', brand:'Grohe', price:129},
+      // Chauffage / PAC
+      {name:'Pompe à chaleur Daikin 8kW', brand:'Daikin', price:6990},
+      {name:'Radiateur électrique Thermor', brand:'Thermor', price:229},
+      // Menuiserie
+      {name:'Fenêtre Velux GGL', brand:'Velux', price:499},
+      {name:'Porte intérieure Lapeyre', brand:'Lapeyre', price:199},
+      // Rénovation / Isolation
+      {name:'Enduit de rebouchage Toupret', brand:'Toupret', price:14.9},
+      {name:'Laine de verre Isover 200mm', brand:'Isover', price:49},
+      {name:'Laine de roche Rockwool 120mm', brand:'Rockwool', price:54},
+      // Panneaux photovoltaïques
+      {name:'Panneau SunPower 400W', brand:'SunPower', price:259},
+      {name:'Panneau Qcells 425W', brand:'Qcells', price:239},
+      // Déménagement
+      {name:'Lot 10 cartons de déménagement', brand:'CartonPro', price:24.9},
+      {name:'Diable pliant 120kg', brand:'Tooli', price:59},
+      // Peinture / Carrelage
+      {name:'Peinture murale Dulux Valentine 10L', brand:'Dulux', price:69},
+      {name:'Carrelage sol Marazzi 60x60', brand:'Marazzi', price:22},
+      // Électroménager
+      {name:'Lave-linge Samsung 9kg', brand:'Samsung', price:429},
+      {name:'Lave-vaisselle Whirlpool', brand:'Whirlpool', price:379},
+      // Produits de construction / Chantier / Outillage
+      {name:'Ciment Lafarge 35kg', brand:'Lafarge', price:9.9},
+      {name:'Perceuse-visseuse Bosch Pro 18V', brand:'Bosch Pro', price:149},
+      {name:'Scie circulaire DeWalt 190mm', brand:'DeWalt', price:139},
+    ];
+
+    // --- Règles de catégorisation (ordre = priorité) ---
+    const RULES = [
+      {cat:'Serrurerie', keys:['Vachette','Fichet','Bricard','Abus','cylindre','serrure']},
+      {cat:'Plomberie', keys:['Atlantic','Thermor','Ariston','Grohe','Geberit','robinet','mitigeur','Chauffe-eau']},
+      {cat:'Chauffage', keys:['chaudière','radiateur','chauffage','Thermor','De Dietrich','Vaillant']},
+      {cat:'Pompe à chaleur', keys:['Daikin','Mitsubishi Electric','PAC','Pompe à chaleur']},
+      {cat:'Menuiserie', keys:['Lapeyre','Velux','fenêtre','porte']},
+      {cat:'Rénovation', keys:['Toupret','enduit','rebouchage']},
+      {cat:'Isolation', keys:['Isover','Rockwool','laine','isolation']},
+      {cat:'Panneaux photovoltaïques', keys:['SunPower','Qcells','photovoltaïque','solaire']},
+      {cat:'Déménagement', keys:['carton','diable','déménagement']},
+      {cat:'Peinture', keys:['Dulux','Ripolin','peinture']},
+      {cat:'Carrelage', keys:['Marazzi','Porcelanosa','carrelage']},
+      {cat:'Électroménager', keys:['Whirlpool','Samsung','Bosch Home','lave-linge','lave-vaisselle','réfrigérateur']},
+      {cat:'Produits de construction', keys:['Lafarge','Semin','ciment','mortier','béton']},
+      {cat:'Chantier / Outillage', keys:['Makita','DeWalt','Bosch Pro','outil','perceuse','scie','ponceuse']}
+    ];
+
+    function guessCategory(item){
+      const hay = (item.name + ' ' + item.brand).toLowerCase();
+      for(const rule of RULES){
+        if(rule.keys.some(k => hay.includes(k.toLowerCase()))) return rule.cat;
+      }
+      return 'Autres';
+    }
+
+    function €(v){ return new Intl.NumberFormat('fr-FR',{style:'currency',currency:'EUR'}).format(v); }
+
+    // Regroupe par catégorie et rend la page
+    (function render(){
+      const groups = {};
+      for(const it of ITEMS){
+        const cat = guessCategory(it);
+        (groups[cat] ||= []).push(it);
+      }
+      const order = RULES.map(r=>r.cat).concat(Object.keys(groups).filter(c=>!RULES.some(r=>r.cat===c)));
+      const wrap = document.getElementById('catalogue');
+      wrap.innerHTML = '';
+      for(const cat of order){
+        const arr = groups[cat];
+        if(!arr) continue;
+        const h = document.createElement('h2');
+        h.className='category'; h.textContent = cat;
+        wrap.appendChild(h);
+
+        const grid = document.createElement('div');
+        grid.className='grid';
+        arr.forEach(o=>{
+          const el = document.createElement('article');
+          el.className='card';
+          el.innerHTML = `
+            <div class="thumb"></div>
+            <div class="body">
+              <h3 class="title">${o.name}</h3>
+              <div class="sub">${o.brand}</div>
+              <div class="price">à partir de <strong>${€(o.price)}</strong></div>
+              <div class="actions">
+                <button class="pill primary">Voir les prix</button>
+                <button class="pill dark">Ajouter au devis</button>
+              </div>
+            </div>`;
+          grid.appendChild(el);
+        });
+        wrap.appendChild(grid);
+      }
     })();
   </script>
 </body>
