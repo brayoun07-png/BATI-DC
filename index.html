@@ -2,243 +2,47 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Comparateur de prix</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Produit</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    :root{
-      --bg:#0b0c10; --panel:#111317; --muted:#98a2b3; --text:#e6e6e6;
-      --primary:#4f46e5; --ok:#16a34a; --warn:#f59e0b; --bad:#ef4444;
-      --border:#1f2430; --chip:#1a1f2b;
-      --radius:14px;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
     body{
-      margin:0; font:15px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      color:var(--text); background:linear-gradient(180deg,#0a0b0e, #0f1117 60%, #0a0b0e);
-      -webkit-font-smoothing:antialiased; padding-bottom:18vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin:0; padding:20px;
+      background:#f7f8fa; color:#222;
     }
-    .wrap{max-width:980px; margin:auto; padding:24px 16px}
-    header{
-      position:sticky; top:0; backdrop-filter:saturate(140%) blur(8px);
-      background:linear-gradient(180deg, rgba(10,11,14,.9), rgba(10,11,14,.6));
-      z-index:20; border-bottom:1px solid var(--border);
+    .container{
+      max-width:600px; margin:auto;
+      background:#fff; border-radius:12px;
+      padding:20px; box-shadow:0 4px 12px rgba(0,0,0,0.1);
     }
-    header .bar{max-width:980px; margin:auto; padding:12px 16px; display:flex; gap:12px; align-items:center}
-    .brand{font-weight:700; letter-spacing:.2px}
-    .brand small{color:var(--muted); font-weight:500}
-    .card{
-      background:radial-gradient(1200px 400px at 10% -10%, rgba(79,70,229,.12), transparent 60%), var(--panel);
-      border:1px solid var(--border); border-radius:var(--radius); padding:14px;
-      box-shadow:0 10px 30px rgba(0,0,0,.35), inset 0 1px rgba(255,255,255,.03);
-    }
-    .row{display:grid; gap:12px}
-    @media (min-width:740px){ .row{grid-template-columns:280px 1fr} }
-
-    /* Produit */
     .product{
-      display:grid; grid-template-columns:64px 1fr; gap:12px; align-items:center
+      display:flex; flex-direction:column; align-items:center; text-align:center;
     }
-    .thumb{
-      width:64px; height:64px; border-radius:12px; background:#0e1119; border:1px solid var(--border);
-      display:grid; place-items:center; color:var(--muted); font-size:11px
+    .product img{
+      width:180px; height:auto; margin-bottom:15px;
+      border-radius:8px; border:1px solid #ddd;
     }
-    .pname{font-weight:650}
-    .muted{color:var(--muted)}
-    .chips{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
-    .chip{
-      display:inline-flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px;
-      background:var(--chip); border:1px solid var(--border); cursor:pointer; user-select:none
+    .product h1{
+      font-size:1.4rem; margin:10px 0;
     }
-    .chip input{appearance:none; width:14px; height:14px; border-radius:4px; border:1px solid #3a4152; display:inline-block; position:relative}
-    .chip input:checked{background:var(--primary); border-color:var(--primary)}
-    .chip span{font-size:13px}
-
-    /* Table */
-    .table{
-      width:100%; border-collapse:separate; border-spacing:0; overflow:hidden; border-radius:12px;
-      border:1px solid var(--border); background:rgba(255,255,255,.02)
+    .product p{
+      color:#555; line-height:1.4;
     }
-    thead th{
-      text-align:left; font-size:13px; color:var(--muted); padding:10px 12px; position:sticky; top:58px; background:rgba(15,17,23,.92); backdrop-filter:blur(6px); z-index:10
-    }
-    tbody td{padding:12px; border-top:1px solid var(--border); vertical-align:middle}
-    tbody tr:hover{background:rgba(79,70,229,.06)}
-    .vendor{display:flex; align-items:center; gap:10px}
-    .badge{
-      padding:3px 8px; border-radius:999px; font-size:12px; font-weight:600; display:inline-block;
-      border:1px solid var(--border)
-    }
-    .in{color:#10b981; background:rgba(16,185,129,.12)}
-    .low{color:#f59e0b; background:rgba(245,158,11,.12)}
-    .out{color:#ef4444; background:rgba(239,68,68,.12)}
     .btn{
-      appearance:none; border:1px solid var(--border); background:var(--chip); color:var(--text);
-      padding:10px 12px; border-radius:10px; font-weight:600; cursor:pointer
+      margin-top:20px; background:#4f46e5; color:white;
+      padding:10px 16px; border-radius:8px; text-decoration:none; font-weight:600;
     }
-    .btn:hover{border-color:#3a4152}
-    .right{justify-self:end}
-    .mono{font-variant-numeric:tabular-nums}
-    .shimmer{
-      position:relative; overflow:hidden; background:rgba(255,255,255,.04)
-    }
-    .shimmer::after{
-      content:""; position:absolute; inset:-50% -30%; transform:skewX(-20deg);
-      background:linear-gradient(90deg, transparent, rgba(255,255,255,.08), transparent);
-      animation:load 1.2s infinite
-    }
-    @keyframes load{ 0%{transform:translateX(-80%) skewX(-20deg)} 100%{transform:translateX(80%) skewX(-20deg)} }
-    .tools{display:flex; gap:8px; flex-wrap:wrap}
+    .btn:hover{ background:#3730a3; }
   </style>
 </head>
 <body>
-  <header>
-    <div class="bar">
-      <div class="brand">Comparateur <small>de prix</small></div>
-      <div class="tools">
-        <button id="btnReset" class="btn">Réinitialiser</button>
-        <button id="btnSort" class="btn">Trier par total</button>
-      </div>
-    </div>
-  </header>
-
-  <div class="wrap">
-    <div class="card row">
-      <!-- Colonne gauche : produit + filtres -->
-      <section class="left">
-        <div class="product">
-          <div class="thumb" id="thumb">IMG</div>
-          <div>
-            <div class="pname" id="pname">Perceuse X200 Brushless 18V</div>
-            <div class="muted" id="psku">Réf. RX-18V-200</div>
-          </div>
-        </div>
-
-        <div style="margin-top:12px">
-          <div class="muted" style="margin-bottom:6px">Filtrer vendeur :</div>
-          <div id="filters" class="chips"></div>
-        </div>
-      </section>
-
-      <!-- Colonne droite : tableau -->
-      <section class="right">
-        <table class="table" id="tbl">
-          <thead>
-            <tr>
-              <th>Vendeur</th>
-              <th>Prix</th>
-              <th>Livraison</th>
-              <th>Total</th>
-              <th>Stock</th>
-              <th class="right">Lien</th>
-            </tr>
-          </thead>
-          <tbody id="tbody">
-            <tr><td colspan="6" class="shimmer" style="height:64px"></td></tr>
-          </tbody>
-        </table>
-      </section>
+  <div class="container">
+    <div class="product">
+      <img src="https://via.placeholder.com/180" alt="Produit">
+      <h1>Nom du produit</h1>
+      <p>Description rapide du produit. Tu peux mettre ici les caractéristiques principales, la référence, etc.</p>
+      <a href="#" class="btn">Acheter</a>
     </div>
   </div>
-
-  <script>
-    // --- Données d'exemple (remplace par ta vraie source) ---
-    const SAMPLE = [
-      {vendor:'Amazon',     price:129.99, shipping:0,     stock:'in',  url:'https://amazon.example/item'},
-      {vendor:'Leroy Merlin', price:135.00, shipping:4.90, stock:'low', url:'https://leroy.example/item'},
-      {vendor:'Cdiscount',  price:119.00, shipping:7.99,  stock:'out', url:'https://cdiscount.example/item'},
-      {vendor:'Boulanger',  price:139.00, shipping:0,     stock:'in',  url:'https://boulanger.example/item'}
-    ];
-
-    // --- État ---
-    let data = [];
-    let selectedVendors = new Set();
-
-    // --- Utils ---
-    const € = v => new Intl.NumberFormat('fr-FR',{style:'currency', currency:'EUR'}).format(v);
-    const totalOf = o => +(o.price + o.shipping).toFixed(2);
-    const byTotal = (a,b)=> totalOf(a)-totalOf(b);
-
-    const STOCK_BADGE = {
-      in : '<span class="badge in">En stock</span>',
-      low: '<span class="badge low">Stock limité</span>',
-      out: '<span class="badge out">Rupture</span>'
-    };
-
-    // --- Rendu ---
-    function renderFilters(vendors){
-      const box = document.getElementById('filters');
-      box.innerHTML = '';
-      vendors.forEach(v=>{
-        const id = 'f_'+v.replace(/\W/g,'');
-        const chip = document.createElement('label');
-        chip.className = 'chip';
-        chip.innerHTML = `<input type="checkbox" id="${id}"><span>${v}</span>`;
-        chip.querySelector('input').addEventListener('change', e=>{
-          if(e.target.checked) selectedVendors.add(v);
-          else selectedVendors.delete(v);
-          renderTable();
-        });
-        box.appendChild(chip);
-      });
-    }
-
-    function renderTable(){
-      const tb = document.getElementById('tbody');
-      tb.innerHTML = '';
-      let rows = data.slice();
-      if(selectedVendors.size){
-        rows = rows.filter(o=> selectedVendors.has(o.vendor));
-      }
-      if(!rows.length){
-        tb.innerHTML = `<tr><td colspan="6" class="muted" style="text-align:center;padding:20px">Aucune offre pour ce filtre.</td></tr>`;
-        return;
-      }
-      rows.forEach(o=>{
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td><div class="vendor"><div class="badge">${o.vendor[0].toUpperCase()}</div>${o.vendor}</div></td>
-          <td class="mono">${€(o.price)}</td>
-          <td class="mono">${o.shipping ? €(o.shipping) : 'Gratuite'}</td>
-          <td class="mono"><strong>${€(totalOf(o))}</strong></td>
-          <td>${STOCK_BADGE[o.stock]||''}</td>
-          <td class="right"><a class="btn" href="${o.url}" target="_blank" rel="noopener">Voir l’offre</a></td>
-        `;
-        tb.appendChild(tr);
-      });
-    }
-
-    // --- Tri bouton ---
-    let asc = true;
-    document.getElementById('btnSort').addEventListener('click', ()=>{
-      data.sort(asc ? byTotal : (a,b)=>byTotal(b,a));
-      asc = !asc;
-      renderTable();
-    });
-    document.getElementById('btnReset').addEventListener('click', ()=>{
-      selectedVendors.clear();
-      document.querySelectorAll('#filters input[type=checkbox]').forEach(c=> c.checked=false);
-      data.sort(byTotal);
-      asc = false;
-      renderTable();
-      asc = true;
-    });
-
-    // --- "Chargement" puis affichage ---
-    // Remplace cette fonction par un vrai fetch() si tu as une API/JSON.
-    async function loadData(){
-      // Simule un délai réseau
-      await new Promise(r=>setTimeout(r, 350));
-      return SAMPLE;
-    }
-
-    (async function init(){
-      const offers = await loadData();
-      data = offers.map(o=> ({...o})).sort(byTotal);
-      const vendors = [...new Set(data.map(o=>o.vendor))];
-      renderFilters(vendors);
-      renderTable();
-    })();
-  </script>
 </body>
 </html>
