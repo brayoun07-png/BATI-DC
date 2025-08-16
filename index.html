@@ -9,7 +9,7 @@
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
 
-  /* Appbar (structure d’origine) */
+  /* ===== Appbar (structure d’origine) ===== */
   header.appbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--stroke)}
   .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
   .brand{font-weight:900;letter-spacing:.3px;font-size:30px}
@@ -19,13 +19,13 @@
   .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
   .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
 
-  /* Tabs */
+  /* Onglets */
   .tabs-wrap{position:sticky;top:96px;z-index:25;background:var(--bg);border-top:1px solid var(--stroke);border-bottom:1px solid var(--stroke)}
   .tabs{max-width:1100px;margin:auto;padding:10px;display:flex;gap:10px;overflow:auto}
   .tablink{padding:10px 16px;border:2px solid #374151;border-radius:12px;background:#111418;text-decoration:none;color:#e5e7eb;font-weight:700;white-space:nowrap}
   .tablink.active{background:#e5e7eb;color:#111}
 
-  /* Notices & layout */
+  /* Layout cartes */
   .notice{max-width:1100px;margin:12px auto;padding:12px;border-radius:12px;background:#111418;border:1px solid var(--stroke)}
   main{max-width:1100px;margin:16px auto;padding:0 10px}
   h2{margin:16px 0 10px}
@@ -47,24 +47,24 @@
   .sidedrawer a{display:block;padding:10px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none}
   .sidedrawer a:hover{background:#1f2937}
 
-  /* Modals (auth & cart & fiche) */
+  /* Modals */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:90}
   .sheet{width:min(720px,92vw);background:#111418;border:1px solid var(--stroke);border-radius:16px;overflow:hidden}
   .sheet header{padding:14px 16px;border-bottom:1px solid var(--stroke);font-weight:800;display:flex;justify-content:space-between;align-items:center}
   .sheet .content{padding:16px}
   .fld input{width:100%;height:44px;border-radius:10px;border:1px solid #2b3340;background:#0d1116;color:#e5e7eb;padding:0 12px}
 
-  /* Cart list rows */
+  /* Cart rows */
   .rowline{display:flex;justify-content:space-between;align-items:center;gap:10px;border:1px solid #2b3340;border-radius:12px;padding:10px;margin:8px 0}
   .row{display:flex;gap:10px;flex-wrap:wrap}
 
-  /* Firebase badge */
+  /* Badge Firebase */
   #fb-badge{position:fixed;right:12px;bottom:12px;background:#111;color:#fff;padding:10px 14px;border-radius:14px;font:600 14px system-ui;z-index:999;opacity:.95;display:none}
 </style>
 </head>
 <body>
 
-<!-- Appbar -->
+<!-- ===== Appbar ===== -->
 <header class="appbar">
   <div class="bar">
     <button class="iconbtn" id="menuBtn" title="Menu">☰</button>
@@ -75,7 +75,7 @@
         <button class="cta" id="doSearch">Rechercher</button>
       </div>
     </div>
-    <div style="display:flex;gap:10px">
+    <div class="icons" style="display:flex;gap:10px">
       <button class="iconbtn" id="authBtn" title="Compte pro">👤</button>
       <button class="iconbtn" id="ordersBtn" title="Mes commandes">🧾</button>
       <button class="iconbtn" id="cartBtn" title="Panier">🛒</button>
@@ -122,61 +122,35 @@
       </ul>
       <h3>Serrurerie / Quincaillerie</h3>
       <ul>
-        <li>Au Forum du Bâtiment (AFDB) • Legallais • Foussier • Setin • Dispano Quincaillerie</li>
-        <li>Vachette • JPM (ASSA ABLOY) • Bricard • Abus • DOM-Metalux • Héraclès • Ferco • Fapim • Hoppe • Ronis • Picard Serrures • Deny Security • Stremler • ISEO • Cisa • Mottura</li>
+        <li>Au Forum du Bâtiment (AFDB) • Legallais • Foussier • Setin</li>
+        <li>Vachette • JPM • Bricard • Abus • DOM-Metalux • Héraclès • Ferco • Fapim • Hoppe • Picard • Ronis • Deny Security • ISEO • Cisa • Mottura</li>
       </ul>
       <h3>Plomberie / Chauffage / Sanitaires</h3>
       <ul>
         <li>Atlantic • Thermor • Ariston • De Dietrich • Saunier Duval • Vaillant • Frisquet • Viessmann</li>
-        <li>Grohe • Hansgrohe • Geberit • Porcher • Jacob Delafon • Ideal Standard</li>
-        <li>Nicoll • Wavin • Girpi • Geberit évacuation</li>
+        <li>Grohe • Hansgrohe • Geberit • Jacob Delafon • Ideal Standard</li>
+        <li>Nicoll • Wavin • Girpi</li>
         <li>Cedeo • Richardson • Brossette</li>
       </ul>
-      <h3>Électricité / Éclairage / Domotique</h3>
+      <h3>Électricité</h3>
       <ul>
         <li>Legrand • Schneider Electric • Hager • ABB</li>
-        <li>Philips/Signify • Osram</li>
         <li>Rexel • Sonepar • CDL Elec</li>
       </ul>
-      <h3>Isolation / Plaque de plâtre / Mortiers</h3>
+      <h3>Isolation / Plâtre</h3>
       <ul>
-        <li>Placo® • Isover • Weber (Saint-Gobain)</li>
-        <li>Knauf • Rockwool • Ursa • Fermacell • Siniat</li>
+        <li>Placo • Isover • Weber • Knauf • Rockwool • Ursa • Fermacell • Siniat</li>
         <li>Sika • Parexlanko • Mapei</li>
-        <li>SFIC • Point.P • BigMat</li>
       </ul>
-      <h3>Bois / Menuiseries / Toiture</h3>
+      <h3>Bois / Toiture</h3>
       <ul>
-        <li>Dispano • Silverwood • Panofrance • Gedibois</li>
-        <li>Velux • Fakro</li>
-        <li>Asturienne (toiture) • Terreal • Imerys Toiture</li>
+        <li>Dispano • Silverwood • Gedibois • Panofrance • Asturienne • Terreal • Imerys</li>
       </ul>
-      <h3>Outillage électroportatif & Fixations</h3>
+      <h3>Outillage & Fixations</h3>
       <ul>
-        <li>Hilti • Bosch Professional • Makita • DeWalt • Milwaukee • Festool</li>
-        <li>Spit Paslode • Fischer • Sormat • Scell-It</li>
-        <li>Würth • Berner</li>
+        <li>Hilti • Bosch Pro • Makita • DeWalt • Milwaukee • Festool</li>
+        <li>Spit Paslode • Fischer • Würth • Berner</li>
       </ul>
-      <h3>Peinture / Revêtements / Étanchéité</h3>
-      <ul>
-        <li>Tollens • Zolpan • Seigneurie Gauthier • Sikkens</li>
-        <li>Weber • Parexlanko • Mapei • Sika</li>
-        <li>Gerflor • Tarkett</li>
-      </ul>
-      <h3>PVC, réseaux & TP</h3>
-      <ul>
-        <li>PUM (réseaux) • Wavin • Nicoll • Girpi • Saint-Gobain PAM</li>
-      </ul>
-      <h3>Photovoltaïque / CVC</h3>
-      <ul>
-        <li>Clim+ • Daikin • Mitsubishi Electric • Atlantic • Hitachi</li>
-        <li>SunPower • REC • Trina • Canadian Solar (via grossistes PV)</li>
-      </ul>
-      <h3>Grands groupes & TP</h3>
-      <ul>
-        <li>Colas • Eurovia (Vinci) • Eiffage • NGE • Fayat • Spie Batignolles</li>
-      </ul>
-      <p style="opacity:.7;margin-top:6px">Tu peux ajouter/retirer facilement des lignes si besoin.</p>
     </div></div>
   </section>
 
@@ -187,7 +161,7 @@
   </section>
 </main>
 
-<!-- Drawer latéral -->
+<!-- Drawer -->
 <aside id="drawer" class="sidedrawer" aria-hidden="true" style="position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:1000">
   <header style="display:flex;align-items:center;justify-content:space-between">
     <h3>Menu</h3>
@@ -247,11 +221,11 @@
   </div>
 </div>
 
-<!-- Badge Firebase (unique) -->
+<!-- Badge Firebase -->
 <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
 
 <script>
-/* ======================= Données produits (exemples) ======================= */
+/* ===== Données produits ===== */
 const PRODUCTS = [
   {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées."},
   {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage."},
@@ -331,10 +305,7 @@ function openFiche(p){
   $('#pmBody').querySelector('[data-add]').onclick = ()=> { addToCart(p.id); };
   $('#pmBody').querySelector('[data-prod-close]').onclick = ()=> { $('#prodModal').style.display='none'; };
 }
-function addToCart(id){
-  CART[id] = (CART[id]||0)+1;
-  saveCart(); renderCart(); $('#cartModal').style.display='flex';
-}
+function addToCart(id){ CART[id] = (CART[id]||0)+1; saveCart(); renderCart(); $('#cartModal').style.display='flex'; }
 
 function renderCart(){
   const box = $('#cartList'); box.innerHTML='';
@@ -360,7 +331,6 @@ function renderCart(){
     box.appendChild(row);
   });
   $('#cartTotal').textContent = fmt(total);
-
   $$('#cartList [data-inc]').forEach(b=> b.onclick=()=>{ CART[b.dataset.inc]++; saveCart(); renderCart(); });
   $$('#cartList [data-dec]').forEach(b=> b.onclick=()=>{ CART[b.dataset.dec]=Math.max(1,(CART[b.dataset.dec]||1)-1); saveCart(); renderCart(); });
   $$('#cartList [data-del]').forEach(b=> b.onclick=()=>{ delete CART[b.dataset.del]; saveCart(); renderCart(); });
@@ -426,13 +396,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 </script>
 
-<!-- ======================= Firebase (modular v10) ======================= -->
+<!-- ===== Firebase (modular v10) ===== -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
   const firebaseConfig = {
-    apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw", /* ⇐ remplace uniquement cette valeur */
+    apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw", /* remplace cette valeur par la tienne si besoin */
     authDomain: "bati-dc.firebaseapp.com",
     projectId: "bati-dc",
     storageBucket: "bati-dc.appspot.com",
@@ -470,24 +440,37 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 </script>
 
-<!-- === Correctifs visuels MINIMAUX (ne change rien d’autre) === -->
-<style>
-  /* Fond de page blanc + contenu clair */
+<!-- ===== Correctifs visuels demandés ===== -->
+<style id="fix-batidc-light">
+  /* Fond blanc + texte foncé global comme ta capture */
   html, body { background:#ffffff !important; color:#111 !important; }
-  .notice, .card, main, .tabs-wrap { background:#ffffff !important; color:#111 !important; }
-  .btn, .tablink { color:#111 !important; }
+  .page, .main, .section, .container { background:#ffffff !important; }
+  .card { background:#ffffff !important; color:#111 !important; }
+  .pill, .tab, .btn-outline { background:#fff !important; color:#111 !important; border-color:#e5e7eb !important; }
 
-  /* Barre du haut sombre + texte/icônes blancs */
-  .appbar{ background:#111 !important; color:#fff !important; }
-  .appbar .iconbtn{ border-color:#2b2f36; color:#fff; }
+  /* Barre du haut sombre pour contraste */
+  .appbar { background:#111 !important; color:#fff !important; }
+  .appbar a, .appbar .iconbtn { color:#fff !important; }
+</style>
 
-  /* Alignement du header (comme ta capture) */
-  .appbar .bar{ display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:12px; }
-  .appbar .brand{ margin-left:8px; }
-  /* Sur mobile, on met la recherche en dessous mais on garde le même look */
-  @media (max-width:520px){
-    .appbar .bar{ grid-template-columns:auto 1fr auto; }
-    .appbar .searchrow{ grid-column:1/-1; padding:10px 0 0 0 !important; }
+<style id="fix-batidc-header-only">
+  /* >>> Aligne le header EXACTEMENT comme ta capture */
+  header.appbar .bar{
+    display:flex !important;
+    align-items:center !important;
+    gap:12px;
+  }
+  /* Ordre des éléments */
+  header.appbar .bar > #menuBtn{ order:0; }
+  header.appbar .bar > .brand{ order:1; margin-left:8px; }
+  header.appbar .bar > .icons{ order:2; margin-left:auto; display:flex !important; gap:10px; }
+  header.appbar .bar > .searchrow{ order:3; flex:1 0 100%; margin-top:8px; }
+
+  /* Taille du titre */
+  header.appbar .brand{
+    font-size:28px !important;
+    font-weight:800 !important;
+    letter-spacing:.3px !important;
   }
 </style>
 
