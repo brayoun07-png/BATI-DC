@@ -5,245 +5,238 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>BATI DC</title>
 <style>
-:root{
-  --bg:#f3f4f6; --ink:#0b0b0c; --muted:#6b7280;
-  --card:#fff; --border:#111; --accent:#f59e0b; --dark:#111;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
-
-/* Appbar */
-.appbar{position:sticky;top:0;z-index:30;background:var(--dark);color:#fff;border-bottom:1px solid #1f2937}
-.bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
-.brand{font-weight:800;letter-spacing:.3px;display:flex;align-items:center;gap:10px}
-.iconbtn{width:40px;height:40px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
-.searchrow{max-width:1100px;margin:0 auto 10px;padding:0 14px 14px}
-.searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
-.input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
-.cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
-
-/* Tabs (Accueil / Produits / Fournisseurs ...) */
-.tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
-@media (max-width:680px){.tabs-wrap{top:102px}}
-.tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
-.tab{padding:10px 16px;border:2px solid var(--border);border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:#111}
-.tab_active{background:#111;color:#fff}
-
-/* “Livraison” bandeau */
-.notice{max-width:1100px;margin:10px auto;background:#fff;border-radius:12px;border:1px solid #e5e7eb;padding:12px 14px;display:flex;align-items:center;gap:10px}
-
-/* Cartouche produit */
-.catalog{max-width:1100px;margin:0 auto;padding:16px 12px}
-.card{background:#fff;border:2px solid #111;border-radius:18px;margin:12px 0;overflow:hidden}
-.card .ph{background:#e9eef2;height:180px;display:grid;place-items:center}
-.card img{width:100%;height:180px;object-fit:cover}
-.card .body{padding:16px}
-.card h3{margin:0 0 6px}
-.card .meta{color:#6b7280;margin-bottom:6px}
-.card .price{font-size:18px;margin:8px 0 14px}
-.btn{border:0;padding:10px 16px;border-radius:12px;cursor:pointer}
-.btn-primary{background:#f59e0b;font-weight:700}
-.btn-dark{background:#111;color:#fff}
-
-/* Modale fiche produit */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;z-index:9999}
-.modal .box{max-width:640px;margin:60px auto;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 12px 30px rgba(0,0,0,.25)}
-.modal .head{display:flex;justify-content:space-between;align-items:center;padding:16px 18px;border-bottom:1px solid #eee}
-.modal .content{display:grid;grid-template-columns:160px 1fr;gap:16px;padding:18px}
-.modal img{width:160px;height:160px;object-fit:cover;border:1px solid #eee;border-radius:10px}
-
-/* Panier (devis) */
-#cart-fab{position:fixed;right:16px;bottom:16px;background:#111;color:#fff;border-radius:26px;padding:10px 14px;cursor:pointer;z-index:9999}
-#cart-panel{position:fixed;right:16px;bottom:64px;width:320px;background:#fff;border-radius:14px;box-shadow:0 12px 30px rgba(0,0,0,.25);display:none;overflow:hidden;z-index:9999}
-#cart-panel .head{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #eee}
-#cart-list{max-height:320px;overflow:auto;padding:10px 12px}
+  :root{
+    --bg:#0f1115; --ink:#fff; --muted:#a8b3cf;
+    --paper:#11161c; --card:#fff; --border:#e6e8f0;
+    --accent:#f59e0b; --ink-strong:#111;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:#f3f4f6; color:#111;
+  }
+  a{color:inherit; text-decoration:none}
+  /* Appbar */
+  .appbar{
+    position:sticky; top:0; z-index:30;
+    background:#0f1115; color:#fff; border-bottom:1px solid #1f2937;
+  }
+  .bar{max-width:1100px; margin:auto; padding:14px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:center}
+  .brand{font-weight:800; letter-spacing:.3px; display:flex; align-items:center; gap:12px}
+  .menu-btn{display:inline-grid; place-items:center; width:42px; height:42px; border-radius:12px; border:2px solid #374151}
+  .icons{display:flex; gap:10px}
+  .iconbtn{width:42px; height:42px; border-radius:12px; background:transparent; border:2px solid #374151; display:grid; place-items:center; color:#fff}
+  /* Recherche */
+  .searchrow{max-width:1100px; margin:6px auto 14px; padding:0 14px}
+  .searchbox{display:grid; grid-template-columns:1fr auto; gap:12px}
+  .input{height:48px; border-radius:24px; border:2px solid #374151; background:#0d1116; color:#e5e7eb; padding:0 18px}
+  .cta{height:48px; padding:0 18px; border:0; border-radius:24px; background:var(--accent); color:#111; font-weight:800; cursor:pointer}
+  /* Tabs */
+  .tabs-wrap{background:#fff; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; position:sticky; top:96px; z-index:25}
+  @media (max-width:680px){.tabs-wrap{top:102px}}
+  .tabs{max-width:1100px; margin:auto; padding:10px 14px; display:flex; gap:10px; overflow:auto}
+  .tab{padding:10px 16px; border:2px solid var(--border); border-radius:12px; background:#fff; font-weight:700; white-space:nowrap}
+  .tab.active{background:#111; color:#fff; border-color:#111}
+  /* Delivery */
+  .banner{max-width:1100px; margin:12px auto; padding:12px 14px}
+  .banner .card{background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; display:flex; align-items:center; gap:10px}
+  /* Content */
+  .wrap{max-width:1100px; margin:10px auto 80px; padding:0 14px}
+  .section-title{font-size:24px; font-weight:900; margin:18px 0 10px}
+  .product{background:#fff; border:1px solid #e5e7eb; border-radius:16px; overflow:hidden; margin:14px 0}
+  .product .media{background:#e5e7eb; aspect-ratio:16/9; display:block; width:100%; object-fit:cover}
+  .product .pad{padding:14px}
+  .price{font-weight:800; margin:10px 0}
+  .row{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{height:44px; padding:0 16px; border-radius:14px; border:2px solid #111; background:#fff; font-weight:800; cursor:pointer}
+  .btn.primary{background:var(--accent); border-color:var(--accent)}
+  .btn.dark{background:#111; color:#fff}
+  /* Badge devis */
+  .quote-badge{
+    position:fixed; right:14px; bottom:14px; z-index:50;
+    background:#111; color:#fff; border-radius:26px; padding:8px 12px; display:flex; align-items:center; gap:8px;
+    box-shadow:0 8px 30px rgba(0,0,0,.25);
+  }
+  .pill{display:inline-grid; place-items:center; min-width:22px; height:22px; padding:0 6px; background:#fff; color:#111; border-radius:999px; font-weight:800; font-size:12px}
+  /* Footer */
+  .foot{max-width:1100px; margin:32px auto; padding:20px 14px; color:#6b7280}
 </style>
 </head>
 <body>
 
-<!-- Barre haute -->
 <header class="appbar">
   <div class="bar">
-    <button class="iconbtn" id="menu-btn">☰</button>
+    <button class="menu-btn" aria-label="menu">☰</button>
     <div class="brand">BATI DC</div>
-    <div style="display:flex;gap:8px">
-      <button class="iconbtn">👤</button>
-      <button class="iconbtn">🧾</button>
-      <button class="iconbtn">🛒</button>
+    <div class="icons">
+      <button class="iconbtn" title="Compte">👤</button>
+      <button class="iconbtn" title="Devis">🧾</button>
+      <button class="iconbtn" title="Panier">🛒</button>
     </div>
   </div>
   <div class="searchrow">
     <div class="searchbox">
-      <input id="search" type="search" class="input" placeholder="Rechercher : perceuse, béton, EPI...">
-      <button class="cta" id="search-btn">Rechercher</button>
+      <input id="q" class="input" type="search" placeholder="Rechercher : perceuse, béton, EPI…">
+      <button class="cta" onclick="doSearch()">Rechercher</button>
     </div>
   </div>
 </header>
 
-<!-- Onglets -->
 <div class="tabs-wrap">
   <nav class="tabs">
-    <a class="tab tab_active" href="#">Accueil</a>
-    <a class="tab" href="#">Produits</a>
-    <a class="tab" href="#">Fournisseurs</a>
-    <a class="tab" href="#">Interventions</a>
+    <a class="tab active" href="#" onclick="filterCat('all');return false;">Accueil</a>
+    <a class="tab" href="#" onclick="filterCat('produits');return false;">Produits</a>
+    <a class="tab" href="#" onclick="filterCat('fournisseurs');return false;">Fournisseurs</a>
+    <a class="tab" href="#" onclick="filterCat('serrurerie');return false;">Serrurerie</a>
+    <a class="tab" href="#" onclick="filterCat('plomberie');return false;">Plomberie</a>
   </nav>
 </div>
 
-<!-- Livraison -->
-<div class="notice">📦 <b>Livraison partout en France</b></div>
-
-<!-- CATALOG -->
-<section id="catalog" class="catalog"></section>
-
-<!-- Modale fiche produit -->
-<div id="product-modal" class="modal">
-  <div class="box">
-    <div class="head">
-      <h3 id="pm-title" style="margin:0;font-size:20px"></h3>
-      <button id="pm-close" class="btn">Fermer</button>
-    </div>
-    <div class="content">
-      <img id="pm-img" alt="">
-      <div>
-        <p id="pm-desc" style="margin:0 0 8px;color:#444;line-height:1.4"></p>
-        <p style="margin:0 0 10px;color:#666"><b>Réf.</b> <span id="pm-ref"></span> — <b>Marque</b> <span id="pm-brand"></span></p>
-        <p style="margin:0 0 16px;font-size:18px"><b id="pm-price"></b> TTC</p>
-        <button id="pm-add" class="btn btn-dark">Ajouter au devis</button>
-      </div>
-    </div>
-  </div>
+<div class="banner">
+  <div class="card">📦 <strong>Livraison partout en France</strong></div>
 </div>
 
-<!-- Panier -->
-<div id="cart-fab">🧾 Devis <span id="cart-count" style="font-weight:700">0</span></div>
-<div id="cart-panel">
-  <div class="head">
-    <b>Mon devis</b>
-    <button id="cart-close" class="btn">Fermer</button>
-  </div>
-  <div id="cart-list"></div>
-  <div style="padding:12px 14px;border-top:1px solid #eee">
-    <div style="display:flex;justify-content:space-between;margin-bottom:8px">
-      <span>Total</span><b id="cart-total">0,00 €</b>
-    </div>
-    <button style="width:100%;background:#f59e0b;border:0;padding:10px 12px;border-radius:10px;font-weight:700;cursor:pointer">Télécharger mon devis (bientôt)</button>
-  </div>
-</div>
+<main id="app" class="wrap"></main>
+
+<div class="quote-badge">🧾 Devis <span class="pill" data-quote-badge>0</span></div>
+
+<footer class="foot">© 2025 BATI DC — Tous droits réservés</footer>
 
 <script>
-/* ==== Données produits (première série basée sur tes fiches HERACLES Y7C+) ==== */
+/* --- 1) Données produits (tu peux juste compléter ce tableau) --- */
 const PRODUCTS = [
-  { id:'y7c-30x30',  ref:'HRC/Y7C 30x30',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x30 (5 clés)',    price:115.00, img:'https://picsum.photos/seed/y7c3030/800/480', desc:'Cylindre européen Y7C+, livré avec 5 clés. Finition nickelée. Protection anti-perçage/anti-crochetage.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-30x35',  ref:'HRC/Y7C 30x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x35 (5 clés)',    price:119.00, img:'https://picsum.photos/seed/y7c3035/800/480', desc:'Série Y7C+. 5 clés. Qualité pro.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-30x40',  ref:'HRC/Y7C 30x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x40 (5 clés)',    price:129.00, img:'https://picsum.photos/seed/y7c3040/800/480', desc:'Y7C+, 5 clés. Remplacement standard.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-30x45',  ref:'HRC/Y7C 30x45',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x45 (5 clés)',    price:133.00, img:'https://picsum.photos/seed/y7c3045/800/480', desc:'Y7C+, 5 clés. Entraxe 17.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-30x50',  ref:'HRC/Y7C 30x50',  brand:'HERACLES', name:'Cylindre européen Y7C+ 30x50 (5 clés)',    price:139.00, img:'https://picsum.photos/seed/y7c3050/800/480', desc:'Y7C+, 5 clés, plusieurs longueurs.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-35x35',  ref:'HRC/Y7C 35x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 35x35 (5 clés)',    price:129.00, img:'https://picsum.photos/seed/y7c3535/800/480', desc:'Double entrée. 5 clés. Nickel.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-35x40',  ref:'HRC/Y7C 35x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 35x40 (5 clés)',    price:135.00, img:'https://picsum.photos/seed/y7c3540/800/480', desc:'Anti-perçage/anti-casse. 5 clés.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-40x40',  ref:'HRC/Y7C 40x40',  brand:'HERACLES', name:'Cylindre européen Y7C+ 40x40 (5 clés)',    price:149.00, img:'https://picsum.photos/seed/y7c4040/800/480', desc:'Cœur Y7C+. Usage intensif.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-45x35',  ref:'HRC/Y7C 45x35',  brand:'HERACLES', name:'Cylindre européen Y7C+ 45x35 (5 clés)',    price:149.90, img:'https://picsum.photos/seed/y7c4535/800/480', desc:'Dimensions 45/35. 5 clés.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-45x45',  ref:'HRC/Y7C 45x45',  brand:'HERACLES', name:'Cylindre européen Y7C+ 45x45 (5 clés)',    price:155.00, img:'https://picsum.photos/seed/y7c4545/800/480', desc:'Longueur 90 mm.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-50x50',  ref:'HRC/Y7C 50x50',  brand:'HERACLES', name:'Cylindre européen Y7C+ 50x50 (5 clés)',    price:159.00, img:'https://picsum.photos/seed/y7c5050/800/480', desc:'Grande longueur, sécurité renforcée.', category:'Serrurerie>Cylindre' },
-  { id:'y7c-btn-30x30',ref:'HRC/Y7C+ BTN 30x30', brand:'HERACLES', name:'Cylindre à bouton Y7C+ 30x30 (5 clés)', price:125.00, img:'https://picsum.photos/seed/y7cbtn3030/800/480', desc:'Côté intérieur à bouton, 5 clés.', category:'Serrurerie>Cylindre' }
+  /* === SERRURERIE === */
+  { id:"HRC-Y7C-30x30", brand:"Heracles", name:"Cylindre de serrure Y7C+ A2P 30x30 (5 clés)", category:"serrurerie",
+    price_ht:69.90, price_ttc:83.88,
+    image:"https://via.placeholder.com/900x520?text=Heracles+Y7C%2B+30x30",
+    ref:"Y7C+ 30/30", short:"Cylindre européen Y7C+ certifié A2P, livré avec 5 clés." },
+  { id:"HRC-Y7C-30x40", brand:"Heracles", name:"Cylindre de serrure Y7C+ A2P 30x40 (5 clés)", category:"serrurerie",
+    price_ht:72.90, price_ttc:87.48,
+    image:"https://via.placeholder.com/900x520?text=Heracles+Y7C%2B+30x40",
+    ref:"Y7C+ 30/40", short:"Haute sécurité, compatible profil européen." },
+  { id:"VACH-A2P-35x35", brand:"Vachette", name:"Cylindre européen A2P 35x35", category:"serrurerie",
+    price_ht:79.00, price_ttc:94.80,
+    image:"https://via.placeholder.com/900x520?text=Vachette+A2P+35x35",
+    ref:"A2P 35/35", short:"Cylindre A2P, 3 clés, finition laiton." },
+
+  /* === PLOMBERIE === */
+  { id:"ATL-CE-100L", brand:"Atlantic", name:"Chauffe-eau Atlantic 100 L – vertical", category:"plomberie",
+    price_ht:189.00, price_ttc:226.80,
+    image:"https://via.placeholder.com/900x520?text=Atlantic+100L",
+    ref:"CE100", short:"Résistance stéatite, garantie fabricant." },
+  { id:"THER-CE-150L", brand:"Thermor", name:"Chauffe-eau Thermor 150 L", category:"plomberie",
+    price_ht:249.00, price_ttc:298.80,
+    image:"https://via.placeholder.com/900x520?text=Thermor+150L",
+    ref:"CE150", short:"Anti-corrosion, installation facile." }
 ];
 
-const € = n => (n||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
-const $catalog = document.getElementById('catalog');
+/* --- 2) Rendu des cartes produits --- */
+let CURRENT_FILTER = 'all';
+function render(list=PRODUCTS){
+  const root = document.getElementById('app');
+  if(!list.length){
+    root.innerHTML = `<p>Aucun article trouvé.</p>`;
+    return;
+  }
+  // regrouper par catégorie
+  const groups = {};
+  list.forEach(p => { (groups[p.category] ||= []).push(p); });
 
-/* Rendu catalogue */
-function renderList(list){
-  $catalog.innerHTML='';
-  if(!list.length){ $catalog.innerHTML='<p style="padding:24px;color:#666">Aucun article trouvé.</p>'; return; }
-  list.forEach(p=>{
-    const el=document.createElement('article');
-    el.className='card';
-    el.innerHTML=`
-      <div class="ph"><img src="${p.img}" alt="${p.name}"></div>
-      <div class="body">
-        <h3>${p.name}</h3>
-        <div class="meta">${p.brand} • Réf. ${p.ref}</div>
-        <div class="price"><b>${€(p.price)}</b> TTC</div>
-        <div style="display:flex;gap:12px;flex-wrap:wrap">
-          <button class="btn btn-primary btn-view" data-id="${p.id}">Voir les prix</button>
-          <button class="btn btn-dark btn-add" data-id="${p.id}">Ajouter au devis</button>
-        </div>
-      </div>`;
-    $catalog.appendChild(el);
+  root.innerHTML = Object.keys(groups).map(cat => `
+    <section>
+      <h2 class="section-title">${capitalize(cat)}</h2>
+      ${groups[cat].map(p => card(p)).join('')}
+    </section>
+  `).join('');
+}
+
+function card(p){
+  return `
+  <article class="product">
+    <img class="media" src="${p.image}" alt="${escapeHtml(p.name)}">
+    <div class="pad">
+      <h3 style="font-size:20px;margin:6px 0 2px">${escapeHtml(p.name)}</h3>
+      <div style="color:#6b7280">${escapeHtml(p.brand)} • Réf. ${escapeHtml(p.ref)}</div>
+      <p style="margin:8px 0 6px; color:#374151">${escapeHtml(p.short||'')}</p>
+      <div class="price">à partir de ${p.price_ht.toFixed(2)} € HT</div>
+      <div class="row">
+        <button class="btn primary" onclick="openProduct('${p.id}')">Voir les prix</button>
+        <button class="btn dark" onclick="addQuote('${p.id}')">Ajouter au devis</button>
+      </div>
+    </div>
+  </article>`;
+}
+
+/* --- 3) Recherche & filtres --- */
+function doSearch(){
+  const q = (document.getElementById('q').value || '').toLowerCase().trim();
+  const arr = PRODUCTS.filter(p=>{
+    const hay = [p.name,p.brand,p.ref,p.category,p.short].join(' ').toLowerCase();
+    const okCat = (CURRENT_FILTER==='all' || p.category===CURRENT_FILTER || CURRENT_FILTER==='produits');
+    return okCat && hay.includes(q);
   });
-  bindCardButtons();
+  render(arr);
+}
+function filterCat(cat){
+  CURRENT_FILTER = cat;
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  // marquer la tab active si elle existe
+  const map = {all:0, produits:1, fournisseurs:2, serrurerie:3, plomberie:4};
+  const idx = map[cat] ?? 0;
+  document.querySelectorAll('.tab')[idx].classList.add('active');
+
+  if(cat==='fournisseurs'){
+    // vue simple fournisseurs (liste marques présentes)
+    const marques = [...new Set(PRODUCTS.map(p=>p.brand))].sort();
+    document.getElementById('app').innerHTML = `
+      <section>
+        <h2 class="section-title">Fournisseurs</h2>
+        ${marques.map(m=>`<div class="product"><div class="pad"><strong>${escapeHtml(m)}</strong></div></div>`).join('')}
+      </section>`;
+    return;
+  }
+  doSearch();
 }
 
-/* Recherche */
-const searchInput = document.getElementById('search');
-function applySearch(){
-  const q=(searchInput.value||'').trim().toLowerCase();
-  if(!q) return renderList(PRODUCTS);
-  const list = PRODUCTS.filter(p => [p.name,p.brand,p.ref,p.category].join(' ').toLowerCase().includes(q));
-  renderList(list);
+/* --- 4) Fiche rapide + Devis localStorage --- */
+function openProduct(id){
+  const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
+  alert(`${p.name}\n\nPrix HT : ${p.price_ht.toFixed(2)} €\nPrix TTC : ${p.price_ttc.toFixed(2)} €`);
 }
-searchInput.addEventListener('input', applySearch);
-
-/* Fiche produit (modale) */
-const $modal=document.getElementById('product-modal');
-const $pmTitle=document.getElementById('pm-title');
-const $pmImg=document.getElementById('pm-img');
-const $pmDesc=document.getElementById('pm-desc');
-const $pmRef=document.getElementById('pm-ref');
-const $pmBrand=document.getElementById('pm-brand');
-const $pmPrice=document.getElementById('pm-price');
-const $pmAdd=document.getElementById('pm-add');
-
-function openModal(p){
-  $pmTitle.textContent=p.name;
-  $pmImg.src=p.img;
-  $pmDesc.textContent=p.desc||'';
-  $pmRef.textContent=p.ref;
-  $pmBrand.textContent=p.brand;
-  $pmPrice.textContent=€(p.price);
-  $pmAdd.onclick=()=>addToCart(p.id);
-  $modal.style.display='block';
+function addQuote(id){
+  const cart = JSON.parse(localStorage.getItem('quote') || '[]');
+  const line = cart.find(i=>i.id===id);
+  if(line){ line.qty += 1; } else { cart.push({id, qty:1}); }
+  localStorage.setItem('quote', JSON.stringify(cart));
+  updateQuoteBadge();
+  // petit feedback
+  const p = PRODUCTS.find(x=>x.id===id);
+  if(p) toast(`« ${p.name} » ajouté au devis`);
 }
-document.getElementById('pm-close').onclick=()=> $modal.style.display='none';
-$modal.addEventListener('click', e=>{ if(e.target===$modal) $modal.style.display='none'; });
-
-/* Panier (devis) */
-const $fab=document.getElementById('cart-fab');
-const $panel=document.getElementById('cart-panel');
-const $count=document.getElementById('cart-count');
-const $list=document.getElementById('cart-list');
-const $total=document.getElementById('cart-total');
-document.getElementById('cart-close').onclick=()=> $panel.style.display='none';
-$fab.onclick=()=> $panel.style.display = ($panel.style.display==='block'?'none':'block');
-
-const CART_KEY='bati.cart';
-let cart=JSON.parse(localStorage.getItem(CART_KEY)||'[]');
-function saveCart(){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
-function refreshCartUI(){
-  $count.textContent = cart.reduce((a,x)=>a+x.qty,0);
-  $list.innerHTML = cart.map(line=>{
-    const p=PRODUCTS.find(pp=>pp.id===line.id);
-    return `<div style="display:flex;align-items:center;gap:10px;margin:8px 0">
-      <img src="${p.img}" style="width:48px;height:48px;object-fit:cover;border-radius:8px">
-      <div style="flex:1"><div style="font-weight:600">${p.name}</div><div style="color:#6b7280">x${line.qty} • ${€(p.price)}</div></div>
-      <button data-id="${p.id}" class="rm" style="border:0;background:#f4f4f4;padding:6px 8px;border-radius:8px;cursor:pointer">✕</button>
-    </div>`;
-  }).join('');
-  const total=cart.reduce((s,l)=>{ const p=PRODUCTS.find(pp=>pp.id===l.id); return s+p.price*l.qty; },0);
-  $total.textContent=€(total);
-  $list.querySelectorAll('.rm').forEach(b=>{ b.onclick=()=>{ cart=cart.filter(l=>l.id!==b.dataset.id); saveCart(); refreshCartUI(); }});
-}
-function addToCart(id){ const line=cart.find(l=>l.id===id); if(line) line.qty++; else cart.push({id,qty:1}); saveCart(); refreshCartUI(); }
-
-function bindCardButtons(){
-  document.querySelectorAll('.btn-view').forEach(b=> b.onclick=()=> openModal(PRODUCTS.find(p=>p.id===b.dataset.id)));
-  document.querySelectorAll('.btn-add').forEach(b=> b.onclick=()=> addToCart(b.dataset.id));
+function updateQuoteBadge(){
+  const cart = JSON.parse(localStorage.getItem('quote') || '[]');
+  let count = 0; cart.forEach(i=>count += i.qty || 1);
+  const badge = document.querySelector('[data-quote-badge]');
+  if(badge) badge.textContent = count;
 }
 
-/* Init */
-renderList(PRODUCTS);
-refreshCartUI();
+/* --- 5) Utilitaires --- */
+function capitalize(s){return s.charAt(0).toUpperCase()+s.slice(1)}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;' }[m]));}
+function toast(msg){
+  const t = document.createElement('div');
+  t.textContent = msg;
+  t.style.cssText = "position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#111;color:#fff;padding:10px 14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:60";
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.remove(); },1400);
+}
+
+/* --- 6) Init --- */
+document.addEventListener('DOMContentLoaded', ()=>{
+  render(PRODUCTS);
+  updateQuoteBadge();
+});
 </script>
 </body>
 </html>
