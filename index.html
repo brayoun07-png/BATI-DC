@@ -1,398 +1,210 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>BATI DC</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BATI DC</title>
+  <style>
+    :root{--bg:#0d1116;--ink:#e5e7eb;--card:#fff;--accent:#f59e0b;--muted:#9aa4b2}
+    html,body{margin:0;height:100%;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f3f4f6;color:#111}
+    .appbar{position:sticky;top:0;z-index:10;background:var(--bg);color:#fff;padding:14px;border-bottom:1px solid #1f2937}
+    .bar{max-width:1100px;margin:auto;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+    .brand{font-weight:800;letter-spacing:.3px;font-size:26px}
+    .brand strong{font-size:28px}
+    .icons{display:flex;gap:10px}
+    .iconbtn{width:42px;height:42px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff;cursor:pointer}
+    .searchrow{max-width:1100px;margin:0 auto 10px;padding:8px 14px}
+    .searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
+    .input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
+    .cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--accent);color:#111;font-weight:800;cursor:pointer}
 
-<style>
-:root{
-  --bg:#0f1115; --ink:#e5e7eb; --muted:#6b7280; --card:#111827;
-  --light:#f3f4f6; --brand:#f59e0b; --ok:#16a34a; --danger:#ef4444;
-  --stroke:#1f2937; --tab:#fff; --tabink:#111; --chip:#0d1116;
-}
-*{box-sizing:border-box}
-html,body{height:100%}
-body{margin:0;font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial;color:#111;background:#f7f8fa}
+    /* Cartouche info livraison */
+    .note{max-width:1100px;margin:14px auto;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:12px 16px}
 
-/* ===== App bar ===== */
-.appbar{position:sticky;top:0;z-index:50;background:var(--bg);color:#fff;border-bottom:1px solid var(--stroke)}
-.bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
-.brand{display:flex;align-items:center;gap:12px}
-.menu-btn{width:44px;height:44px;border-radius:12px;background:transparent;border:2px solid #374151;color:#fff;display:grid;place-items:center;font-size:20px}
-.logo{font-weight:900;letter-spacing:.3px;font-size:26px} /* plus grand comme demandé */
-.icons{display:flex;gap:10px}
-.iconbtn{width:44px;height:44px;border-radius:12px;background:transparent;border:2px solid #374151;display:grid;place-items:center;color:#fff}
-.searchrow{max-width:1100px;margin:0 auto 10px auto;padding:0 14px 14px}
-.searchbox{display:grid;grid-template-columns:1fr auto;gap:12px}
-.input{height:48px;border-radius:24px;border:2px solid #374151;background:#0d1116;color:#e5e7eb;padding:0 18px}
-.cta{height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--brand);color:#111;font-weight:800;cursor:pointer}
-
-/* ===== Tabs ===== */
-.tabs-wrap{background:#fff;border-top:1px solid #e5e7eb;border-bottom:1px solid #e5e7eb;position:sticky;top:96px;z-index:25}
-@media (max-width:680px){.tabs-wrap{top:102px}}
-.tabs{max-width:1100px;margin:auto;padding:10px 14px;display:flex;gap:10px;overflow:auto}
-.tab{padding:10px 16px;border:2px solid #e5e7eb;border-radius:12px;background:#fff;font-weight:700;text-decoration:none;color:#111;white-space:nowrap}
-.tab.active{background:#111;color:#fff;border-color:#111}
-
-/* ===== Chips / Notices ===== */
-.notice{max-width:1100px;margin:14px auto;padding:12px 14px;background:#fff;border:1px solid #e5e7eb;border-radius:14px;display:flex;gap:10px;align-items:center}
-
-/* ===== Grid / Cards ===== */
-.wrap{max-width:1100px;margin:0 auto;padding:10px 14px 100px}
-.grid{display:grid;grid-template-columns:1fr;gap:14px}
-@media(min-width:700px){.grid{grid-template-columns:1fr 1fr}}
-.card{background:#fff;border-radius:16px;border:1px solid #e5e7eb;overflow:hidden;display:flex;flex-direction:column}
-.card .media{aspect-ratio:16/9;background:#f1f5f9;display:block;width:100%;object-fit:cover}
-.card .body{padding:14px}
-.kicker{color:#6b7280;font-weight:600;margin-bottom:6px}
-.title{font:800 20px/1.25 system-ui;margin:0 0 8px}
-.price{font:800 18px;margin:8px 0}
-.actions{display:flex;gap:10px;margin-top:10px}
-.btn{flex:1;height:44px;border-radius:12px;border:2px solid #111;background:#111;color:#fff;font-weight:800;cursor:pointer}
-.btn.outline{background:#fff;color:#111}
-.btn.red{background:var(--danger);border-color:var(--danger)}
-
-/* ===== Quick view modal ===== */
-.modalBack{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:saturate(1.1) blur(2px);z-index:70;display:none}
-.modal{position:fixed;inset:auto 12px 12px 12px;top:12px;max-width:720px;margin:auto;background:#fff;border-radius:16px;border:1px solid #e5e7eb;overflow:hidden;display:none;z-index:71}
-.modal header{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:900}
-.modal .content{padding:14px;display:grid;gap:12px}
-.modal.open{display:block}
-.modalBack.open{display:block}
-
-/* ===== Side menu ===== */
-.sideback{position:fixed;inset:0;background:rgba(0,0,0,.45);backdrop-filter:saturate(1.1) blur(2px);z-index:70;display:none}
-.sideback.open{display:block}
-.sidenav{position:fixed;left:-320px;top:0;bottom:0;width:300px;max-width:86vw;background:#0f1115;color:#fff;border-right:1px solid #1f2937;z-index:71;transition:transform .28s ease;display:flex;flex-direction:column}
-.sidenav.open{transform:translateX(320px)}
-.sidenav header{padding:14px 16px;border-bottom:1px solid #1f2937;font-weight:900;display:flex;justify-content:space-between;align-items:center}
-.sidenav nav{padding:10px 10px 20px;overflow:auto}
-.sidenav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none}
-.sidenav a:hover{background:#111827}
-
-/* ===== Cart (drawer) ===== */
-.cartbtn{position:fixed;right:14px;bottom:14px;z-index:60;background:#111;color:#fff;border-radius:999px;border:0;padding:10px 14px;display:flex;align-items:center;gap:8px;font-weight:800}
-.cartdrawer{position:fixed;right:-380px;top:0;bottom:0;width:360px;max-width:96vw;background:#fff;border-left:1px solid #e5e7eb;z-index:80;transition:transform .28s ease;display:flex;flex-direction:column}
-.cartdrawer.open{transform:translateX(-380px)}
-.cartdrawer header{padding:12px 14px;border-bottom:1px solid #e5e7eb;font-weight:900;display:flex;justify-content:space-between;align-items:center}
-.cartlist{padding:10px;flex:1;overflow:auto;display:grid;gap:10px}
-.cartitem{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;border:1px solid #e5e7eb;border-radius:12px;padding:8px}
-.cartitem img{width:64px;height:64px;object-fit:cover;border-radius:8px}
-.qty{display:flex;align-items:center;gap:8px}
-.qty button{width:28px;height:28px;border-radius:8px;border:1px solid #e5e7eb;background:#fff;font-weight:900}
-.cartfooter{border-top:1px solid #e5e7eb;padding:12px;display:grid;gap:8px}
-.small{font-size:12px;color:#6b7280}
-.hidden{display:none}
-</style>
+    /* --- MODAL COMPTE --- */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;place-items:center;z-index:50}
+    .card{width:min(92vw,420px);background:#fff;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:18px}
+    .card h2{margin:0 0 6px}
+    .row{display:flex;gap:8px;margin:8px 0}
+    .row input{flex:1;height:44px;border:1px solid #d1d5db;border-radius:10px;padding:0 12px}
+    .btn{height:44px;border-radius:10px;border:0;background:#111;color:#fff;font-weight:700;cursor:pointer}
+    .btn.alt{background:#e5e7eb;color:#111}
+    .muted{color:#6b7280;font-size:13px}
+    .x{background:transparent;border:0;font-size:20px;cursor:pointer}
+    .ok{background:#10b981}
+    .danger{background:#ef4444}
+    .center{display:flex;justify-content:center}
+    /* --- /MODAL --- */
+  </style>
 </head>
 <body>
 
-<!-- ===== App bar ===== -->
-<header class="appbar">
-  <div class="bar">
-    <div class="brand">
-      <button class="menu-btn" aria-label="menu" onclick="toggleSide(true)">☰</button>
-      <div class="logo">BATI DC</div>
+  <!-- BARRE HAUTE -->
+  <header class="appbar">
+    <div class="bar">
+      <div class="icons">
+        <button class="iconbtn" id="menuBtn" title="Menu">☰</button>
+      </div>
+      <div class="brand"><strong>BATI DC</strong></div>
+      <div class="icons">
+        <button class="iconbtn" id="accountBtn" title="Mon compte">👤</button>
+        <button class="iconbtn" title="Mes devis">🧾</button>
+        <button class="iconbtn" title="Panier">🛒</button>
+      </div>
     </div>
-    <div></div>
-    <div class="icons">
-      <button class="iconbtn" title="Compte">👤</button>
-      <button class="iconbtn" title="Devis">🧾</button>
-      <button class="iconbtn" title="Panier" onclick="openCart()">🛒</button>
+    <div class="searchrow">
+      <div class="searchbox">
+        <input class="input" placeholder="Rechercher : perceuse, béton, EPI…" />
+        <button class="cta">Rechercher</button>
+      </div>
     </div>
-  </div>
-  <div class="searchrow">
-    <div class="searchbox">
-      <input id="q" class="input" placeholder="Rechercher : perceuse, béton, EPI…"
-             oninput="doSearch()">
-      <button class="cta" onclick="doSearch()">Rechercher</button>
-    </div>
-  </div>
-</header>
-
-<!-- Tabs -->
-<div class="tabs-wrap">
-  <div class="tabs" id="tabs">
-    <a href="#" class="tab active" data-cat="all" onclick="switchTab(event,'all')">Accueil</a>
-    <a href="#" class="tab" data-cat="produits" onclick="switchTab(event,'produits')">Produits</a>
-    <a href="#" class="tab" data-cat="fournisseurs" onclick="switchTab(event,'fournisseurs')">Fournisseurs</a>
-    <a href="#" class="tab" data-cat="serrurerie" onclick="switchTab(event,'serrurerie')">Serrurerie</a>
-    <a href="#" class="tab" data-cat="plomberie" onclick="switchTab(event,'plomberie')">Plomberie</a>
-  </div>
-</div>
-
-<!-- Notice -->
-<div class="notice">📦 <b>Livraison partout en France</b></div>
-
-<!-- Content -->
-<main class="wrap">
-  <div id="list" class="grid"></div>
-</main>
-
-<!-- Side menu -->
-<div id="sideback" class="sideback" onclick="toggleSide(false)"></div>
-<aside id="sidenav" class="sidenav" aria-hidden="true">
-  <header>
-    <span>Menu</span>
-    <button class="iconbtn" style="border-color:#374151;color:#fff" onclick="toggleSide(false)">✕</button>
   </header>
-  <nav>
-    <a href="#" onclick="goCat('all');return false;">🏠 Accueil</a>
-    <a href="#" onclick="goCat('produits');return false;">🧰 Produits</a>
-    <a href="#" onclick="goCat('fournisseurs');return false;">🏭 Fournisseurs</a>
-    <hr style="border:0;border-top:1px solid #1f2937;margin:10px 0">
-    <a href="#" onclick="goCat('serrurerie');return false;">🔐 Serrurerie</a>
-    <a href="#" onclick="goCat('plomberie');return false;">🚰 Plomberie</a>
-    <a href="#" onclick="goCat('isolation');return false;">🧱 Isolation</a>
-    <a href="#" onclick="goCat('renovation');return false;">🛠️ Rénovation</a>
-  </nav>
-</aside>
 
-<!-- Quick view modal -->
-<div id="modalBack" class="modalBack" onclick="closeModal()"></div>
-<article id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modtitle">
-  <header>
-    <div id="modtitle">Détail produit</div>
-    <button class="iconbtn" onclick="closeModal()">✕</button>
-  </header>
-  <div class="content" id="modcontent"></div>
-</article>
+  <!-- INFO -->
+  <div class="note">📦 Livraison partout en France</div>
 
-<!-- Cart -->
-<button class="cartbtn" onclick="openCart()">🧾 Panier <span id="cartCount">0</span></button>
-<aside id="cart" class="cartdrawer" aria-hidden="true">
-  <header>
-    <span>Mon panier</span>
-    <button class="iconbtn" onclick="closeCart()">✕</button>
-  </header>
-  <div id="cartList" class="cartlist"></div>
-  <div class="cartfooter">
-    <div class="small">Frais de livraison calculés à l’étape suivante.</div>
-    <div><b>Total :</b> <span id="cartTotal">0,00 €</span></div>
-    <button class="btn" onclick="checkout()">Payer</button>
-  </div>
-</aside>
+  <!-- Ici, laisse ton contenu de page existant (listes produits, etc.) -->
 
-<script>
-/* ===== Données produits (démo). Remplace les images par les tiennes quand tu veux. ===== */
-const PRODUCTS = [
-  {
-    id:'y7c-30x30',
-    name:'Cylindre de serrure Y7C+ A2P 30x30 (5 clés)',
-    brand:'Heracles',
-    price:69.90,
-    category:'serrurerie',
-    img:'https://images.unsplash.com/photo-1482471420139-0a81dc51a881?q=80&w=1200&auto=format&fit=crop',
-    desc:'Cylindre européen Y7C+ certifié A2P – 5 clés laiton. Sécurité renforcée, anticrochetage.'
-  },
-  {
-    id:'fichet-f3d',
-    name:'Cylindre FICHET F3D + clés',
-    brand:'Fichet',
-    price:159.00,
-    category:'serrurerie',
-    img:'https://images.unsplash.com/photo-1561269716-42b2a83d9d26?q=80&w=1200&auto=format&fit=crop',
-    desc:'Cylindre haute sécurité F3D – protection anti-perçage, livré avec carte de propriété.'
-  },
-  {
-    id:'atlantic-200l',
-    name:'Chauffe-eau ATLANTIC 200 L',
-    brand:'Atlantic',
-    price:369.00,
-    category:'plomberie',
-    img:'https://images.unsplash.com/photo-1582738412174-4b0a1b3a8c01?q=80&w=1200&auto=format&fit=crop',
-    desc:'Ballon d’eau chaude vertical – résistance stéatite, cuve émaillée, garantie fabricant.'
-  },
-  {
-    id:'vachette-axe40',
-    name:'Serrure encastrée axe 40 mm',
-    brand:'Vachette',
-    price:49.90,
-    category:'serrurerie',
-    img:'https://images.unsplash.com/photo-1558002038-1055907df827?q=80&w=1200&auto=format&fit=crop',
-    desc:'Serrure monopoint axe 40 mm, têtière acier. Idéale rénovation menuiserie intérieure.'
-  },
-  {
-    id:'thermor-100l',
-    name:'Chauffe-eau THERMOR 100 L',
-    brand:'Thermor',
-    price:289.00,
-    category:'plomberie',
-    img:'https://images.unsplash.com/photo-1596986952531-7a2f0f1d1a8d?q=80&w=1200&auto=format&fit=crop',
-    desc:'CE vertical compact 100 L – anode magnésium, installation rapide.'
-  }
-];
+  <!-- ========= MODAL COMPTE (connexion/inscription) ========= -->
+  <div class="overlay" id="authModal">
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <h2 id="cardTitle">Se connecter</h2>
+        <button class="x" id="closeAuth">×</button>
+      </div>
 
-let CURRENT_FILTER = 'all';
-let CART = []; // {id, qty}
-
-/* ===== Rendu des cartes produits ===== */
-const listEl = document.getElementById('list');
-
-function euro(n){ return n.toLocaleString('fr-FR',{style:'currency',currency:'EUR'}); }
-
-function matches(p, q){
-  if(!q) return true;
-  q=q.toLowerCase();
-  return (p.name+p.brand).toLowerCase().includes(q);
-}
-function inCat(p,cat){
-  if(cat==='all' || cat==='produits') return true;
-  if(cat==='fournisseurs') return true; // on afficherait des tuiles fournisseurs dans une vraie version
-  return p.category===cat;
-}
-
-function render(){
-  listEl.innerHTML='';
-  const q = document.getElementById('q').value.trim();
-  const items = PRODUCTS.filter(p=>inCat(p,CURRENT_FILTER)&&matches(p,q));
-  if(items.length===0){
-    listEl.innerHTML = `<div class="card"><div class="body"><b>Aucun résultat.</b><br><span class="small">Essaye un autre mot-clé (ex. “Vachette”, “Thermor”...).</span></div></div>`;
-    return;
-  }
-  items.forEach(p=>{
-    const card = document.createElement('article');
-    card.className='card';
-    card.innerHTML = `
-      <img class="media" src="${p.img}" alt="${p.name}">
-      <div class="body">
-        <div class="kicker">${p.brand} • <span class="small">${p.category}</span></div>
-        <h3 class="title">${p.name}</h3>
-        <p class="small">${p.desc}</p>
-        <div class="price">À partir de ${euro(p.price)}</div>
-        <div class="actions">
-          <button class="btn outline" onclick="quick('${p.id}')">Voir les prix</button>
-          <button class="btn" onclick="addToCart('${p.id}')">Ajouter au devis</button>
+      <div id="authForms">
+        <!-- Connexion -->
+        <div id="loginBox">
+          <div class="row"><input id="loginEmail" type="email" placeholder="Email" autocomplete="email"></div>
+          <div class="row"><input id="loginPass" type="password" placeholder="Mot de passe" autocomplete="current-password"></div>
+          <div class="row">
+            <button class="btn" id="doLogin">Se connecter</button>
+            <button class="btn alt" id="goSignup">Créer un compte</button>
+          </div>
         </div>
-      </div>`;
-    card.addEventListener('click', e=>{
-      // éviter que les boutons déclenchent la preview deux fois
-      if(e.target.tagName==='BUTTON') return;
-      quick(p.id);
+
+        <!-- Inscription -->
+        <div id="signupBox" style="display:none">
+          <div class="row"><input id="signEmail" type="email" placeholder="Email" autocomplete="email"></div>
+          <div class="row"><input id="signPass" type="password" placeholder="Mot de passe (min. 6 caractères)" autocomplete="new-password"></div>
+          <div class="row">
+            <button class="btn ok" id="doSignup">Créer mon compte</button>
+            <button class="btn alt" id="goLogin">J’ai déjà un compte</button>
+          </div>
+          <p class="muted">Votre compte vous permet de créer un panier, suivre vos commandes et consulter l’historique.</p>
+        </div>
+      </div>
+
+      <!-- État connecté -->
+      <div id="accountBox" style="display:none">
+        <p class="muted">Connecté en tant que</p>
+        <h3 id="who"></h3>
+        <div class="row">
+          <button class="btn" id="gotoOrders">Mes commandes</button>
+          <button class="btn danger" id="doLogout">Se déconnecter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- ======================================================= -->
+
+  <!-- =================== Firebase (CDN) =================== -->
+  <script type="module">
+    // 1) Imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { 
+      getAuth, onAuthStateChanged, 
+      createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut 
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+    // 2) Ta configuration Firebase
+    const firebaseConfig = {
+      authDomain: "bati-dc.firebaseapp.com",
+      projectId: "bati-dc",
+      storageBucket: "bati-dc.firebasestorage.app",
+      messagingSenderId: "223128606936",
+      appId: "1:223128606936:web:944577b9fe9c0c93419fad"
+    };
+
+    // 3) Init
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // ---------- UI helpers ----------
+    const modal = document.getElementById('authModal');
+    const accountBtn = document.getElementById('accountBtn');
+    const closeBtn = document.getElementById('closeAuth');
+    const loginBox = document.getElementById('loginBox');
+    const signupBox = document.getElementById('signupBox');
+    const accountBox = document.getElementById('accountBox');
+    const cardTitle = document.getElementById('cardTitle');
+    const who = document.getElementById('who');
+
+    function openModal(mode="login"){
+      modal.style.display = "grid";
+      if(mode==="login"){ loginBox.style.display="block"; signupBox.style.display="none"; cardTitle.textContent="Se connecter"; }
+      else { loginBox.style.display="none"; signupBox.style.display="block"; cardTitle.textContent="Créer un compte"; }
+    }
+    function closeModal(){ modal.style.display="none"; }
+    accountBtn.addEventListener('click', ()=> openModal("login"));
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e)=>{ if(e.target===modal) closeModal(); });
+
+    // Switcher login/signup
+    document.getElementById('goSignup').onclick = ()=> openModal("signup");
+    document.getElementById('goLogin').onclick  = ()=> openModal("login");
+
+    // ---------- Actions Auth ----------
+    document.getElementById('doSignup').onclick = async ()=>{
+      const email = (document.getElementById('signEmail').value||"").trim();
+      const pass  = (document.getElementById('signPass').value||"").trim();
+      if(pass.length<6){ alert("Mot de passe : 6 caractères minimum."); return; }
+      try{
+        await createUserWithEmailAndPassword(auth, email, pass);
+        alert("Compte créé ✔");
+        closeModal();
+      }catch(err){ alert(err.message); }
+    };
+
+    document.getElementById('doLogin').onclick = async ()=>{
+      const email = (document.getElementById('loginEmail').value||"").trim();
+      const pass  = (document.getElementById('loginPass').value||"").trim();
+      try{
+        await signInWithEmailAndPassword(auth, email, pass);
+        alert("Connexion réussie ✔");
+        closeModal();
+      }catch(err){ alert(err.message); }
+    };
+
+    document.getElementById('doLogout').onclick = async ()=>{
+      await signOut(auth);
+      alert("Déconnecté.");
+      closeModal();
+    };
+
+    // ---------- Suivi d'état ----------
+    onAuthStateChanged(auth, (user)=>{
+      // met à jour l’UI de la fenêtre compte
+      if(user){
+        who.textContent = user.email || "Compte";
+        // montre le panneau "connecté"
+        accountBox.style.display="block";
+        document.getElementById('authForms').style.display="none";
+        // ouvrir la modale directement si l’utilisateur clique sur 👤 lorsqu’il est déjà connecté
+        accountBtn.onclick = ()=>{ modal.style.display="grid"; accountBox.style.display="block"; document.getElementById('authForms').style.display="none"; cardTitle.textContent="Mon compte"; };
+      }else{
+        accountBox.style.display="none";
+        document.getElementById('authForms').style.display="block";
+        accountBtn.onclick = ()=> openModal("login");
+      }
     });
-    listEl.appendChild(card);
-  });
-}
 
-/* ===== Recherche / Tabs ===== */
-function doSearch(){ render(); }
-function switchTab(e,cat){
-  e.preventDefault();
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  e.target.classList.add('active');
-  CURRENT_FILTER = cat;
-  render();
-}
-
-/* ===== Side menu ===== */
-function toggleSide(open){
-  const nav = document.getElementById('sidenav');
-  const back = document.getElementById('sideback');
-  if(open){ nav.classList.add('open'); back.classList.add('open'); }
-  else{ nav.classList.remove('open'); back.classList.remove('open'); }
-}
-function goCat(cat){
-  const t = document.querySelector(`.tab[data-cat="${cat}"]`) || document.querySelector('.tab[data-cat="all"]');
-  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-  t.classList.add('active');
-  CURRENT_FILTER = cat;
-  toggleSide(false);
-  render();
-}
-
-/* ===== Quick view ===== */
-function quick(id){
-  const p = PRODUCTS.find(x=>x.id===id);
-  const mc = document.getElementById('modcontent');
-  mc.innerHTML = `
-    <img class="media" src="${p.img}" alt="${p.name}">
-    <div>
-      <div class="kicker">${p.brand}</div>
-      <h3 style="margin:.2rem 0 0">${p.name}</h3>
-      <p class="small">${p.desc}</p>
-      <div class="price">Prix unitaire : ${euro(p.price)}</div>
-      <div class="actions">
-        <button class="btn" onclick="addToCart('${p.id}');closeModal();openCart()">Ajouter au panier</button>
-        <button class="btn outline" onclick="closeModal()">Fermer</button>
-      </div>
-    </div>
-  `;
-  document.getElementById('modtitle').textContent = p.name;
-  document.getElementById('modal').classList.add('open');
-  document.getElementById('modalBack').classList.add('open');
-}
-function closeModal(){
-  document.getElementById('modal').classList.remove('open');
-  document.getElementById('modalBack').classList.remove('open');
-}
-
-/* ===== Panier ===== */
-function addToCart(id, qty=1){
-  const it = CART.find(x=>x.id===id);
-  if(it) it.qty+=qty; else CART.push({id,qty});
-  saveCart(); renderCart(); bumpCart();
-}
-function removeFromCart(id){
-  CART = CART.filter(x=>x.id!==id);
-  saveCart(); renderCart();
-}
-function changeQty(id, d){
-  const it = CART.find(x=>x.id===id);
-  if(!it) return;
-  it.qty+=d;
-  if(it.qty<=0) removeFromCart(id);
-  saveCart(); renderCart();
-}
-function cartTotal(){
-  return CART.reduce((s,x)=>s + PRODUCTS.find(p=>p.id===x.id).price*x.qty,0);
-}
-function renderCart(){
-  const list = document.getElementById('cartList');
-  list.innerHTML='';
-  CART.forEach(x=>{
-    const p = PRODUCTS.find(p=>p.id===x.id);
-    const li = document.createElement('div');
-    li.className='cartitem';
-    li.innerHTML = `
-      <img src="${p.img}" alt="${p.name}">
-      <div>
-        <div style="font-weight:700">${p.name}</div>
-        <div class="small">${p.brand} – ${euro(p.price)} / u</div>
-        <div class="qty" style="margin-top:6px">
-          <button onclick="changeQty('${x.id}',-1)">−</button>
-          <div>${x.qty}</div>
-          <button onclick="changeQty('${x.id}',+1)">+</button>
-        </div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:800">${euro(p.price*x.qty)}</div>
-        <button class="btn red" style="margin-top:6px;height:32px" onclick="removeFromCart('${x.id}')">Retirer</button>
-      </div>
-    `;
-    list.appendChild(li);
-  });
-  document.getElementById('cartTotal').textContent = euro(cartTotal());
-  document.getElementById('cartCount').textContent = CART.reduce((a,b)=>a+b.qty,0);
-}
-function openCart(){ document.getElementById('cart').classList.add('open'); }
-function closeCart(){ document.getElementById('cart').classList.remove('open'); }
-function bumpCart(){
-  const c = document.getElementById('cartCount');
-  c.style.transform='scale(1.2)'; setTimeout(()=>c.style.transform='scale(1)',150);
-}
-function checkout(){
-  alert('Paiement : étape de simulation pour le moment.\nOn peut brancher Stripe / PayPal plus tard.');
-}
-
-/* ===== Persist panier ===== */
-function saveCart(){ localStorage.setItem('batidc_cart', JSON.stringify(CART)); }
-function loadCart(){ try{ CART = JSON.parse(localStorage.getItem('batidc_cart')||'[]'); }catch(e){ CART=[] } }
-
-/* Init */
-loadCart();
-renderCart();
-render();
-</script>
+    // Bouton "Mes commandes" (à brancher plus tard vers une page/section)
+    document.getElementById('gotoOrders').onclick = ()=>{
+      alert("La page 'Mes commandes' sera branchée après la base de données (Firestore).");
+    };
+  </script>
+  <!-- ===================================================== -->
 </body>
 </html>
