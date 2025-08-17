@@ -84,7 +84,90 @@
   </div>
 </header>
 
+<!-- Bannière info -->
 <div class="notice">📦 <b>Livraison partout en France</b></div>
+
+<!-- ========= PANNEAU CATEGORIES (Manomano-like) ========= -->
+<style>
+  :root{
+    --cat-bg:#ffffff; --cat-ink:#0f172a; --cat-stroke:#e5e7eb;
+    --cat-hover:#f8fafc; --cat-soft:#eef2ff; --cat-accent: var(--accent,#f59e0b);
+  }
+  .cats-wrap{max-width:1100px;margin:12px auto 0;padding:0 10px}
+  .cats-panel{background:#fff;color:#0f172a;border:1px solid var(--cat-stroke);border-radius:14px;overflow:hidden;
+    box-shadow:0 0 0 1px rgba(0,0,0,.02), 0 6px 16px rgba(2,6,23,.06)}
+  .cats-head{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;font:800 18px/1 system-ui;border-bottom:1px solid var(--cat-stroke)}
+  .cats-toggle{appearance:none;border:0;background:#111418;color:#fff;border-radius:10px;padding:10px 14px;font-weight:800;cursor:pointer}
+  .cats-list{display:flex;flex-direction:column}
+  .cat-item{border-top:1px solid var(--cat-stroke);background:#fff}
+  .cat-btn{width:100%;background:#fff;border:0;text-align:left;cursor:pointer;display:flex;align-items:center;gap:12px;padding:16px;font:700 17px/1.2 system-ui;color:#0f172a}
+  .cat-btn:hover{background:var(--cat-hover)}
+  .cat-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:18px;background:var(--cat-soft)}
+  .cat-arrow{margin-left:auto;transition:transform .2s}
+  .cat-item[aria-expanded="true"] .cat-arrow{transform:rotate(90deg)}
+  .cat-body{display:none;padding:0 16px 16px 60px;background:#fff}
+  .cat-item[aria-expanded="true"] .cat-body{display:block}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+  .chip-link{text-decoration:none;color:#0f172a;background:#fff;border:1px solid var(--cat-stroke);padding:8px 12px;border-radius:999px;font-weight:600;font-size:14px}
+  .chip-link:hover{background:#fdfdfd;border-color:#d1d5db}
+  /* Onglets + bannière en BLANC, texte noir */
+  .tabs-wrap{ background:#fff !important; border-color:var(--cat-stroke) !important; }
+  .tabs .tablink{ background:#fff !important; color:#111 !important; border:1px solid var(--cat-stroke) !important; }
+  .tabs .tablink.active{ background:#111 !important; color:#fff !important; border-color:#111 !important; }
+  .notice{ background:#fff !important; border-color:var(--cat-stroke) !important; color:#111 !important; }
+</style>
+
+<section class="cats-wrap">
+  <div class="cats-panel" id="catsPanel">
+    <div class="cats-head">
+      <span>Catégories</span>
+      <button class="cats-toggle" id="catsToggle">Masquer</button>
+    </div>
+    <div class="cats-list" id="catsList">
+      <div class="cat-item" aria-expanded="false">
+        <button class="cat-btn"><span class="cat-ico">🔌</span>Électricité & domotique<span class="cat-arrow">›</span></button>
+        <div class="cat-body">
+          <div class="chips">
+            <a href="#" class="chip-link" data-cat="electricite">Disjoncteurs</a>
+            <a href="#" class="chip-link" data-cat="electricite">Prises extérieures</a>
+            <a href="#" class="chip-link" data-cat="electricite">Tableaux</a>
+          </div>
+        </div>
+      </div>
+      <div class="cat-item" aria-expanded="false">
+        <button class="cat-btn"><span class="cat-ico">🗝️</span>Quincaillerie / Serrurerie<span class="cat-arrow">›</span></button>
+        <div class="cat-body">
+          <div class="chips">
+            <a href="#" class="chip-link" data-cat="serrurerie">Cylindres</a>
+            <a href="#" class="chip-link" data-cat="serrurerie">Serrures</a>
+            <a href="#" class="chip-link" data-cat="serrurerie">Accessoires</a>
+          </div>
+        </div>
+      </div>
+      <div class="cat-item" aria-expanded="false">
+        <button class="cat-btn"><span class="cat-ico">🚿</span>Plomberie / Chauffage<span class="cat-arrow">›</span></button>
+        <div class="cat-body">
+          <div class="chips">
+            <a href="#" class="chip-link" data-cat="plomberie">Chauffe-eau</a>
+            <a href="#" class="chip-link" data-cat="plomberie">Robinetterie</a>
+            <a href="#" class="chip-link" data-cat="plomberie">Tuyauterie</a>
+          </div>
+        </div>
+      </div>
+      <div class="cat-item" aria-expanded="false">
+        <button class="cat-btn"><span class="cat-ico">🧱</span>Isolation & plaques<span class="cat-arrow">›</span></button>
+        <div class="cat-body">
+          <div class="chips">
+            <a href="#" class="chip-link" data-cat="isolation">Laine minérale</a>
+            <a href="#" class="chip-link" data-cat="isolation">Plaques BA13</a>
+            <a href="#" class="chip-link" data-cat="isolation">Enduits</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ========= /PANNEAU CATEGORIES ========= -->
 
 <main>
   <!-- ACCUEIL -->
@@ -116,7 +199,7 @@
       <h3>Serrurerie / Quincaillerie</h3>
       <ul>
         <li>Au Forum du Bâtiment (AFDB) • Legallais • Foussier • Setin • Dispano Quincaillerie</li>
-        <li>Vachette • JPM (ASSA ABLOY) • Bricard • Abus • DOM-Metalux • Héraclès • Ferco • Fapim • Hoppe • Ronis • Picard Serrures • Deny Security • Stremler • ISEO • Cisa • Mottura</li>
+        <li>Vachette • JPM • Bricard • Abus • DOM-Metalux • Héraclès • Ferco • Fapim • Hoppe • Ronis • Picard Serrures • Deny Security • Stremler • ISEO • Cisa • Mottura</li>
       </ul>
       <h3>Plomberie / Chauffage / Sanitaires</h3>
       <ul>
@@ -133,7 +216,7 @@
       </ul>
       <h3>Isolation / Plaque de plâtre / Mortiers</h3>
       <ul>
-        <li>Placo® • Isover • Weber (Saint-Gobain)</li>
+        <li>Placo® • Isover • Weber</li>
         <li>Knauf • Rockwool • Ursa • Fermacell • Siniat</li>
         <li>Sika • Parexlanko • Mapei</li>
         <li>SFIC • Point.P • BigMat</li>
@@ -157,19 +240,14 @@
         <li>Gerflor • Tarkett</li>
       </ul>
       <h3>PVC, réseaux & TP</h3>
-      <ul>
-        <li>PUM (réseaux) • Wavin • Nicoll • Girpi • Saint-Gobain PAM</li>
-      </ul>
+      <ul><li>PUM (réseaux) • Wavin • Nicoll • Girpi • Saint-Gobain PAM</li></ul>
       <h3>Photovoltaïque / CVC</h3>
       <ul>
         <li>Clim+ • Daikin • Mitsubishi Electric • Atlantic • Hitachi</li>
-        <li>SunPower • REC • Trina • Canadian Solar (via grossistes PV)</li>
+        <li>SunPower • REC • Trina • Canadian Solar</li>
       </ul>
       <h3>Grands groupes & TP</h3>
-      <ul>
-        <li>Colas • Eurovia (Vinci) • Eiffage • NGE • Fayat • Spie Batignolles</li>
-      </ul>
-      <p style="opacity:.7;margin-top:6px">Tu peux ajouter/retirer facilement des lignes si besoin.</p>
+      <ul><li>Colas • Eurovia (Vinci) • Eiffage • NGE • Fayat • Spie Batignolles</li></ul>
     </div></div>
   </section>
 
@@ -244,7 +322,7 @@
 <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
 
 <script>
-/* ======================= Données produits (exemples réels) ======================= */
+/* ======================= Données produits ======================= */
 const PRODUCTS = [
   {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées."},
   {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage."},
@@ -257,15 +335,15 @@ const PRODUCTS = [
   {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique."},
 ];
 
+/* ======================= Utils & state ======================= */
 const fmt = v => (v||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
 const $ = (s, r=document)=> r.querySelector(s);
 const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
-
 let CART = JSON.parse(localStorage.getItem('cart')||'{}');
 const saveCart = ()=> localStorage.setItem('cart', JSON.stringify(CART));
 
-function cardHTML(p){
-  return `
+/* ======================= Renderers ======================= */
+function cardHTML(p){ return `
   <article class="card">
     <div class="media"><img loading="lazy" src="${p.img}" alt="${p.title}" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
     <div class="pad">
@@ -280,8 +358,7 @@ function cardHTML(p){
         </div>
       </div>
     </div>
-  </article>`;
-}
+  </article>`;}
 function labelCat(c){
   return c==='serrurerie'?'Serrurerie' : c==='plomberie'?'Plomberie' : c==='electricite'?'Électricité' :
          c==='isolation'?'Isolation' : c;
@@ -304,6 +381,7 @@ function renderCatChips(){
   });
 }
 
+/* ======================= Fiche + Panier ======================= */
 function openFiche(p){
   $('#pmTitle').textContent = p.title;
   $('#pmBody').innerHTML = `
@@ -350,7 +428,6 @@ function renderCart(){
     box.appendChild(row);
   });
   $('#cartTotal').textContent = fmt(total);
-
   $$('#cartList [data-inc]').forEach(b=> b.onclick=()=>{ CART[b.dataset.inc]++; saveCart(); renderCart(); });
   $$('#cartList [data-dec]').forEach(b=> b.onclick=()=>{ CART[b.dataset.dec]=Math.max(1,(CART[b.dataset.dec]||1)-1); saveCart(); renderCart(); });
   $$('#cartList [data-del]').forEach(b=> b.onclick=()=>{ delete CART[b.dataset.del]; saveCart(); renderCart(); });
@@ -362,18 +439,13 @@ $('[data-cart-close]').onclick = ()=> $('#cartModal').style.display='none';
 $('#cartModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) e.currentTarget.style.display='none'; });
 $('#cartCheckout').onclick = ()=> alert('Commande enregistrée (démo).');
 
+/* ======================= Interactions ======================= */
 function bindProductButtons(root=document){
-  root.querySelectorAll('[data-add]').forEach(btn=>{
-    btn.onclick = ()=> addToCart(btn.dataset.add);
-  });
+  root.querySelectorAll('[data-add]').forEach(btn=>{ btn.onclick = ()=> addToCart(btn.dataset.add); });
   root.querySelectorAll('[data-fiche]').forEach(btn=>{
-    btn.onclick = ()=>{
-      const p = PRODUCTS.find(x=>x.id===btn.dataset.fiche);
-      if(p) openFiche(p);
-    };
+    btn.onclick = ()=>{ const p = PRODUCTS.find(x=>x.id===btn.dataset.fiche); if(p) openFiche(p); };
   });
 }
-
 function showTabId(id){
   $$('.tabsection').forEach(s=> s.style.display = (('#'+s.id)===id)?'':'none');
   $$('.tablink').forEach(a=> a.classList.toggle('active', a.dataset.tab===id));
@@ -381,6 +453,7 @@ function showTabId(id){
 }
 $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.dataset.tab); });
 
+/* Drawer */
 (function drawer(){
   const btn = $('#menuBtn'); const drawer = $('#drawer'); let backdrop;
   const open=()=>{ drawer.style.transform='translateX(0)'; drawer.setAttribute('aria-hidden','false');
@@ -394,6 +467,7 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
   window.__closeDrawer = close;
 })();
 
+/* Auth modal */
 (function authModal(){
   const modal = $('#authModal');
   const open = ()=>{ modal.style.display='flex'; modal.setAttribute('aria-hidden','false'); };
@@ -403,6 +477,7 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
   modal.addEventListener('click', e=>{ if(e.target===modal) close(); });
 })();
 
+/* Fiche modal */
 (function prodModal(){
   const modal = $('#prodModal');
   const close= ()=>{ modal.style.display='none'; };
@@ -410,10 +485,40 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
   modal.addEventListener('click', e=>{ if(e.target===modal) close(); });
 })();
 
-$('#doSearch').onclick = ()=>{
-  const q = $('#q').value.trim();
-  showTabId('#produits'); renderProducts(null, q); bindProductButtons($('#prodGrid'));
-};
+/* Catégories (accordéon + filtre) */
+(function(){
+  const list = document.getElementById('catsList');
+  const toggle = document.getElementById('catsToggle');
+  if(list){
+    list.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.cat-btn');
+      if(btn){
+        const item = btn.parentElement;
+        const open = item.getAttribute('aria-expanded')==='true';
+        list.querySelectorAll('.cat-item[aria-expanded="true"]').forEach(x=> x.setAttribute('aria-expanded','false'));
+        item.setAttribute('aria-expanded', open?'false':'true');
+      }
+      const a = e.target.closest('.chip-link');
+      if(a){
+        e.preventDefault();
+        const cat = a.dataset.cat || null;
+        showTabId('#produits'); renderProducts(cat,'');
+        const grid = document.getElementById('prodGrid');
+        if(grid){ bindProductButtons(grid); grid.scrollIntoView({behavior:'smooth',block:'start'}); }
+      }
+    });
+  }
+  if(toggle){
+    let hidden=false;
+    toggle.addEventListener('click', ()=>{
+      hidden=!hidden;
+      document.querySelector('.cats-list').style.display = hidden ? 'none' : 'flex';
+      toggle.textContent = hidden ? 'Afficher' : 'Masquer';
+    });
+  }
+})();
+
+/* Init */
 document.addEventListener('DOMContentLoaded', ()=>{
   showTabId(location.hash || '#accueil');
   renderHome(); renderProducts(); renderCatChips();
@@ -421,7 +526,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 </script>
 
-<!-- ======================= Firebase (modular v10) ======================= -->
+<!-- ======================= Firebase ======================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -465,10 +570,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   }
 </script>
 
-<!-- Petit badge d'état Firebase (une seule fois) -->
-<div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
-
-<!-- === Correctifs visuels existants (tu les gardes si tu veux) === -->
+<!-- Correctifs visuels existants (garde) -->
 <style id="fix-batidc-light">
   html, body { background:#ffffff !important; color:#111 !important; }
   .page, .main, .section, .container { background:#ffffff !important; }
@@ -479,7 +581,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
   .brand, .logo, .site-title { font-size: 28px !important; font-weight: 800 !important; letter-spacing: .3px; }
 </style>
 
-<!-- === ✅ Correctif d’alignement mobile (collé par moi) === -->
+<!-- Alignement mobile -->
 <style id="fix-batidc-mobile-align">
   header.appbar .brand{ white-space:nowrap; }
   header.appbar .searchrow{ min-width:0; }
@@ -496,50 +598,10 @@ document.addEventListener('DOMContentLoaded', ()=>{
       gap:12px;
     }
     #menuBtn{ grid-area:menu; }
-    header.appbar .brand{
-      grid-area:brand;
-      font-size:26px !important;
-      letter-spacing:.3px !important;
-    }
-    header.appbar .icons{
-      grid-area:icons;
-      justify-self:end;
-      display:flex !important;
-      gap:10px;
-    }
-    header.appbar .searchrow{
-      grid-area:search;
-      margin-top:8px;
-      padding:0;
-    }
+    header.appbar .brand{ grid-area:brand; font-size:26px !important; letter-spacing:.3px !important; }
+    header.appbar .icons{ grid-area:icons; justify-self:end; display:flex !important; gap:10px; }
+    header.appbar .searchrow{ grid-area:search; margin-top:8px; padding:0; }
     .tabs-wrap{ top:120px; }
-  }
-</style>
-
-<!-- === ✅ Nouveau correctif demandé : barres blanches + texte noir === -->
-<style id="fix-bars-white">
-  /* Bandeau “Livraison partout en France” en BLANC + texte noir */
-  .notice{
-    background:#ffffff !important;
-    color:#111 !important;
-    border:1px solid #e5e7eb !important;
-  }
-
-  /* Barre des onglets en BLANC + texte noir */
-  .tabs-wrap{
-    background:#ffffff !important;
-    border-top:1px solid #e5e7eb !important;
-    border-bottom:1px solid #e5e7eb !important;
-  }
-  .tabs .tablink{
-    background:#ffffff !important;
-    color:#111 !important;
-    border:1px solid #e5e7eb !important;
-  }
-  .tabs .tablink.active{
-    background:#ffffff !important;   /* reste blanc */
-    color:#111 !important;           /* écriture noire */
-    border-color:#111 !important;    /* bord plus marqué pour l’onglet actif */
   }
 </style>
 
