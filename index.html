@@ -35,6 +35,7 @@
   .meta{opacity:.7;margin-bottom:6px}
   .price{font:800 18px/1.2 system-ui;margin-top:6px}
   .btn{height:40px;padding:0 14px;border-radius:10px;border:2px solid #374151;background:#111418;color:#e5e7eb;font-weight:800;cursor:pointer}
+  .btn[disabled]{opacity:.55;cursor:not-allowed}
   .btn.primary{background:#e5e7eb;color:#111;border-color:#e5e7eb}
   .chip{display:inline-block;padding:6px 10px;border:1px solid #374151;border-radius:999px;margin:2px 6px 2px 0;font-size:13px}
   /* Drawer */
@@ -322,7 +323,7 @@
 <div id="fb-badge">Firebase : <span id="fb-status">connexion…</span></div>
 
 <script>
-/* ======================= Données produits ======================= */
+/* ======================= Produits "seed" (exemples) ======================= */
 const PRODUCTS = [
   {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées."},
   {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage."},
@@ -335,54 +336,43 @@ const PRODUCTS = [
   {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique."},
 ];
 
-/* ======================= Résolveur d’images BATI DC ======================= */
-/* Pour la catégorie "serrurerie", on pointe vers TON hébergement.
-   Change la baseURL ci-dessous par ton vrai domaine / Firebase Storage / CDN. */
-const BASE_SERURRERIE = "https://ton-domaine.com/img/serrurerie";
-function resolveImg(p){
-  if(p?.category === "serrurerie"){
-    // exemple : https://ton-domaine.com/img/serrurerie/vachette-a2p-30x30.jpg
-    return `${BASE_SERURRERIE}/${p.id}.jpg`;
-  }
-  return p.img || 'https://picsum.photos/1200/800?grayscale';
-}
-
 /* ======================= Utils & state ======================= */
-const fmt = v => (v||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
+const fmt = v => (v==null? null : (v||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}));
 const $ = (s, r=document)=> r.querySelector(s);
 const $$ = (s, r=document)=> Array.from(r.querySelectorAll(s));
 let CART = JSON.parse(localStorage.getItem('cart')||'{}');
 const saveCart = ()=> localStorage.setItem('cart', JSON.stringify(CART));
 
 /* ======================= Renderers ======================= */
-function cardHTML(p){ return `
+function cardHTML(p){
+  const hasPrice = p.price!=null && !isNaN(p.price);
+  const priceHTML = hasPrice ? `À partir de ${fmt(p.price)}` : `Prix à venir`;
+  return `
   <article class="card">
-    <div class="media">
-      <img loading="lazy" src="${resolveImg(p)}" alt="${p.title}"
-           onerror="this.src='https://picsum.photos/1200/800?grayscale'">
-    </div>
+    <div class="media"><img loading="lazy" src="${p.img}" alt="${p.title}" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
     <div class="pad">
-      <div class="meta">${p.brand} • ${labelCat(p.category)}</div>
+      <div class="meta">${p.brand||''} • ${labelCat(p.category)}</div>
       <div style="font:800 20px/1.2 system-ui">${p.title}</div>
-      <p style="opacity:.85">${p.desc}</p>
+      <p style="opacity:.85">${p.desc||''}</p>
       <div class="row" style="justify-content:space-between;align-items:center">
-        <div class="price">À partir de ${fmt(p.price)}</div>
+        <div class="price">${priceHTML}</div>
         <div class="row">
           <button class="btn" data-fiche="${p.id}">Voir la fiche</button>
-          <button class="btn primary" data-add="${p.id}">Ajouter</button>
+          <button class="btn primary" data-add="${p.id}" ${hasPrice?'':'disabled'}>Ajouter</button>
         </div>
       </div>
     </div>
-  </article>`;}
+  </article>`;
+}
 function labelCat(c){
   return c==='serrurerie'?'Serrurerie' : c==='plomberie'?'Plomberie' : c==='electricite'?'Électricité' :
-         c==='isolation'?'Isolation' : c;
+         c==='isolation'?'Isolation' : (c||'');
 }
 function renderHome(){ $('#homeGrid').innerHTML = PRODUCTS.slice(0,4).map(cardHTML).join(''); }
 function renderProducts(filterCat=null, q=null){
   let list=[...PRODUCTS];
   if(filterCat) list = list.filter(p=>p.category===filterCat);
-  if(q){ const s=q.toLowerCase(); list = list.filter(p => (p.title+' '+p.brand+' '+p.category+' '+p.desc).toLowerCase().includes(s)); }
+  if(q){ const s=q.toLowerCase(); list = list.filter(p => (p.title+' '+(p.brand||'')+' '+(p.category||'')+' '+(p.desc||'')).toLowerCase().includes(s)); }
   $('#prodGrid').innerHTML = list.map(cardHTML).join('') || `<div class="card"><div class="pad">Aucun résultat.</div></div>`;
 }
 function renderCatChips(){
@@ -398,24 +388,24 @@ function renderCatChips(){
 
 /* ======================= Fiche + Panier ======================= */
 function openFiche(p){
+  const hasPrice = p.price!=null && !isNaN(p.price);
   $('#pmTitle').textContent = p.title;
   $('#pmBody').innerHTML = `
     <div class="grid" style="grid-template-columns:1fr 1fr">
-      <div><img src="${resolveImg(p)}" alt="${p.title}" style="width:100%;border-radius:12px"
-                onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
+      <div><img src="${p.img}" alt="${p.title}" style="width:100%;border-radius:12px" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
       <div>
-        <div class="meta">${p.brand} • ${labelCat(p.category)}</div>
+        <div class="meta">${p.brand||''} • ${labelCat(p.category)}</div>
         <h3 style="margin:.3rem 0">${p.title}</h3>
-        <p>${p.desc}</p>
-        <div class="price">${fmt(p.price)}</div>
+        <p>${p.desc||''}</p>
+        <div class="price">${hasPrice?fmt(p.price):'Prix à venir'}</div>
         <div class="row" style="margin-top:8px">
-          <button class="btn primary" data-add="${p.id}">Ajouter au panier</button>
+          <button class="btn primary" data-add="${p.id}" ${hasPrice?'':'disabled'}>Ajouter au panier</button>
           <button class="btn" data-prod-close>Fermer</button>
         </div>
       </div>
     </div>`;
   $('#prodModal').style.display='flex';
-  $('#pmBody').querySelector('[data-add]').onclick = ()=> { addToCart(p.id); };
+  $('#pmBody').querySelector('[data-add]')?.addEventListener('click', ()=> addToCart(p.id));
   $('#pmBody').querySelector('[data-prod-close]').onclick = ()=> { $('#prodModal').style.display='none'; };
 }
 function addToCart(id){ CART[id] = (CART[id]||0)+1; saveCart(); renderCart(); $('#cartModal').style.display='flex'; }
@@ -423,18 +413,18 @@ function addToCart(id){ CART[id] = (CART[id]||0)+1; saveCart(); renderCart(); $(
 function renderCart(){
   const box = $('#cartList'); box.innerHTML='';
   const entries = Object.entries(CART);
-  if(!entries.length){ box.innerHTML = `<div class="card"><div class="pad">Votre panier est vide.</div></div>`; $('#cartTotal').textContent=fmt(0); return; }
+  if(!entries.length){ box.innerHTML = `<div class="card"><div class="pad">Votre panier est vide.</div></div>`; $('#cartTotal').textContent=(0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}); return; }
   let total = 0;
   entries.forEach(([id,qty])=>{
     const p = PRODUCTS.find(x=>x.id===id); if(!p) return;
-    total += p.price*qty;
+    const line = (p.price||0)*qty;
+    total += line;
     const row = document.createElement('div');
     row.className='rowline';
     row.innerHTML = `
       <div style="display:flex;gap:10px;align-items:center">
-        <img src="${resolveImg(p)}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px"
-             onerror="this.src='https://picsum.photos/1200/800?grayscale'">
-        <div><b>${p.title}</b><div class="meta">${p.brand}</div></div>
+        <img src="${p.img}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px" onerror="this.src='https://picsum.photos/1200/800?grayscale'">
+        <div><b>${p.title}</b><div class="meta">${p.brand||''}</div></div>
       </div>
       <div class="row">
         <button class="btn" data-dec="${id}">−</button>
@@ -444,7 +434,7 @@ function renderCart(){
       </div>`;
     box.appendChild(row);
   });
-  $('#cartTotal').textContent = fmt(total);
+  $('#cartTotal').textContent = total.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
   $$('#cartList [data-inc]').forEach(b=> b.onclick=()=>{ CART[b.dataset.inc]++; saveCart(); renderCart(); });
   $$('#cartList [data-dec]').forEach(b=> b.onclick=()=>{ CART[b.dataset.dec]=Math.max(1,(CART[b.dataset.dec]||1)-1); saveCart(); renderCart(); });
   $$('#cartList [data-del]').forEach(b=> b.onclick=()=>{ delete CART[b.dataset.del]; saveCart(); renderCart(); });
@@ -456,13 +446,13 @@ $('[data-cart-close]').onclick = ()=> $('#cartModal').style.display='none';
 $('#cartModal').addEventListener('click', e=>{ if(e.target===e.currentTarget) e.currentTarget.style.display='none'; });
 $('#cartCheckout').onclick = ()=> alert('Commande enregistrée (démo).');
 
-/* ======================= Interactions ======================= */
 function bindProductButtons(root=document){
   root.querySelectorAll('[data-add]').forEach(btn=>{ btn.onclick = ()=> addToCart(btn.dataset.add); });
   root.querySelectorAll('[data-fiche]').forEach(btn=>{
     btn.onclick = ()=>{ const p = PRODUCTS.find(x=>x.id===btn.dataset.fiche); if(p) openFiche(p); };
   });
 }
+
 function showTabId(id){
   $$('.tabsection').forEach(s=> s.style.display = (('#'+s.id)===id)?'':'none');
   $$('.tablink').forEach(a=> a.classList.toggle('active', a.dataset.tab===id));
@@ -502,38 +492,15 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
   modal.addEventListener('click', e=>{ if(e.target===modal) close(); });
 })();
 
-/* Catégories (accordéon + filtre) */
-(function(){
-  const list = document.getElementById('catsList');
-  const toggle = document.getElementById('catsToggle');
-  if(list){
-    list.addEventListener('click', (e)=>{
-      const btn = e.target.closest('.cat-btn');
-      if(btn){
-        const item = btn.parentElement;
-        const open = item.getAttribute('aria-expanded')==='true';
-        list.querySelectorAll('.cat-item[aria-expanded="true"]').forEach(x=> x.setAttribute('aria-expanded','false'));
-        item.setAttribute('aria-expanded', open?'false':'true');
-      }
-      const a = e.target.closest('.chip-link');
-      if(a){
-        e.preventDefault();
-        const cat = a.dataset.cat || null;
-        showTabId('#produits'); renderProducts(cat,'');
-        const grid = document.getElementById('prodGrid');
-        if(grid){ bindProductButtons(grid); grid.scrollIntoView({behavior:'smooth',block:'start'}); }
-      }
-    });
-  }
-  if(toggle){
-    let hidden=false;
-    toggle.addEventListener('click', ()=>{
-      hidden=!hidden;
-      document.querySelector('.cats-list').style.display = hidden ? 'none' : 'flex';
-      toggle.textContent = hidden ? 'Afficher' : 'Masquer';
-    });
-  }
-})();
+/* ====== Helper pour injecter des produits importés (depuis Storage) ====== */
+window.addImportedProducts = function(items){
+  const ids = new Set(PRODUCTS.map(p=>p.id));
+  items.forEach(p=>{ if(!ids.has(p.id)){ PRODUCTS.push(p); ids.add(p.id); } });
+  renderHome(); renderProducts(); bindProductButtons(document);
+  const badge = document.getElementById('fb-badge');
+  const status = document.getElementById('fb-status');
+  if(badge){ badge.style.display='inline-flex'; status.textContent = `importé ${items.length} produit(s)`; setTimeout(()=>{ badge.style.display='none'; }, 2500); }
+};
 
 /* Init */
 document.addEventListener('DOMContentLoaded', ()=>{
@@ -543,10 +510,11 @@ document.addEventListener('DOMContentLoaded', ()=>{
 });
 </script>
 
-<!-- ======================= Firebase ======================= -->
+<!-- ======================= Firebase (auth + storage auto-import) ======================= -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getStorage, ref, listAll, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyBD4M0HxtjmNUvLjyex2WBeY2iiw7BDSgw",
@@ -561,33 +529,74 @@ document.addEventListener('DOMContentLoaded', ()=>{
   const status = document.getElementById('fb-status');
   const show = t=>{ if(badge){ badge.style.display='inline-flex'; status.textContent=t; } };
 
+  let app, auth, storage;
   try{
-    const app  = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+    app  = initializeApp(firebaseConfig);
+    auth = getAuth(app);
+    storage = getStorage(app);
     show('connecté');
-
-    const email = document.getElementById('email');
-    const pwd   = document.getElementById('pwd');
-    document.getElementById('btnSignup').onclick = async ()=>{
-      try{ await createUserWithEmailAndPassword(auth, email.value.trim(), pwd.value); alert('Compte créé ✅'); }
-      catch(e){ alert(e.message); }
-    };
-    document.getElementById('btnLogin').onclick = async ()=>{
-      try{ await signInWithEmailAndPassword(auth, email.value.trim(), pwd.value); alert('Connexion réussie ✅'); }
-      catch(e){ alert(e.message); }
-    };
-    onAuthStateChanged(auth, user=>{
-      const el = document.getElementById('authState');
-      el.textContent = user ? `connecté (${user.email})` : 'non connecté';
-    });
-    window.signout = ()=> signOut(auth);
   }catch(e){
     console.error('Firebase init error:', e);
     show('erreur');
   }
+
+  // Auth (comme avant)
+  const email = document.getElementById('email');
+  const pwd   = document.getElementById('pwd');
+  document.getElementById('btnSignup')?.addEventListener('click', async ()=>{
+    try{ await createUserWithEmailAndPassword(auth, email.value.trim(), pwd.value); alert('Compte créé ✅'); }
+    catch(e){ alert(e.message); }
+  });
+  document.getElementById('btnLogin')?.addEventListener('click', async ()=>{
+    try{ await signInWithEmailAndPassword(auth, email.value.trim(), pwd.value); alert('Connexion réussie ✅'); }
+    catch(e){ alert(e.message); }
+  });
+  onAuthStateChanged(auth, user=>{
+    const el = document.getElementById('authState');
+    if(el) el.textContent = user ? `connecté (${user.email})` : 'non connecté';
+  });
+  window.signout = ()=> signOut(auth);
+
+  /* ====== Auto-import depuis Storage : plusieurs dossiers ====== */
+  function ucFirst(s){ return s? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+  function niceText(slug){ return slug.split('-').map(ucFirst).join(' '); }
+  function baseName(noExt){ return noExt.replace(/\.[^.]+$/,''); }
+  function brandFrom(name){ const b = baseName(name).split('-')[0]||''; return ucFirst(b); }
+  function idFrom(name){ return baseName(name).toLowerCase().replace(/[^a-z0-9\-]+/g,'-'); }
+  function titleFrom(name){ return niceText(baseName(name)); }
+
+  async function importFolder(folder, category){
+    try{
+      const dir = ref(storage, folder);
+      const res = await listAll(dir);
+      const items = await Promise.all(res.items.map(async (it)=>{
+        const url = await getDownloadURL(it);
+        const nom = it.name;
+        return {
+          id: idFrom(nom),
+          title: titleFrom(nom),
+          brand: brandFrom(nom),
+          category,
+          price: null, // tu pourras gérer une tarification ensuite
+          img: url,
+          desc: 'Produit importé automatiquement depuis Firebase Storage.'
+        };
+      }));
+      if(window.addImportedProducts && items.length){ window.addImportedProducts(items); }
+    }catch(e){
+      console.error('Import Storage ('+folder+'):', e);
+      show('import '+folder+': erreur');
+    }
+  }
+
+  // Lancer l’import pour chaque famille
+  importFolder('serrures',   'serrurerie');
+  importFolder('plomberie',  'plomberie');
+  importFolder('electricite','electricite');
+  importFolder('isolation',  'isolation');
 </script>
 
-<!-- Correctifs visuels existants (garde) -->
+<!-- Correctifs visuels (fond blanc + header sombre) -->
 <style id="fix-batidc-light">
   html, body { background:#ffffff !important; color:#111 !important; }
   .page, .main, .section, .container { background:#ffffff !important; }
