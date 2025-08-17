@@ -87,7 +87,7 @@
 <!-- Bannière info -->
 <div class="notice">📦 <b>Livraison partout en France</b></div>
 
-<!-- ========= PANNEAU CATEGORIES (Manomano-like) ========= -->
+<!-- ========= PANNEAU CATEGORIES ========= -->
 <style>
   :root{
     --cat-bg:#ffffff; --cat-ink:#0f172a; --cat-stroke:#e5e7eb;
@@ -335,6 +335,18 @@ const PRODUCTS = [
   {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique."},
 ];
 
+/* ======================= Résolveur d’images BATI DC ======================= */
+/* Pour la catégorie "serrurerie", on pointe vers TON hébergement.
+   Change la baseURL ci-dessous par ton vrai domaine / Firebase Storage / CDN. */
+const BASE_SERURRERIE = "https://ton-domaine.com/img/serrurerie";
+function resolveImg(p){
+  if(p?.category === "serrurerie"){
+    // exemple : https://ton-domaine.com/img/serrurerie/vachette-a2p-30x30.jpg
+    return `${BASE_SERURRERIE}/${p.id}.jpg`;
+  }
+  return p.img || 'https://picsum.photos/1200/800?grayscale';
+}
+
 /* ======================= Utils & state ======================= */
 const fmt = v => (v||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
 const $ = (s, r=document)=> r.querySelector(s);
@@ -345,7 +357,10 @@ const saveCart = ()=> localStorage.setItem('cart', JSON.stringify(CART));
 /* ======================= Renderers ======================= */
 function cardHTML(p){ return `
   <article class="card">
-    <div class="media"><img loading="lazy" src="${p.img}" alt="${p.title}" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
+    <div class="media">
+      <img loading="lazy" src="${resolveImg(p)}" alt="${p.title}"
+           onerror="this.src='https://picsum.photos/1200/800?grayscale'">
+    </div>
     <div class="pad">
       <div class="meta">${p.brand} • ${labelCat(p.category)}</div>
       <div style="font:800 20px/1.2 system-ui">${p.title}</div>
@@ -386,7 +401,8 @@ function openFiche(p){
   $('#pmTitle').textContent = p.title;
   $('#pmBody').innerHTML = `
     <div class="grid" style="grid-template-columns:1fr 1fr">
-      <div><img src="${p.img}" alt="${p.title}" style="width:100%;border-radius:12px"></div>
+      <div><img src="${resolveImg(p)}" alt="${p.title}" style="width:100%;border-radius:12px"
+                onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
       <div>
         <div class="meta">${p.brand} • ${labelCat(p.category)}</div>
         <h3 style="margin:.3rem 0">${p.title}</h3>
@@ -416,7 +432,8 @@ function renderCart(){
     row.className='rowline';
     row.innerHTML = `
       <div style="display:flex;gap:10px;align-items:center">
-        <img src="${p.img}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px">
+        <img src="${resolveImg(p)}" alt="" style="width:64px;height:64px;object-fit:cover;border-radius:8px"
+             onerror="this.src='https://picsum.photos/1200/800?grayscale'">
         <div><b>${p.title}</b><div class="meta">${p.brand}</div></div>
       </div>
       <div class="row">
