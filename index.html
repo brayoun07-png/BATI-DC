@@ -3,29 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>BATI DC — Fournitures & Services BTP</title>
-<meta name="description" content="BATI DC : serrurerie, plomberie, électricité, isolation. Devis rapide, livraison nationale, accompagnement pro." />
-<link rel="canonical" href="https://ton-domaine.com/" />
-
-<!-- Social / Open Graph -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="BATI DC — Fournitures & Services BTP">
-<meta property="og:description" content="Serrurerie, plomberie, électricité, isolation. Devis rapide & livraison nationale.">
-<meta property="og:image" content="https://ton-domaine.com/images/og-image.jpg">
-<meta property="og:url" content="https://ton-domaine.com/">
-<meta name="twitter:card" content="summary_large_image">
-
-<!-- Perf hints -->
-<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://firebasestorage.googleapis.com" crossorigin>
-<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
-
+<title>BATI DC</title>
 <style>
   :root{--bg:#0f1115;--ink:#e5e7eb;--muted:#9aa4b2;--accent:#f59e0b;--stroke:#1f2937}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Arial}
-  :focus{outline:2px solid var(--accent);outline-offset:2px} /* ACCESSIBILITÉ */
-
   /* Appbar */
   header.appbar{position:sticky;top:0;z-index:50;background:var(--bg);border-bottom:1px solid var(--stroke)}
   .bar{max-width:1100px;margin:auto;padding:14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
@@ -61,7 +43,7 @@
   .sidedrawer h3{margin:6px 8px}
   .sidedrawer a{display:block;padding:10px 12px;border-radius:10px;color:#e5e7eb;text-decoration:none}
   .sidedrawer a:hover{background:#1f2937}
-  /* Modals */
+  /* Modals (auth & cart & fiche) */
   .overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:90}
   .sheet{width:min(720px,92vw);background:#111418;border:1px solid var(--stroke);border-radius:16px;overflow:hidden}
   .sheet header{padding:14px 16px;border-bottom:1px solid var(--stroke);font-weight:800;display:flex;justify-content:space-between;align-items:center}
@@ -73,64 +55,38 @@
   /* Firebase badge */
   #fb-badge{position:fixed;right:12px;bottom:12px;background:#111;color:#fff;padding:10px 14px;border-radius:14px;font:600 14px system-ui;z-index:999;opacity:.95;display:none}
 </style>
-
-<!-- ========= SEO Local / Données structurées ========= -->
-<script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":["Organization","LocalBusiness"],
-  "name":"BATI DC",
-  "url":"https://ton-domaine.com/",
-  "logo":"https://ton-domaine.com/images/logo.png",
-  "image":"https://ton-domaine.com/images/og-image.jpg",
-  "telephone":"+33 1 23 45 67 89",
-  "email":"contact@ton-domaine.com",
-  "address":{
-    "@type":"PostalAddress",
-    "streetAddress":"12 rue des Artisans",
-    "addressLocality":"Paris",
-    "postalCode":"75011",
-    "addressCountry":"FR"
-  },
-  "vatID":"FRXX999999999",
-  "legalName":"BATI DC",
-  "sameAs":["https://www.instagram.com/…","https://www.linkedin.com/company/…"],
-  "areaServed":"France",
-  "openingHours":["Mo-Fr 08:00-19:00","Sa 09:00-13:00"]
-}
-</script>
 </head>
 <body>
 
 <!-- Appbar -->
-<header class="appbar" role="banner">
+<header class="appbar">
   <div class="bar">
-    <button class="iconbtn" id="menuBtn" title="Menu" aria-label="Ouvrir le menu" type="button">☰</button>
-    <div class="brand" aria-label="BATI DC">BATI DC</div>
+    <button class="iconbtn" id="menuBtn" title="Menu">☰</button>
+    <div class="brand">BATI DC</div>
     <div class="searchrow" style="padding:0">
-      <form class="searchbox" role="search" aria-label="Recherche produits" onsubmit="event.preventDefault();document.getElementById('doSearch').click();" style="min-width:260px">
-        <input id="q" class="input" placeholder="Rechercher : cylindre, chauffe-eau, disjoncteur…" aria-label="Rechercher un produit" />
-        <button class="cta" id="doSearch" type="button">Rechercher</button>
-      </form>
+      <div class="searchbox" style="min-width:260px">
+        <input id="q" class="input" placeholder="Rechercher : cylindre, chauffe-eau, disjoncteur…" />
+        <button class="cta" id="doSearch">Rechercher</button>
+      </div>
     </div>
     <div style="display:flex;gap:10px" class="icons">
-      <button class="iconbtn" id="authBtn" title="Compte pro" aria-label="Ouvrir le compte professionnel" type="button">👤</button>
-      <button class="iconbtn" id="ordersBtn" title="Mes commandes" aria-label="Voir mes commandes" type="button">🧾</button>
-      <button class="iconbtn" id="cartBtn" title="Panier" aria-label="Ouvrir le panier" type="button">🛒</button>
+      <button class="iconbtn" id="authBtn" title="Compte pro">👤</button>
+      <button class="iconbtn" id="ordersBtn" title="Mes commandes">🧾</button>
+      <button class="iconbtn" id="cartBtn" title="Panier">🛒</button>
     </div>
   </div>
   <div class="tabs-wrap">
-    <nav class="tabs" role="navigation" aria-label="Sections">
-      <a class="tablink" data-tab="#accueil" href="#accueil">Accueil</a>
-      <a class="tablink" data-tab="#produits" href="#produits">Produits</a>
-      <a class="tablink" data-tab="#fournisseurs" href="#fournisseurs">Fournisseurs</a>
-      <a class="tablink" data-tab="#services" href="#services">Services</a>
+    <nav class="tabs">
+      <a class="tablink" data-tab="#accueil">Accueil</a>
+      <a class="tablink" data-tab="#produits">Produits</a>
+      <a class="tablink" data-tab="#fournisseurs">Fournisseurs</a>
+      <a class="tablink" data-tab="#services">Services</a>
     </nav>
   </div>
 </header>
 
 <!-- Bannière info -->
-<div class="notice" role="status">📦 <b>Livraison partout en France</b> — Devis gratuit</div>
+<div class="notice">📦 <b>Livraison partout en France</b></div>
 
 <!-- ========= PANNEAU CATEGORIES ========= -->
 <style>
@@ -162,15 +118,15 @@
   .notice{ background:#fff !important; border-color:var(--cat-stroke) !important; color:#111 !important; }
 </style>
 
-<section class="cats-wrap" aria-label="Catégories produits">
+<section class="cats-wrap">
   <div class="cats-panel" id="catsPanel">
     <div class="cats-head">
       <span>Catégories</span>
-      <button class="cats-toggle" id="catsToggle" type="button" aria-expanded="true" aria-controls="catsList">Masquer</button>
+      <button class="cats-toggle" id="catsToggle">Masquer</button>
     </div>
     <div class="cats-list" id="catsList">
       <div class="cat-item" aria-expanded="false">
-        <button class="cat-btn" type="button"><span class="cat-ico">🔌</span>Électricité & domotique<span class="cat-arrow">›</span></button>
+        <button class="cat-btn"><span class="cat-ico">🔌</span>Électricité & domotique<span class="cat-arrow">›</span></button>
         <div class="cat-body">
           <div class="chips">
             <a href="#" class="chip-link" data-cat="electricite">Disjoncteurs</a>
@@ -180,7 +136,7 @@
         </div>
       </div>
       <div class="cat-item" aria-expanded="false">
-        <button class="cat-btn" type="button"><span class="cat-ico">🗝️</span>Quincaillerie / Serrurerie<span class="cat-arrow">›</span></button>
+        <button class="cat-btn"><span class="cat-ico">🗝️</span>Quincaillerie / Serrurerie<span class="cat-arrow">›</span></button>
         <div class="cat-body">
           <div class="chips">
             <a href="#" class="chip-link" data-cat="serrurerie">Cylindres</a>
@@ -190,7 +146,7 @@
         </div>
       </div>
       <div class="cat-item" aria-expanded="false">
-        <button class="cat-btn" type="button"><span class="cat-ico">🚿</span>Plomberie / Chauffage<span class="cat-arrow">›</span></button>
+        <button class="cat-btn"><span class="cat-ico">🚿</span>Plomberie / Chauffage<span class="cat-arrow">›</span></button>
         <div class="cat-body">
           <div class="chips">
             <a href="#" class="chip-link" data-cat="plomberie">Chauffe-eau</a>
@@ -200,7 +156,7 @@
         </div>
       </div>
       <div class="cat-item" aria-expanded="false">
-        <button class="cat-btn" type="button"><span class="cat-ico">🧱</span>Isolation & plaques<span class="cat-arrow">›</span></button>
+        <button class="cat-btn"><span class="cat-ico">🧱</span>Isolation & plaques<span class="cat-arrow">›</span></button>
         <div class="cat-body">
           <div class="chips">
             <a href="#" class="chip-link" data-cat="isolation">Laine minérale</a>
@@ -216,21 +172,21 @@
 
 <main>
   <!-- ACCUEIL -->
-  <section id="accueil" class="tabsection" aria-labelledby="home-title">
-    <h2 id="home-title">À la une</h2>
+  <section id="accueil" class="tabsection">
+    <h2>À la une</h2>
     <div id="homeGrid" class="grid cols-2"></div>
   </section>
 
   <!-- PRODUITS -->
-  <section id="produits" class="tabsection" style="display:none" aria-labelledby="prod-title">
-    <h2 id="prod-title">Catalogue produits</h2>
+  <section id="produits" class="tabsection" style="display:none">
+    <h2>Catalogue produits</h2>
     <div id="catChips" class="pad" style="padding:0 0 8px 0"></div>
     <div id="prodGrid" class="grid cols-2"></div>
   </section>
 
   <!-- FOURNISSEURS -->
-  <section id="fournisseurs" class="tabsection" style="display:none" aria-labelledby="four-title">
-    <h2 id="four-title">Fournisseurs BTP – France (liste structurée)</h2>
+  <section id="fournisseurs" class="tabsection" style="display:none">
+    <h2>Fournisseurs BTP – France (liste structurée)</h2>
     <div class="card"><div class="pad">
       <h3>Multi-spécialistes & réseaux négoce</h3>
       <ul>
@@ -297,44 +253,17 @@
   </section>
 
   <!-- SERVICES -->
-  <section id="services" class="tabsection" style="display:none" aria-labelledby="svc-title">
-    <h2 id="svc-title">Services</h2>
+  <section id="services" class="tabsection" style="display:none">
+    <h2>Services</h2>
     <div class="card"><div class="pad">Plomberie, serrurerie, chauffage, menuiserie, rénovation, isolation, photovoltaïque, PAC, déménagement, peinture, carrelage, électroménager, produits de construction…</div></div>
-
-    <!-- FAQ + JSON-LD -->
-    <section class="card" style="margin-top:16px">
-      <div class="pad">
-        <h3>Questions fréquentes</h3>
-        <details><summary>Livrez-vous partout en France ?</summary><p>Oui, livraison nationale avec estimation des délais au panier.</p></details>
-        <details><summary>Proposez-vous des devis gratuits ?</summary><p>Oui, sous 24–48h selon complexité.</p></details>
-        <details><summary>Vos produits sont-ils certifiés ?</summary><p>Selon les références : A2P, CE, NF… précisé sur chaque fiche.</p></details>
-      </div>
-    </section>
-    <script type="application/ld+json">
-    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-      {"@type":"Question","name":"Livrez-vous partout en France ?","acceptedAnswer":{"@type":"Answer","text":"Oui, livraison nationale avec estimation des délais au panier."}},
-      {"@type":"Question","name":"Proposez-vous des devis gratuits ?","acceptedAnswer":{"@type":"Answer","text":"Oui, sous 24–48h selon complexité."}},
-      {"@type":"Question","name":"Vos produits sont-ils certifiés ?","acceptedAnswer":{"@type":"Answer","text":"Selon les références : A2P, CE, NF… précisé sur chaque fiche."}}
-    ]}
-    </script>
   </section>
 </main>
-
-<!-- CTA collants mobile -->
-<a href="tel:+33123456789" class="cta-call" aria-label="Appeler BATI DC">📞 Appeler</a>
-<a href="/devis" class="cta-quote" aria-label="Demander un devis">📝 Devis gratuit</a>
-<style>
-.cta-call,.cta-quote{position:fixed;bottom:12px;z-index:998;padding:12px 14px;border-radius:999px;font-weight:800;text-decoration:none}
-.cta-call{left:12px;background:#10b981;color:#111}
-.cta-quote{right:12px;background:#f59e0b;color:#111}
-@media (min-width:820px){.cta-call,.cta-quote{display:none}}
-</style>
 
 <!-- Drawer latéral -->
 <aside id="drawer" class="sidedrawer" aria-hidden="true" style="position:fixed;top:0;left:0;height:100vh;transform:translateX(-100%);transition:transform .25s ease;z-index:1000">
   <header style="display:flex;align-items:center;justify-content:space-between">
     <h3>Menu</h3>
-    <button data-drawer-close class="iconbtn" style="border:none" type="button" aria-label="Fermer le menu">✕</button>
+    <button data-drawer-close class="iconbtn" style="border:none">✕</button>
   </header>
   <nav class="grid" style="margin-top:8px">
     <a href="#" class="tabjump" data-tab="#accueil">🏠 Accueil</a>
@@ -348,16 +277,16 @@
 </aside>
 
 <!-- Modal Auth -->
-<div id="authModal" class="overlay" aria-hidden="true" role="dialog" aria-labelledby="authTitle" aria-modal="true">
+<div id="authModal" class="overlay" aria-hidden="true">
   <div class="sheet">
-    <header><span id="authTitle">Compte professionnel</span> <button data-auth-close class="iconbtn" style="border:none" type="button" aria-label="Fermer">✕</button></header>
+    <header>Compte professionnel <button data-auth-close class="iconbtn" style="border:none">✕</button></header>
     <div class="content">
       <div class="grid">
-        <div class="fld"><label for="email">Email</label><input id="email" type="email" placeholder="ex: pro@entreprise.fr" autocomplete="email" /></div>
-        <div class="fld"><label for="pwd">Mot de passe</label><input id="pwd" type="password" placeholder="••••••••" autocomplete="current-password" /></div>
+        <div class="fld"><label>Email</label><input id="email" type="email" placeholder="ex: pro@entreprise.fr" autocomplete="email" /></div>
+        <div class="fld"><label>Mot de passe</label><input id="pwd" type="password" placeholder="••••••••" autocomplete="current-password" /></div>
         <div class="row">
-          <button class="btn" id="btnLogin" type="button">Se connecter</button>
-          <button class="btn primary" id="btnSignup" type="button">Créer un compte</button>
+          <button class="btn" id="btnLogin">Se connecter</button>
+          <button class="btn primary" id="btnSignup">Créer un compte</button>
         </div>
         <div style="opacity:.8">Statut : <b id="authState">non connecté</b></div>
       </div>
@@ -366,16 +295,16 @@
 </div>
 
 <!-- Modal Panier -->
-<div id="cartModal" class="overlay" aria-hidden="true" role="dialog" aria-labelledby="cartTitle" aria-modal="true">
+<div id="cartModal" class="overlay" aria-hidden="true">
   <div class="sheet">
-    <header><span id="cartTitle">Mon panier</span> <button data-cart-close class="iconbtn" style="border:none" type="button" aria-label="Fermer">✕</button></header>
+    <header>Mon panier <button data-cart-close class="iconbtn" style="border:none">✕</button></header>
     <div class="content">
       <div id="cartList"></div>
       <div class="row" style="justify-content:space-between;align-items:center;margin-top:8px">
         <div class="price">Total : <span id="cartTotal">0,00 €</span></div>
         <div class="row">
-          <button class="btn" id="cartClear" type="button">Vider</button>
-          <button class="btn primary" id="cartCheckout" type="button">Valider la commande</button>
+          <button class="btn" id="cartClear">Vider</button>
+          <button class="btn primary" id="cartCheckout">Valider la commande</button>
         </div>
       </div>
     </div>
@@ -383,9 +312,9 @@
 </div>
 
 <!-- Modal Fiche produit -->
-<div id="prodModal" class="overlay" aria-hidden="true" role="dialog" aria-labelledby="pmTitle" aria-modal="true">
+<div id="prodModal" class="overlay" aria-hidden="true">
   <div class="sheet">
-    <header id="pmTitle">Produit <button data-prod-close class="iconbtn" style="border:none" type="button" aria-label="Fermer">✕</button></header>
+    <header id="pmTitle">Produit <button data-prod-close class="iconbtn" style="border:none">✕</button></header>
     <div class="content" id="pmBody"></div>
   </div>
 </div>
@@ -396,15 +325,15 @@
 <script>
 /* ======================= Produits "seed" (exemples) ======================= */
 const PRODUCTS = [
-  {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées.", certs:["A2P","CE"]},
-  {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage.", certs:["CE"]},
-  {id:"jpm-serrure-multi", title:"Serrure JPM multipoints", brand:"JPM", category:"serrurerie", price:189.00, img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&auto=format&fit=crop&q=60", desc:"Serrure multipoints pour porte d’entrée, pêne renforcé.", certs:["A2P"]},
-  {id:"atlantic-ce-200l", title:"Chauffe-eau Atlantic 200 L", brand:"Atlantic", category:"plomberie", price:349.00, img:"https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=1200&auto=format&fit=crop&q=60", desc:"Vertical, résistance stéatite, garantie 5 ans cuve.", certs:["CE","NF"]},
-  {id:"thermor-ce-150l", title:"Chauffe-eau Thermor 150 L", brand:"Thermor", category:"plomberie", price:299.00, img:"https://images.unsplash.com/photo-1581093588401-16f7b8e2c5c0?w=1200&auto=format&fit=crop&q=60", desc:"Installation murale, économies d’énergie.", certs:["CE"]},
-  {id:"legrand-disj-20a", title:"Disjoncteur Legrand 20A", brand:"Legrand", category:"electricite", price:14.90, img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&auto=format&fit=crop&q=60", desc:"Protection circuit 20 A – DIN.", certs:["CE","NF"]},
-  {id:"schneider-plexo", title:"Prise extérieure Schneider Plexo IP55", brand:"Schneider Electric", category:"electricite", price:12.50, img:"https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1200&auto=format&fit=crop&q=60", desc:"Étanche IP55 – gris.", certs:["CE","IP55"]},
-  {id:"placo-ba13", title:"Plaque de plâtre Placo BA13", brand:"Placo", category:"isolation", price:6.90, img:"https://images.unsplash.com/photo-1600566753141-0b0b58f1d9eb?w=1200&auto=format&fit=crop&q=60", desc:"Plaque standard 2500×1200×13mm.", certs:["CE"]},
-  {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique.", certs:["CE"]}
+  {id:"vachette-a2p-30x30", title:"Cylindre Vachette A2P 30x30", brand:"Vachette", category:"serrurerie", price:119.00, img:"https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?q=80&w=1200&auto=format&fit=crop", desc:"Cylindre de sécurité A2P*, livré avec 3 clés protégées."},
+  {id:"heracles-y7c-30x30", title:"Cylindre Héraclès Y7C+ 30x30 (5 clés)", brand:"Héraclès", category:"serrurerie", price:69.90, img:"https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1200&auto=format&fit=crop&q=60", desc:"Cylindre européen certifié, sécurité renforcée, anticrochetage."},
+  {id:"jpm-serrure-multi", title:"Serrure JPM multipoints", brand:"JPM", category:"serrurerie", price:189.00, img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=1200&auto=format&fit=crop&q=60", desc:"Serrure multipoints pour porte d’entrée, pêne renforcé."},
+  {id:"atlantic-ce-200l", title:"Chauffe-eau Atlantic 200 L", brand:"Atlantic", category:"plomberie", price:349.00, img:"https://images.unsplash.com/photo-1581092921461-eab62e97a780?w=1200&auto=format&fit=crop&q=60", desc:"Vertical, résistance stéatite, garantie 5 ans cuve."},
+  {id:"thermor-ce-150l", title:"Chauffe-eau Thermor 150 L", brand:"Thermor", category:"plomberie", price:299.00, img:"https://images.unsplash.com/photo-1581093588401-16f7b8e2c5c0?w=1200&auto=format&fit=crop&q=60", desc:"Installation murale, économies d’énergie."},
+  {id:"legrand-disj-20a", title:"Disjoncteur Legrand 20A", brand:"Legrand", category:"electricite", price:14.90, img:"https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=1200&auto=format&fit=crop&q=60", desc:"Protection circuit 20 A – DIN."},
+  {id:"schneider-plexo", title:"Prise extérieure Schneider Plexo IP55", brand:"Schneider Electric", category:"electricite", price:12.50, img:"https://images.unsplash.com/photo-1526498460520-4c246339dccb?w=1200&auto=format&fit=crop&q=60", desc:"Étanche IP55 – gris."},
+  {id:"placo-ba13", title:"Plaque de plâtre Placo BA13", brand:"Placo", category:"isolation", price:6.90, img:"https://images.unsplash.com/photo-1600566753141-0b0b58f1d9eb?w=1200&auto=format&fit=crop&q=60", desc:"Plaque standard 2500×1200×13mm."},
+  {id:"isover-ibr", title:"Laine de verre Isover IBR 200mm", brand:"Isover", category:"isolation", price:21.90, img:"https://images.unsplash.com/photo-1596079890744-5d5c0f3e1c9b?w=1200&auto=format&fit=crop&q=60", desc:"Rouleau combles, haute performance thermique."},
 ];
 
 /* ======================= Utils & state ======================= */
@@ -419,8 +348,8 @@ function cardHTML(p){
   const hasPrice = p.price!=null && !isNaN(p.price);
   const priceHTML = hasPrice ? `À partir de ${fmt(p.price)}` : `Prix à venir`;
   return `
-  <article class="card" aria-label="${p.title}">
-    <div class="media"><img loading="lazy" src="${p.img}" alt="${p.title}" decoding="async" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
+  <article class="card">
+    <div class="media"><img loading="lazy" src="${p.img}" alt="${p.title}" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
     <div class="pad">
       <div class="meta">${p.brand||''} • ${labelCat(p.category)}</div>
       <div style="font:800 20px/1.2 system-ui">${p.title}</div>
@@ -428,8 +357,8 @@ function cardHTML(p){
       <div class="row" style="justify-content:space-between;align-items:center">
         <div class="price">${priceHTML}</div>
         <div class="row">
-          <button class="btn" data-fiche="${p.id}" type="button" aria-label="Voir la fiche ${p.title}">Voir la fiche</button>
-          <button class="btn primary" data-add="${p.id}" type="button" ${hasPrice?'':'disabled'} aria-label="Ajouter ${p.title} au panier">Ajouter</button>
+          <button class="btn" data-fiche="${p.id}">Voir la fiche</button>
+          <button class="btn primary" data-add="${p.id}" ${hasPrice?'':'disabled'}>Ajouter</button>
         </div>
       </div>
     </div>
@@ -439,13 +368,12 @@ function labelCat(c){
   return c==='serrurerie'?'Serrurerie' : c==='plomberie'?'Plomberie' : c==='electricite'?'Électricité' :
          c==='isolation'?'Isolation' : (c||'');
 }
-function renderHome(){ $('#homeGrid').innerHTML = PRODUCTS.slice(0,4).map(cardHTML).join(''); bindProductButtons($('#homeGrid')); }
+function renderHome(){ $('#homeGrid').innerHTML = PRODUCTS.slice(0,4).map(cardHTML).join(''); }
 function renderProducts(filterCat=null, q=null){
   let list=[...PRODUCTS];
   if(filterCat) list = list.filter(p=>p.category===filterCat);
   if(q){ const s=q.toLowerCase(); list = list.filter(p => (p.title+' '+(p.brand||'')+' '+(p.category||'')+' '+(p.desc||'')).toLowerCase().includes(s)); }
   $('#prodGrid').innerHTML = list.map(cardHTML).join('') || `<div class="card"><div class="pad">Aucun résultat.</div></div>`;
-  bindProductButtons($('#prodGrid'));
 }
 function renderCatChips(){
   const cats = [...new Set(PRODUCTS.map(p=>p.category))];
@@ -461,8 +389,7 @@ function renderCatChips(){
 /* ======================= Fiche + Panier ======================= */
 function openFiche(p){
   const hasPrice = p.price!=null && !isNaN(p.price);
-  const certs = (p.certs||[]).join(', ');
-  $('#pmTitle').firstChild && ($('#pmTitle').firstChild.nodeValue = p.title + ' ');
+  $('#pmTitle').textContent = p.title;
   $('#pmBody').innerHTML = `
     <div class="grid" style="grid-template-columns:1fr 1fr">
       <div><img src="${p.img}" alt="${p.title}" style="width:100%;border-radius:12px" onerror="this.src='https://picsum.photos/1200/800?grayscale'"></div>
@@ -470,44 +397,19 @@ function openFiche(p){
         <div class="meta">${p.brand||''} • ${labelCat(p.category)}</div>
         <h3 style="margin:.3rem 0">${p.title}</h3>
         <p>${p.desc||''}</p>
-        <p class="meta">Conformités : ${certs || '—'}</p>
-        <div class="card" style="padding:10px;margin:10px 0">
-          <div><b>Livraison :</b> 48–72h estimés (France)</div>
-          <div><b>Retours :</b> 14 jours (voir conditions)</div>
-          <div><b>Garantie :</b> 2 ans constructeur (selon référence)</div>
-        </div>
         <div class="price">${hasPrice?fmt(p.price):'Prix à venir'}</div>
         <div class="row" style="margin-top:8px">
-          <button class="btn primary" data-add="${p.id}" ${hasPrice?'':'disabled'} type="button">Ajouter au panier</button>
-          <button class="btn" data-prod-close type="button">Fermer</button>
+          <button class="btn primary" data-add="${p.id}" ${hasPrice?'':'disabled'}>Ajouter au panier</button>
+          <button class="btn" data-prod-close>Fermer</button>
         </div>
       </div>
-    </div>
-    <!-- Product structured data -->
-    <script type="application/ld+json">{
-      "@context":"https://schema.org",
-      "@type":"Product",
-      "name":${JSON.stringify(p.title)},
-      "brand":{"@type":"Brand","name":${JSON.stringify(p.brand||'')}},
-      "category":${JSON.stringify(labelCat(p.category))},
-      "image":[${JSON.stringify(p.img)}],
-      "description":${JSON.stringify(p.desc||'')},
-      "sku":${JSON.stringify(p.id)},
-      "additionalProperty":[${(p.certs||[]).map(c=>`{"@type":"PropertyValue","name":"Certification","value":"${c}"}`).join(',')}],
-      "offers":{
-        "@type":"Offer",
-        "priceCurrency":"EUR",
-        "price":${hasPrice?JSON.stringify(p.price.toFixed(2)):'"0"'},
-        "availability":"https://schema.org/${hasPrice?'InStock':'PreOrder'}",
-        "url":"https://ton-domaine.com/produit/${p.id}"
-      }
-    }</script>
-  `;
+    </div>`;
   $('#prodModal').style.display='flex';
   $('#pmBody').querySelector('[data-add]')?.addEventListener('click', ()=> addToCart(p.id));
   $('#pmBody').querySelector('[data-prod-close]').onclick = ()=> { $('#prodModal').style.display='none'; };
 }
 function addToCart(id){ CART[id] = (CART[id]||0)+1; saveCart(); renderCart(); $('#cartModal').style.display='flex'; }
+
 function renderCart(){
   const box = $('#cartList'); box.innerHTML='';
   const entries = Object.entries(CART);
@@ -525,14 +427,14 @@ function renderCart(){
         <div><b>${p.title}</b><div class="meta">${p.brand||''}</div></div>
       </div>
       <div class="row">
-        <button class="btn" data-dec="${id}" type="button" aria-label="Diminuer la quantité">−</button>
+        <button class="btn" data-dec="${id}">−</button>
         <div style="min-width:34px;text-align:center;align-self:center">${qty}</div>
-        <button class="btn" data-inc="${id}" type="button" aria-label="Augmenter la quantité">+</button>
-        <button class="btn" data-del="${id}" type="button" aria-label="Retirer du panier">Retirer</button>
+        <button class="btn" data-inc="${id}">+</button>
+        <button class="btn" data-del="${id}">Retirer</button>
       </div>`;
     box.appendChild(row);
   });
-  $('#cartTotal').textContent = total.toLocaleString('fr-FR',{style:'currency','currency':'EUR'});
+  $('#cartTotal').textContent = total.toLocaleString('fr-FR',{style:'currency',currency:'EUR'});
   $$('#cartList [data-inc]').forEach(b=> b.onclick=()=>{ CART[b.dataset.inc]++; saveCart(); renderCart(); });
   $$('#cartList [data-dec]').forEach(b=> b.onclick=()=>{ CART[b.dataset.dec]=Math.max(1,(CART[b.dataset.dec]||1)-1); saveCart(); renderCart(); });
   $$('#cartList [data-del]').forEach(b=> b.onclick=()=>{ delete CART[b.dataset.del]; saveCart(); renderCart(); });
@@ -576,10 +478,10 @@ $$('.tablink').forEach(a=> a.onclick = (e)=>{ e.preventDefault(); showTabId(a.da
 (function authModal(){
   const modal = $('#authModal');
   const open = ()=>{ modal.style.display='flex'; modal.setAttribute('aria-hidden','false'); };
-  const close= ()=>{ modal.style.display='none'; modal.setAttribute='true'; };
+  const close= ()=>{ modal.style.display='none'; modal.setAttribute('aria-hidden','true'); };
   $('#authBtn').onclick = open; $('#openAuth').onclick = (e)=>{e.preventDefault(); open();};
-  $('[data-auth-close]').onclick = ()=> modal.style.display='none';
-  modal.addEventListener('click', e=>{ if(e.target===modal) modal.style.display='none'; });
+  $('[data-auth-close]').onclick = close;
+  modal.addEventListener('click', e=>{ if(e.target===modal) close(); });
 })();
 
 /* Fiche modal */
@@ -605,12 +507,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
   showTabId(location.hash || '#accueil');
   renderHome(); renderProducts(); renderCatChips();
   bindProductButtons(document);
-
-  // Recherche bouton
-  document.getElementById('doSearch').onclick = ()=>{
-    showTabId('#produits');
-    renderProducts(null, document.getElementById('q').value.trim());
-  };
 });
 </script>
 
@@ -644,7 +540,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     show('erreur');
   }
 
-  // Auth
+  // Auth (comme avant)
   const email = document.getElementById('email');
   const pwd   = document.getElementById('pwd');
   document.getElementById('btnSignup')?.addEventListener('click', async ()=>{
@@ -661,4 +557,79 @@ document.addEventListener('DOMContentLoaded', ()=>{
   });
   window.signout = ()=> signOut(auth);
 
-  /* ====== Auto-import depuis Storage
+  /* ====== Auto-import depuis Storage : plusieurs dossiers ====== */
+  function ucFirst(s){ return s? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+  function niceText(slug){ return slug.split('-').map(ucFirst).join(' '); }
+  function baseName(noExt){ return noExt.replace(/\.[^.]+$/,''); }
+  function brandFrom(name){ const b = baseName(name).split('-')[0]||''; return ucFirst(b); }
+  function idFrom(name){ return baseName(name).toLowerCase().replace(/[^a-z0-9\-]+/g,'-'); }
+  function titleFrom(name){ return niceText(baseName(name)); }
+
+  async function importFolder(folder, category){
+    try{
+      const dir = ref(storage, folder);
+      const res = await listAll(dir);
+      const items = await Promise.all(res.items.map(async (it)=>{
+        const url = await getDownloadURL(it);
+        const nom = it.name;
+        return {
+          id: idFrom(nom),
+          title: titleFrom(nom),
+          brand: brandFrom(nom),
+          category,
+          price: null, // tu pourras gérer une tarification ensuite
+          img: url,
+          desc: 'Produit importé automatiquement depuis Firebase Storage.'
+        };
+      }));
+      if(window.addImportedProducts && items.length){ window.addImportedProducts(items); }
+    }catch(e){
+      console.error('Import Storage ('+folder+'):', e);
+      show('import '+folder+': erreur');
+    }
+  }
+
+  // Lancer l’import pour chaque famille
+  importFolder('serrures',   'serrurerie');
+  importFolder('plomberie',  'plomberie');
+  importFolder('electricite','electricite');
+  importFolder('isolation',  'isolation');
+</script>
+
+<!-- Correctifs visuels (fond blanc + header sombre) -->
+<style id="fix-batidc-light">
+  html, body { background:#ffffff !important; color:#111 !important; }
+  .page, .main, .section, .container { background:#ffffff !important; }
+  .card { background:#ffffff !important; color:#111 !important; }
+  .pill, .tab, .btn-outline { background:#fff !important; color:#111 !important; border-color:#e5e7eb !important; }
+  .appbar, header.topbar, .topbar { background:#111 !important; color:#fff !important; }
+  .appbar a, .topbar a, .appbar .icon, .topbar .icon { color:#fff !important; }
+  .brand, .logo, .site-title { font-size: 28px !important; font-weight: 800 !important; letter-spacing: .3px; }
+</style>
+
+<!-- Alignement mobile -->
+<style id="fix-batidc-mobile-align">
+  header.appbar .brand{ white-space:nowrap; }
+  header.appbar .searchrow{ min-width:0; }
+  header.appbar .searchrow .searchbox{ grid-template-columns: 1fr auto; }
+  header.appbar .searchrow #q{ width:100%; }
+  @media (max-width:420px){
+    header.appbar .bar{
+      display:grid !important;
+      grid-template-columns: auto 1fr auto;
+      grid-template-areas:
+        "menu brand icons"
+        "search search search";
+      align-items:center !important;
+      gap:12px;
+    }
+    #menuBtn{ grid-area:menu; }
+    header.appbar .brand{ grid-area:brand; font-size:26px !important; letter-spacing:.3px !important; }
+    header.appbar .icons{ grid-area:icons; justify-self:end; display:flex !important; gap:10px; }
+    header.appbar .searchrow{ grid-area:search; margin-top:8px; padding:0; }
+    .tabs-wrap{ top:120px; }
+  }
+</style>
+
+</body>
+</html>
